@@ -1,0 +1,74 @@
+﻿@model List<Leemo.Model.ResultModels.ResultUser>
+@using Microsoft.Extensions.Options;
+@using Leemo.Web;
+@inject IOptions<AppSettings> appSettings
+
+<input type="hidden" id="hfUserActiveCount" value="@ViewBag.ActiveUsers" />
+<input type="hidden" id="hfUserInActiveCount" value="@ViewBag.inActiveUsers" />
+<input type="hidden" id="hfAllUserCount" value="@ViewBag.AllUsers" />
+
+<ul>
+    @if (Model != null && Model.Count > 0)
+    {
+        @foreach (var user in Model)
+        {
+            <li>
+                <div class="checkbox-style-1">
+                    <input class="form-check-input" type="radio" name="radio1" value="" id="radio1" onclick="UserDetails('@user.Id')">
+                    <label class="form-check-label" for="radio1">
+
+                        @if (user.UserProfile != null)
+                        {
+
+                            string FirstName = user.UserProfile.FirstName.Trim();
+                            string LastName = user.UserProfile.LastName.Trim();
+                            string Fnames = ""; string Lnames = "";
+                            if (!string.IsNullOrEmpty(FirstName))
+                                Fnames = FirstName.Substring(0, 1).ToUpper();
+                            if (!string.IsNullOrEmpty(LastName))
+                                Lnames = LastName.Substring(0, 1).ToUpper();
+                            string user_Intial = string.Concat(Fnames + Lnames);
+                            string user_FLName = string.Concat(FirstName, " ", LastName);
+
+                            @if (string.IsNullOrEmpty(user.UserProfile.ImageName))
+                            {
+                        <span class="users-img">
+                            
+                            @if (!string.IsNullOrEmpty(FirstName))
+                            {
+                            <span class="user-name">@user_Intial</span>}
+                            @if (user.IsActive)
+                            {
+                                <span class="active"></span>
+                            }
+                        </span>
+                            }
+                            else
+                            {
+                                <span class="users-img">
+                                    <img src="@string.Format("{0}{1}{2}", appSettings.Value.Resources_StaticFileContainer, appSettings.Value.ProfileImagesPath, user.UserProfile.ImageName)" alt="@user_FLName" title="@user_FLName">
+                                    @if (user.IsActive)
+                                    {
+                                        <span class="active"></span>
+                                    }
+                                </span>
+                            }
+
+
+                            <span class="name word_break">@user_FLName</span>
+                            @if (user.UserProfile.Role != null)
+                            {
+                                <span class="position word_break">@user.UserProfile.Role.Name</span>
+                            }
+                        }
+                        <span class="mail word_break">@user.UserName</span>
+                    </label>
+                </div>
+            </li>
+        }
+    }
+    else
+    {
+        <p class="text-center mt-5">@TPSS.Common.Constants.Messages.RecordNotFound</p>
+    }
+</ul>

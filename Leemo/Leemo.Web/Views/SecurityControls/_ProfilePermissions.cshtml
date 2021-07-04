@@ -1,0 +1,124 @@
+﻿@model List<Leemo.Model.WrapperModels.Auth_FeatureListWithGeneralCode>
+@{ 
+    bool editSecurityPermission = false;
+    bool viewUsersSecurityRolePermission = false;
+    if (ViewBag.EditSecurityPermission != null)
+    {
+        editSecurityPermission = ViewBag.EditSecurityPermission;
+    }
+    if (ViewBag.ViewUsersSecurityRolePermission != null)
+    {
+        viewUsersSecurityRolePermission = ViewBag.ViewUsersSecurityRolePermission;
+    }
+}
+
+<div class="row align-items-center permission-top-bar">
+    <div class="col">
+        <a href="javascript:void(0);" class="back-to-profile" onClick="backToPermission()">Profile : <span>@ViewBag.auth_role</span></a>
+    </div>
+    <div class="col-auto text-right"> 
+        @if (viewUsersSecurityRolePermission)
+        {
+        <a href="javascript:void(0);" class="btn-primary btn-sm-style btn-lg" onclick="ProfileUsers('@ViewBag.auth_roleId')">view users</a>
+        }
+    </div>
+</div>
+<div class="alert alert-warning hide" role="alert" id="warningMessage">
+    <strong>You have made changes in permissions which need to be saved. Please click save button before leaving this page.</strong>
+</div>
+@if (Model != null && Model.Count > 0)
+{
+<div class="admin-premissions">
+    <h3>@ViewBag.auth_role Level Permissions</h3>
+    @foreach (var item in Model)
+    {
+        //if (editSecurityPermission)
+        //{
+            <ul class="gen-setting" id="@item.FeatureId">
+                <li><label>@item.FeatureName.Trim()</label></li>
+                <li>
+                        <label class="switch">
+                            <input type="checkbox" id="_@item.FeatureId" @(item.IsActive ? "checked" : "") onclick="fnOnChangeBulkFeaturePermission('@item.FeatureId','@ViewBag.auth_roleId',this)" />
+                            <span class="slider round"></span>
+                        </label>            
+                </li>
+                <li><span class="edit-label">@item.ActiveFeatures</span></li>
+                <li>
+                        <span class="dropdown dorpdown-style-1">
+                            <button class="btn dropdown-toggle p-0" type="button" id="dropdownMenuButton" data-toggle="dropdown" onclick="setSecirtyUpdatePopup()" aria-haspopup="true" aria-expanded="false">
+                                <span class="more-options">
+                                    <img src="~/images/dots.png">
+                                </span>
+                            </button>
+                            <div class="dropdown-menu drop-right demo-y viewuser-dropdown" aria-labelledby="dropdownMenuButton">
+                                @if (item.GeneralCodes.Count > 0)
+                                {
+                                    foreach (var p in item.GeneralCodes)
+                                    {
+                                        var codeFeatureId = p.CodeId + "_" + item.FeatureId;
+                                        <div class="drop-check">
+                                            <input type="checkbox" id="@codeFeatureId" onclick="fnOnChangeFeaturePermission('@p.CodeId','@item.FeatureId','@ViewBag.auth_roleId',this)" @(p.IsDeleted ? "" : "checked")>
+                                            <label for="@codeFeatureId">@p.CodeName</label>
+                                        </div>
+                                        <div class="dropdown-divider"></div>
+                                    }
+                                }
+                            </div>
+                        </span>
+                </li>
+            </ul>
+        //}
+        @*else
+        {
+            <ul class="gen-setting not-allowed">
+                <li><label>@item.FeatureName.Trim()</label></li>
+                <li>
+                        <label class="switch">
+                            <input type="checkbox" @(item.IsActive ? "checked" : "") disabled />
+                            <span class="slider round faded-toggle"></span>
+                        </label>
+                   
+                </li>
+                <li><span class="edit-label">@item.ActiveFeatures</span></li>
+                <li>
+                        <span class="dropdown dorpdown-style-1">
+                            <button class="btn dropdown-toggle p-0" type="button">
+                                <span class="more-options">
+                                    <img src="~/images/dots.png">
+                                </span>
+                            </button>
+                        </span>   
+                </li>
+
+            </ul>
+        }*@
+    }
+</div>
+    <input id="roleName" value="@ViewBag.auth_role" hidden>
+}
+else
+{
+    <div class="admin-premissions">
+        <h3>@ViewBag.auth_role Level Permissions</h3>
+    </div>
+}
+<hr>
+<div class="row text-right">
+    <div class="col">
+        @if (editSecurityPermission)
+        {
+        <a class="ml-1 btn-edit btn-sm-style btn-lg hide" id="savePermissions" href="javascript:void(0);" onclick="UpdateAuthRoleFeatureMappingChanges('@ViewBag.auth_roleId',this)">Save</a>
+        }
+        else 
+        {
+            <a class="ml-1 btn-edit btn-sm-style btn-lg hide" id="savePermissions" href="javascript:void(0);" onclick="fnAccessDenied()">Save</a>
+        }
+        <a class="btn-secondary btn-sm-style btn-lg hide" id="discardPermissions" href="javascript:void(0);" onclick="DiscardAuthRoleFeatureMappingChanges('@ViewBag.auth_roleId')">Discard</a>
+    </div>
+</div>
+
+<script>
+    $(".demo-y").mCustomScrollbar({
+        theme: "minimal-dark"
+    });
+</script>

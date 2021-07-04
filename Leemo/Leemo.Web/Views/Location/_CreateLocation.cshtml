@@ -1,0 +1,216 @@
+﻿@model Leemo.Model.WrapperModels.InputLocationandAddress
+@inject SessionManager _sessionManager;
+
+@if(Model != null){
+<div class="modal-dialog">
+    <div class="modal-content card-style xl-space">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-tippy-content="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <form id="updateLocationForm" asp-controller="Location" asp-action="UpdateLocation" onkeypress="return event.keyCode != 13">
+           <input type="hidden" id="currentLocation" value="@_sessionManager.CompanyLocationID" />
+            <input type="hidden" asp-for="Addresses.Id"/>
+            <input type="hidden" asp-for="inputLocation.CompanyId"/>
+            <input type="hidden" asp-for="inputLocation.Id"/>
+            <input type="hidden" id="hdnLocationName" value="@Model.inputLocation.LocationName"/>
+            <div class="info-area mt-0">
+                <h2 class="info-heading">Edit Location</h2>
+
+                <div class="alert alert-warning hide" role="alert" id="warningDeActivateMessage">
+                    <strong>Note: You are going to <b>Disable</b> Selected location. So, all users inside this location will not able to accessible.</strong>
+                </div>
+
+
+                <div class="row no-gutters form-group">
+                    <div class="col-auto label-area mt-2">
+                        <div class="info-label label-sm-space">Location Name</div>
+                    </div>
+                    <div class="col info-content-area">
+                        <input type="text" id="txtLocationName" class="form-control form-style-1 txtLocationName" asp-for="inputLocation.LocationName" onblur="checkLocationName()">
+                        <span id="existLocationMsg" asp-validation-for="inputLocation.LocationName" class="text-danger" />
+                    </div>
+                </div>
+
+                <div class="row no-gutters form-group">
+                    <div class="col-auto label-area mt-2">
+                        <div class="info-label label-sm-space">IsActive</div>
+                    </div>
+                    <div class="col info-content-area">
+                        @if (Model.inputLocation.IsHeadOffice == true)
+                        {
+                            <label class="switch">
+                                <input type="checkbox" @(Model.inputLocation.IsActive ? "checked" : "") disabled>
+                                <span class="slider round" onclick="fnisheadAlert()"></span>
+                            </label>
+                        }
+                        else
+                        {
+                            <label class="switch">
+                                <input type="checkbox" asp-for="inputLocation.IsActive">
+                                <span class="slider round" id="checkSlider" onclick="setAlertofActivation()"></span>
+                            </label>
+                        }
+                    </div>
+                </div>
+
+                <div class="info-area">
+                    <h2 class="info-heading">Address Information</h2>
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">AddressLine1</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <input type="text" class="form-control form-style-1" asp-for="Addresses.AddressLine1">
+                            <span asp-validation-for="Addresses.AddressLine1" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">Street</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <input type="text" class="form-control form-style-1" asp-for="Addresses.Street">
+                            <span asp-validation-for="Addresses.Street" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">City</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <input type="text" class="form-control form-style-1" asp-for="Addresses.City">
+                            <span asp-validation-for="Addresses.City" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">State</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <input type="text" class="form-control form-style-1" asp-for="Addresses.State">
+                            <span asp-validation-for="Addresses.State" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">Zip Code</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <input type="text" class="form-control form-style-1" asp-for="Addresses.ZipCode">
+                            <span asp-validation-for="Addresses.ZipCode" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">Country</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <input type="text" class="form-control form-style-1" asp-for="Addresses.Country">
+                            <span asp-validation-for="Addresses.Country" class="text-danger" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-submission">
+                    <button type="button" onclick="CheckCurrentLocation('@Model.inputLocation.Id');" class="btn-primary btn-sm-style btnLocation">Update</button>
+                    @*<button type="button" onclick="updateLocation('@Model.inputLocation.Id');" class="btn-primary btn-sm-style">Update</button>*@
+                    <button type="button" class="btn-secondary btn-sm-style" data-dismiss="modal" aria-label="Close">Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+}
+else {
+<div class="modal-dialog">
+    <div class="modal-content card-style xl-space">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-tippy-content="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <form id="createLocationForm" asp-controller="Location" asp-action="CreateLocation" onkeypress="return event.keyCode != 13">
+            <div class="info-area mt-0">
+                <h2 class="info-heading">Add New Location</h2>
+                <div class="row no-gutters form-group">
+                    <div class="col-auto label-area mt-2">
+                        <div class="info-label label-sm-space">Location Name</div>
+                    </div>
+                    <div class="col info-content-area">
+                        <input type="text" id="txtLocationName" class="form-control form-style-1" asp-for="inputLocation.LocationName" onblur="checkLocationName()">
+                        <span id="existLocationMsg" asp-validation-for="inputLocation.LocationName" class="text-danger" />
+                    </div>
+                </div>
+
+                <div class="info-area">
+                    <h2 class="info-heading">Address Information</h2>
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">AddressLine1</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <input type="text" class="form-control form-style-1" asp-for="Addresses.AddressLine1">
+                            <span asp-validation-for="Addresses.AddressLine1" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">Street</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <input type="text" class="form-control form-style-1" asp-for="Addresses.Street">
+                            <span asp-validation-for="Addresses.Street" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">City</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <input type="text" class="form-control form-style-1" asp-for="Addresses.City">
+                            <span asp-validation-for="Addresses.City" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">State</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <input type="text" class="form-control form-style-1" asp-for="Addresses.State">
+                            <span asp-validation-for="Addresses.State" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">Zip Code</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <input type="text" class="form-control form-style-1" asp-for="Addresses.ZipCode">
+                            <span asp-validation-for="Addresses.ZipCode" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">Country</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <input type="text" class="form-control form-style-1" asp-for="Addresses.Country">
+                            <span asp-validation-for="Addresses.Country" class="text-danger" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-submission">
+                    <button type="button" onclick="saveLocation(this);" class="btn-primary btn-sm-style btnLocation">Save</button>
+                    <button type="button" class="btn-secondary btn-sm-style" data-dismiss="modal" aria-label="Close">Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+}
+
+
+@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+<script>
+      tippy('[data-tippy-content]'); //tooltip
+</script>

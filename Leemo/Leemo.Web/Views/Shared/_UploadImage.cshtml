@@ -1,0 +1,55 @@
+﻿@model Leemo.Web.Models.Common.ImageUpload
+@using Microsoft.Extensions.Options;
+@using Leemo.Web;
+@inject IOptions<AppSettings> appSettings
+@inject SessionManager session
+@using Leemo.Web.Models.Common
+
+<div class="modal-dialog">
+    <div class="modal-content card-style xl-space">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <div class="info-area mt-0">
+            <h2 class="info-heading bold" id="updateImageHeading">Select Profile Photo</h2>
+            <div class="profile-photo drag-drop-style-2 text-center">
+                <form id="uploadImageForm" method="post" enctype="multipart/form-data" onkeypress="return event.keyCode != 13">
+                    @if (Model != null)
+                    {
+                        <input type="hidden" asp-for="@Model.EditImageModalTarget" />
+                        <input type="hidden" asp-for="@Model.Id" />
+                        <input type="hidden" id="LoggedInUserId" value="@session.ID" />
+                        <input type="hidden" id="hfMaxImageSize" value="@appSettings.Value.MaxImageSize" />
+                        <label for="myfile">
+                            <div>
+                                <img id="selectedImage" class="profile_photo_fit" src="@Model.ImagePath" alt="@Model.Alt" title="@Model.Title">
+                                <p id="DragImageDetail">Drag a profile photo here <span>to upload your image</span></p>
+                            </div>
+                        </label>
+                    }
+
+                    <div class="option-divider"><span>or</span></div>
+                    <input type="file" id="myfile-01" name="ImageFile" class="inputImageFile" asp-for="@Model.ImageFile">
+                    <span class="browse-file">
+                        browse files
+                    </span>
+                    <h6 id="selectedImgName"></h6>
+                </form>
+            </div>
+        </div>
+        <div class="form-submission">
+            <button type="button" class="btn-primary btn-sm-style" id="btnImageSave" onclick="uploadimage(this);">Select As Profile Photo</button>
+            <button type="button" class="btn-secondary btn-sm-style" data-dismiss="modal" aria-label="Close">Cancel</button>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+   
+        $('.inputImageFile').on('change', function () {
+            readURL(this);
+            var iname = this.files[0].name;
+            $($('#EditImageModalTarget').val()).find('#selectedImgName').text(iname);
+        });
+    });
+</script>

@@ -1,0 +1,72 @@
+﻿@model List<Leemo.Model.ResultModels.ResultBillingAddress>
+@using Microsoft.Extensions.Options;
+@using Leemo.Web;
+@inject IOptions<AppSettings> appSettings
+
+@{
+    bool BillingAddressViewPermission = false;
+
+    if (ViewBag.viewBillingAddressesPermission != null)
+    {
+        BillingAddressViewPermission = ViewBag.viewBillingAddressesPermission;
+    }
+
+}
+
+@if (!BillingAddressViewPermission)
+{
+    <div class="general-setting card-style big-space">
+        <div class="access-denied-col text-center">
+            <img src="~/images/access-denied.png" alt="Access Denied">
+            <h2>Access Denied</h2>
+            <p>You currently does not have access to this page. <span class="d-block">Please try again later.</span></p>
+        </div>
+    </div>
+}
+else
+{
+<div class="custom-tab">
+    <div class="general-setting">
+        <ul class="nav nav-tabs border-0" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link " id="payment-tab" data-toggle="tab" href="#payment" role="tab" aria-controls="payment" aria-selected="true">Payment Methods</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" id="billing-tab" onclick="GetBillingList()" data-toggle="tab" href="#" role="tab" aria-controls="billing" aria-selected="false">Billing Addresses</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="credits-tab" data-toggle="tab" href="#credits" role="tab" aria-controls="credits" aria-selected="false">Credits</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            @*<div class="tab-pane custom-tab-height fade" id="payment" role="tabpanel" aria-labelledby="payment-tab">
+                    <div class="general-setting card-style sm-space">
+                        Payment Methods
+                    </div>
+                </div>*@
+            <div id="SecurityProfileResult">
+                <partial name="_BillingAddresses" />
+            </div>
+            @*<div class="tab-pane fade" id="credits" role="tabpanel" aria-labelledby="credits-tab">
+                    <div class="general-setting card-style sm-space">
+                        Credits
+                    </div>
+                </div>*@
+        </div>
+    </div>
+</div>
+}
+
+
+
+
+<!-- new billing address modal -->
+<div class="modal fade edit-info" id="newBillingAddress" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
+
+</div>
+
+@section scripts{
+    <script src=@Url.Content("~/js/area/billing.js")></script>
+}
+
+

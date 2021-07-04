@@ -1,0 +1,73 @@
+﻿.suggestion-box {
+    max-width: 300px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 20px;
+    position: static;
+    left: 0;
+    right: 0;
+    box-shadow: 0 15px 25px rgb(0 0 0 / 5%);
+    z-index: 1;
+    margin-top: 3px;
+    display: block;
+}
+
+
+.err-msg {
+    font-size: 14px;
+    color: #ff0000;
+    margin-top: 5px;
+    display: block;
+}
+
+
+.free-trial-form {
+    background-color: #ffffff;
+    padding: 50px 50px;
+    padding-top: 50px;
+    padding-right: 50px;
+    padding-bottom: 50px;
+    padding-left: 50px;
+    width: 40%;
+}
+
+.error-page h1 {
+    font-size: 150px;
+    font-weight: 600;
+    color: #333;
+    line-height: 120px;
+}
+
+.error-page h4 {
+    font-size: 50px;
+    margin: 20px 0 0;
+}
+
+.error-page p {
+    font-size: 20px;
+    margin: 20px 0;
+}
+
+    .error-page p span {
+        display: block;
+    }
+
+
+
+.card-style {
+    background-color: #ffffff;
+    -webkit-box-shadow: 0 0 45px rgb(217 217 217 / 35%);
+    box-shadow: 0 0 45px rgb(217 217 217 / 35%);
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+}
+
+.big-space {
+    padding: 56px 38px;
+}
+
+.general-setting {
+    height: 100%;
+    min-height: 400px;
+}

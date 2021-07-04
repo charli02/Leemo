@@ -1,0 +1,542 @@
+﻿@model Leemo.Model.WrapperModels.InputUserAndAddresses
+@inject SessionManager session
+@{
+    bool isUserBaseLocation = Model.isUserCurrentBaseLocation;
+    bool editRole = false;
+    if (Model.InputUser.Id != Guid.Parse(session.ID))
+    {
+        if(ViewBag.RoleName != "Owner" || session.USERAuthRole == "Owner")
+        editRole = true;
+    }
+}
+<div class="modal-dialog">
+    <div class="modal-content card-style xl-space">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-tippy-content="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <form id="editUserForm" method="post" enctype="multipart/form-data" onkeypress="return event.keyCode != 13">
+            <input type="hidden" name="returnFrom" id="returnFrom" />
+            <div class="info-area mt-0">
+                <h2 class="info-heading">Account Information </h2>
+                <input type="hidden" id="InputUser_returnFrom" name="InputUser.returnFrom" value="@ViewBag.returnPageType" />
+                @if (!isUserBaseLocation || !editRole)
+                {
+                    <input type="hidden" asp-for="InputUser.userProfile.DesignationId" />
+                    <input type="hidden" asp-for="InputUser.userProfile.ReportingToUserId" />
+                }
+                <input type="text" class="form-control form-style-1" asp-for="InputUser.Id" value="@Model.InputUser.Id" hidden>
+                <input type="text" class="form-control form-style-1" asp-for="InputAddress.Id" value="@Model.InputAddress.Id" hidden>
+                <input type="hidden" id="LoggedInUserId" value="@session.ID" />
+                <div class="row no-gutters form-group">
+                    <div class="col-auto label-area mt-2">
+                        <div class="info-label label-sm-space">First Name</div>
+                    </div>
+                    <div class="col info-content-area">
+                        <input type="text" class="form-control form-style-1" asp-for="InputUser.userProfile.FirstName" value="@Model.InputUser.userProfile.FirstName">
+                        <span asp-validation-for="InputUser.userProfile.FirstName" class="text-danger" />
+                    </div>
+                </div>
+                <div class="row no-gutters form-group">
+                    <div class="col-auto label-area mt-2">
+                        <div class="info-label label-sm-space">Last Name</div>
+                    </div>
+                    <div class="col info-content-area">
+                        <input type="text" class="form-control form-style-1" asp-for="InputUser.userProfile.LastName" value="@Model.InputUser.userProfile.LastName">
+                        <span asp-validation-for="InputUser.userProfile.LastName" class="text-danger" />
+                    </div>
+                </div>
+                <div class="row no-gutters form-group">
+                    <div class="col-auto label-area mt-2">
+                        <div class="info-label label-sm-space">Email/Username</div>
+                    </div>
+                    <div class="col info-content-area">
+                        <input type="email" class="form-control form-style-1" asp-for="InputUser.UserName" readonly>
+                        <span asp-validation-for="InputUser.UserName" class="text-danger" />
+                    </div>
+                </div>
+                <div class="row no-gutters form-group">
+                    <div class="col-auto label-area mt-2">
+                        <div class="info-label label-sm-space">Date of Birth</div>
+                    </div>
+                    <div class="col info-content-area">
+                        <div class="row form-row">
+                            <div class="col">
+                                <select class="form-control form-style-1" id="selectDOBYear" onchange="setMonth()" asp-for="InputUser.userProfile.DOBYear">
+                                    <option value="" selected disabled>Year</option>
+                                    @for (var i = 1941; i < 2011; i++)
+                                    {
+                                        <option value="@i">@i</option>
+                                    }
+                                </select>
+                                
+                            </div>
+                           
+                            <div class="col" id="monthCol">
+                                @{
+                                    var DOBMonth = (Model.InputUser.userProfile.DOBMonth == null ? "" : Model.InputUser.userProfile.DOBMonth.ToString());
+
+                                }
+                                @if (DOBMonth != "")
+                                {
+                                    <select class="form-control form-style-1 nice-select2" id="selectDOBMonth" onchange="getDaysInMonth()" asp-for="InputUser.userProfile.DOBMonth">
+                                        <option value="" selected disabled>Month</option>
+                                        @for (var i = 1; i <= 12; i++)
+                                        {
+                                            if (Convert.ToInt32(Model.InputUser.userProfile.DOBMonth) == i)
+                                            {
+                                                <option value="@i" selected>@i</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@i" selected>@i</option>
+                                            }
+
+                                        }
+                                    </select>
+                                }
+                                else
+                                {
+                                    <select class="form-control form-style-1 nice-select2" id="selectDOBMonth" onchange="getDaysInMonth()" asp-for="@Model.InputUser.userProfile.DOBMonth">
+                                        <option value="" selected disabled>Month</option>
+
+                                    </select>
+                                }
+                             
+                            </div>
+                           
+                            <div class="col" id="dayCol">
+                                <select class="form-control form-style-1 nice-select2" id="selectDOBDay" asp-for="InputUser.userProfile.DOBDay">
+                                    <option value="" selected disabled>Day</option>
+
+                                </select>
+                               
+                            </div>
+                        </div>
+
+                        @*<div class="row "form-row>
+
+            <div class="col">
+                <select class="form-control form-style-1" id="selectDOBDay" onchange="checkValidDOB()" asp-for="@Model.InputUser.userProfile.DOBDay">
+                    <option value="" selected>Day</option>
+                    @for (var i = 1; i < 32; i++)
+                    {
+                        <option value="@i">@i</option>
+                    }
+                </select>
+
+            </div>
+            <div class="col">
+                <select class="form-control form-style-1" id="selectDOBMonth" onchange="checkValidDOB()" asp-for="@Model.InputUser.userProfile.DOBMonth">
+                    <option value="" selected>Month</option>
+                    @for (var i = 1; i < 13; i++)
+                    {
+                        <option value="@i">@i</option>
+                    }
+                </select>
+            </div>
+            <div class="col">
+                <select class="form-control form-style-1" id="selectDOBYear" onchange="checkValidDOB()" asp-for="@Model.InputUser.userProfile.DOBYear">
+                    <option value="" selected>Year</option>
+                    @for (var i = 1941; i < 2011; i++)
+                    {
+                        <option value="@i">@i</option>
+                    }
+                </select>
+            </div>
+        </div>*@
+                        @*<div class="hide text-danger" id="alertdob" asp-validation-for="profiles">Invalid Data of Birth.</div>*@
+                    <div class="hide text-danger" id="alertdob" asp-validation-for="profiles">DOB field is required.</div>
+                      @*  <span asp-validation-for="InputUser.userProfile.DateOfBirth" class="text-danger" />*@
+                    </div>
+                </div>
+                <div class="row no-gutters form-group adj-width">
+                    <div class="col-auto label-area mt-2">
+                        <div class="info-label label-sm-space">Designation</div>
+                    </div>
+                    <div class="col info-content-area">
+                        @if (!isUserBaseLocation || !editRole)
+                        {
+                            @*<select class="form-control form-style-1" id="selectUserRole" onchange="getSelectedRoleId()" disabled>
+                                <option disabled> -- select an option -- </option>
+                                @if (ViewBag.roles != null)
+                                {
+                                    foreach (var item in ViewBag.roles)
+                                    {
+                                        <option value="@item.Id">@item.Name</option>
+                                    }
+                                }
+                            </select>*@
+                            <select class="form-control form-style-1" id="selectUserRole" disabled>
+                                <option>@Model.InputUser.userProfile.DesignaionName</option>
+                            </select>
+                        }
+                        else
+                        {
+                            <select class="form-control form-style-1" id="selectUserRole" asp-for="InputUser.userProfile.DesignationId" onchange="getSelectedRoleId()">
+                                <option disabled> -- select an option -- </option>
+                                @if (ViewBag.roles != null)
+                                {
+                                    foreach (var item in ViewBag.roles)
+                                    {
+                                        <option value="@item.Id">@item.Name</option>
+                                    }
+                                }
+                            </select>
+                        }
+                        <span asp-validation-for="InputUser.userProfile.DesignationId" class="text-danger" />
+                    </div>
+                </div>
+
+                <div class="row no-gutters form-group adj-width">
+                    <div class="col-auto label-area mt-2">
+                        <div class="info-label label-sm-space">Reporting To</div>
+                    </div>
+                    <div class="col info-content-area">
+                        @if (!isUserBaseLocation || !editRole)
+                        {
+                            <select class="form-control form-style-1 nice-select2" id="selectRepotingUsers" onchange="checkValidReportingToUser()" disabled>
+                                @if (Model.InputUser.userProfile.ReportingToUserId == Guid.Empty)
+                                {
+
+                                    <option readonly selected value='@Guid.Empty'> -- select an option -- </option>
+                                }
+                                else
+                                {
+                                    @if (ViewBag.reportingUser != null)
+                                    {
+                                        foreach (var item in ViewBag.reportingUser)
+                                        {
+
+                                            <option value="@item.UserId">@item.FirstName @item.LastName (@item.UserName)</option>
+                                            if (Model.InputUser.userProfile.ReportingToUserId != null)
+                                            {
+
+
+
+                                                var isSelected = item.UserId == Model.InputUser.userProfile.ReportingToUserId ? "selected" : "";
+                                                if (isSelected == "selected")
+                                                {
+                                                    <option value="@item.UserId" selected="@isSelected">@item.FirstName @item.LastName (@item.UserName)</option>
+                                                }
+                                                else
+                                                {
+
+                                                    <option value="@item.UserId">@item.FirstName @item.LastName (@item.UserName)</option>
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            </select>
+                        }
+                        else
+                        {
+                            <select class="form-control form-style-1 nice-select2" asp-for="InputUser.userProfile.ReportingToUserId" id="selectRepotingUsers" onchange="checkValidReportingToUser()">
+                                @if (Model.InputUser.userProfile.ReportingToUserId == Guid.Empty)
+                                {
+
+                                    <option readonly selected value='@Guid.Empty'> -- select an option -- </option>
+                                }
+                                else
+                                {
+                                    @if (ViewBag.reportingUser != null)
+                                    {
+                                        foreach (var item in ViewBag.reportingUser)
+                                        {
+
+                                            <option value="@item.UserId">@item.FirstName @item.LastName (@item.UserName)</option>
+                                            if (Model.InputUser.userProfile.ReportingToUserId != null)
+                                            {
+
+
+
+                                                var isSelected = item.UserId == Model.InputUser.userProfile.ReportingToUserId ? "selected" : "";
+                                                if (isSelected == "selected")
+                                                {
+                                                    <option value="@item.UserId" selected="@isSelected">@item.FirstName @item.LastName (@item.UserName)</option>
+                                                }
+                                                else
+                                                {
+
+                                                    <option value="@item.UserId">@item.FirstName @item.LastName (@item.UserName)</option>
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            </select>
+                        }
+                        <div class="hide text-danger" id="ReportingUser" asp-validation-for="InputUser.userProfile.ReportingToUserId">Please select a Reporting To.</div>
+                    </div>
+                </div>
+
+                <div class="row no-gutters form-group adj-width">
+                    <div class="col-auto label-area mt-2">
+                        <div class="info-label label-sm-space">Security Role</div>
+                    </div>
+                    <div class="col info-content-area">
+                        <select class="form-control form-style-1" id="selectUserProfile" asp-for="InputUser.profiles">
+                            <option> -- select an option -- </option>
+                            @if (ViewBag.profiles != null)
+                            {
+                                foreach (var item in ViewBag.profiles)
+                                {
+                                    <option value="@item.Id">@item.Name</option>
+                                }
+                            }
+                        </select>
+                        <span asp-validation-for="InputUser.profiles" class="text-danger" />
+                        <div class="hide text-danger" id="UserProfile" asp-validation-for="roles">Please select a Role.</div>
+                    </div>
+                </div>
+                <div class="row no-gutters form-group">
+                    <div class="col-auto label-area mt-2">
+                        <div class="info-label label-sm-space">Alias</div>
+                    </div>
+                    <div class="col info-content-area">
+                        <input type="text" class="form-control form-style-1" asp-for="InputUser.userProfile.Alias" value="@Model.InputUser.userProfile.Alias">
+                        <span asp-validation-for="InputUser.userProfile.Alias" class="text-danger" />
+                    </div>
+                </div>
+                <div class="row no-gutters form-group">
+                    <div class="col-auto label-area mt-2">
+                        <div class="info-label label-sm-space">Phone</div>
+                    </div>
+                    <div class="col info-content-area">
+                        <input type="text" class="form-control form-style-1" asp-for="InputUser.userProfile.Phone" value="@Model.InputUser.userProfile.Phone">
+                        <span asp-validation-for="InputUser.userProfile.Phone" class="text-danger" />
+                    </div>
+                </div>
+
+
+
+
+                <div class="row no-gutters form-group">
+                    <div class="col-auto label-area mt-2">
+                        <div class="info-label label-sm-space">Mobile</div>
+                    </div>
+                    <div class="col info-content-area">
+
+                        <input type="hidden" id="CountryCode" asp-for="InputUser.userProfile.CountryCode" value="@Model.InputUser.userProfile.CountryCode" />
+                        <input type="hidden" id="CountryCodeNumber" asp-for="InputUser.userProfile.CountryCodeNumber" value="@Model.InputUser.userProfile.CountryCodeNumber" />
+
+
+                        <input type="tel" class="form-control form-style-1" id="userProfile_Mobile" data-intl-tel-input-id="0" asp-for="InputUser.userProfile.MobileNumber" value="@Model.InputUser.userProfile.MobileNumber">
+                        <span asp-validation-for="InputUser.userProfile.MobileNumber" class="text-danger" />
+                        <span asp-validation-for="InputUser.userProfile.CountryCodeNumber" class="text-danger" />
+                    </div>
+                </div>
+                <div class="row no-gutters form-group">
+                    <div class="col-auto label-area mt-2">
+                        <div class="info-label label-sm-space">Website</div>
+                    </div>
+                    <div class="col info-content-area">
+                        <input type="text" class="form-control form-style-1" asp-for="InputUser.userProfile.Website" value="@Model.InputUser.userProfile.Website">
+                        <span asp-validation-for="InputUser.userProfile.Website" class="text-danger" />
+                    </div>
+                </div>
+                <div class="row no-gutters form-group">
+                    <div class="col-auto label-area mt-2">
+                        <div class="info-label label-sm-space">Fax</div>
+                    </div>
+                    <div class="col info-content-area">
+                        <input type="text" class="form-control form-style-1" asp-for="InputUser.userProfile.Fax" value="@Model.InputUser.userProfile.Fax">
+                        <span asp-validation-for="InputUser.userProfile.Fax" class="text-danger" />
+                    </div>
+                </div>
+                <input type="text" class="form-control form-style-1" asp-for="InputUser.userProfile.Description" value="@Model.InputUser.userProfile.Description" hidden>
+                <input type="text" class="form-control form-style-1" asp-for="InputUser.userProfile.CompanyId" value="@Model.InputUser.userProfile.CompanyId" hidden>
+            </div>
+            <div class="info-area">
+                <h2 class="info-heading">Address Information</h2>
+                <div class="row no-gutters form-group">
+                    <div class="col-auto label-area mt-2">
+                        <div class="info-label label-sm-space">AddressLine1</div>
+                    </div>
+                    <div class="col info-content-area">
+                        <input type="text" class="form-control form-style-1" asp-for="InputAddress.AddressLine1" value="@Model.InputAddress.AddressLine1">
+                        <span asp-validation-for="InputAddress.AddressLine1" class="text-danger" />
+                    </div>
+                </div>
+                <div class="row no-gutters form-group">
+                    <div class="col-auto label-area mt-2">
+                        <div class="info-label label-sm-space">Street</div>
+                    </div>
+                    <div class="col info-content-area">
+                        <input type="text" class="form-control form-style-1" asp-for="InputAddress.Street" value="@Model.InputAddress.Street">
+                        <span asp-validation-for="InputAddress.Street" class="text-danger" />
+                    </div>
+                </div>
+                <div class="row no-gutters form-group">
+                    <div class="col-auto label-area mt-2">
+                        <div class="info-label label-sm-space">City</div>
+                    </div>
+                    <div class="col info-content-area">
+                        <input type="text" class="form-control form-style-1" asp-for="InputAddress.City" value="@Model.InputAddress.City">
+                        <span asp-validation-for="InputAddress.City" class="text-danger" />
+                    </div>
+                </div>
+                <div class="row no-gutters form-group">
+                    <div class="col-auto label-area mt-2">
+                        <div class="info-label label-sm-space">State</div>
+                    </div>
+                    <div class="col info-content-area">
+                        <input type="text" class="form-control form-style-1" asp-for="InputAddress.State" value="@Model.InputAddress.State">
+                        <span asp-validation-for="InputAddress.State" class="text-danger" />
+                    </div>
+                </div>
+                <div class="row no-gutters form-group">
+                    <div class="col-auto label-area mt-2">
+                        <div class="info-label label-sm-space">Zip Code</div>
+                    </div>
+                    <div class="col info-content-area">
+                        <input type="text" class="form-control form-style-1" asp-for="InputAddress.ZipCode" value="@Model.InputAddress.ZipCode">
+                        <span asp-validation-for="InputAddress.ZipCode" class="text-danger" />
+                    </div>
+                </div>
+                <div class="row no-gutters form-group">
+                    <div class="col-auto label-area mt-2">
+                        <div class="info-label label-sm-space">Country</div>
+                    </div>
+                    <div class="col info-content-area">
+                        <input type="text" class="form-control form-style-1" asp-for="InputAddress.Country" value="@Model.InputAddress.Country">
+                        <span asp-validation-for="InputAddress.Country" class="text-danger" />
+                    </div>
+                </div>
+                <input type="text" class="form-control form-style-1" asp-for="InputAddress.AddressTypeId" value="@Model.InputAddress.AddressTypeId" hidden>
+            </div>
+            <div class="info-area hide">
+                <h2 class="info-heading">Locale Information</h2>
+                <div class="row no-gutters form-group">
+                    <div class="col-auto label-area mt-2">
+                        <div class="info-label label-sm-space">Language</div>
+                    </div>
+                    <div class="col info-content-area">
+                        <input type="text" class="form-control form-style-1" asp-for="InputUser.userProfile.Language" value="@Model.InputUser.userProfile.Language" readonly>
+                        <span asp-validation-for="InputUser.userProfile.Language" class="text-danger" />
+                    </div>
+                </div>
+                <div class="row no-gutters form-group">
+                    <div class="col-auto label-area mt-2">
+                        <div class="info-label label-sm-space">Country Locale</div>
+                    </div>
+                    <div class="col info-content-area">
+                        <input type="text" class="form-control form-style-1" asp-for="InputUser.userProfile.CountryLocale" value="@Model.InputUser.userProfile.CountryLocale" readonly>
+                        <span asp-validation-for="InputUser.userProfile.CountryLocale" class="text-danger" />
+                    </div>
+                </div>
+                <div class="col info-content-area">
+                    <input type="text" class="form-control form-style-1" id="datepicker1" asp-for="InputUser.userProfile.DateFormat" value="@(string.IsNullOrEmpty(Model.InputUser.userProfile.DateFormat) ? "dd/mm/yyyy" : Model.InputUser.userProfile.DateFormat)" readonly>
+                    <span asp-validation-for="InputUser.userProfile.DateFormat" class="text-danger" />
+                </div>
+
+                <div class="col info-content-area">
+                    <input type="text" class="form-control form-style-1" id="timepicker1" asp-for="InputUser.userProfile.TimeFormat" value="@(string.IsNullOrEmpty(Model.InputUser.userProfile.TimeFormat) ? "HH:MM" : Model.InputUser.userProfile.TimeFormat)" readonly>
+                    <span asp-validation-for="InputUser.userProfile.TimeFormat" class="text-danger" />
+                </div>
+                <div class="row no-gutters form-group">
+                    <div class="col-auto label-area mt-2">
+                        <div class="info-label label-sm-space">Time Zone</div>
+                    </div>
+                    <div class="col info-content-area">
+                        <input type="text" class="form-control form-style-1" asp-for="InputUser.userProfile.TimeZone" readonly>
+                        <span asp-validation-for="InputUser.userProfile.TimeZone" class="text-danger" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row no-gutters form-group">
+                <div class="col-auto label-area mt-2">
+                    <div class="info-label label-sm-space">IsActive</div>
+                </div>
+                <div class="col info-content-area">
+                    @if (editRole)
+                    {
+                        <label class="switch">
+                            <input type="checkbox" asp-for="InputUser.IsActive" />
+                            <span class="slider round"></span>
+                        </label>
+                    }
+                    else
+                    {
+                        <input type="checkbox" asp-for="InputUser.IsActive" hidden />
+                        <label class="switch">
+                            <input type="checkbox" @(Model.InputUser.IsActive ? "checked" : "") disabled />
+                            <span class="slider round faded-toggle"></span>
+                        </label>
+                    }
+                </div>
+            </div>
+
+            <div class="form-submission">
+                <button type="button" onclick="updateUser(this);" class="btn-primary btn-sm-style">Update</button>
+                <button type="button" class="btn-secondary btn-sm-style" data-dismiss="modal" aria-label="Close">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+       
+        $('#selectUserRole option[value= "@Model.InputUser.userProfile.DesignationId"]').prop('selected', true);
+        $('#selectUserProfile option[value= "@Model.InputUser.profiles.FirstOrDefault()"]').prop('selected', true);
+        $('#selectDOBDay option[value= "@Model.InputUser.userProfile.DOBDay"]').prop('selected', true);
+        $('#selectDOBMonth option[value= "@Model.InputUser.userProfile.DOBMonth"]').prop('selected', true);
+        $('#selectDOBYear option[value= "@Model.InputUser.userProfile.DOBYear"]').prop('selected', true);
+
+        $('#selectRepotingUsers option[value= "@Model.InputUser.userProfile.ReportingToUserId"]').prop('selected', true);
+            $('#selectUserProfile').removeAttr('multiple');
+            $('select').niceSelect();
+            $('.nice-select ul').addClass('demo-y');
+            $(".demo-y").mCustomScrollbar({
+                theme: "minimal-dark"
+            });
+            //$('#selectUserProfile').parent().find('.nice-select').addClass('disabled');
+            tippy('[data-tippy-content]'); //tooltip
+
+
+
+        
+        var day = "";
+         day ="@(Model.InputUser.userProfile.DOBDay == null ? "" : Model.InputUser.userProfile.DOBDay)"; 
+
+
+            if (day != "") {
+                var daysInSelectedMonths = daysInMonth($("#selectDOBMonth").val(), $("#selectDOBYear").val());
+                for (var i = 1; i <= daysInSelectedMonths; i++) {
+                    if (parseInt(day) == i) {
+                            $('#selectDOBDay').append($("<option value=" + i + " selected></option>").attr("value", i).text(i));
+                        }
+                        else {
+                            $('#selectDOBDay').append($("<option value=" + i + "></option>").attr("value", i).text(i));
+                        }
+                    
+                }
+                $('.nice-select2').niceSelect('destroy');
+                $('.nice-select2').niceSelect();
+                $('.nice-select2 ul').addClass('demo-y');
+                $(".demo-y").mCustomScrollbar({
+                    theme: "minimal-dark"
+                });
+                $('#createUserForm,#editUserForm').find('.nice-select2 .current').addClass('wraptext');
+            }
+            else {
+                 $('#selectDOBDay').append($("<option value=''></option>").attr("value", "").text("Day"));
+            }
+        });
+
+
+
+
+    var checkEditRole = '@editRole';
+    if (checkEditRole== 'False') {
+        $('#selectUserProfile').parent().find('.nice-select').addClass('disabled');
+    }
+   
+
+</script>
+

@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - LeemoCompanyRegistrationWeb</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link href="~/css/style.css" rel="stylesheet" />
+    <link href="~/css/step-form.css" rel="stylesheet" />
+    <link href="~/css/common.css" rel="stylesheet" />
+</head>
+<body>
+
+    <div class="uproster-wrapper">
+        <!-- site header -->
+        <header class="uproster-header">
+            <div class="uproster-container">
+                <a href="javascript:void(0);" class="leemo-logo"><img src="~/images/leemo.png" alt="leemo"></a>
+                <a href="javascript:void(0);" class="uproster-logo"><img src="~/images/uproster.png" alt="UpRoster"></a>
+            </div>
+        </header>
+
+        @RenderBody()
+
+        <footer class="uproster-footer">
+            <div class="uproster-container">
+                <div class="row align-items-center">
+                    <div class="col-auto">
+                        <p>© 2021 Uproster owned by Leemo. All rights reserved</p>
+                    </div>
+                    <div class="col">
+                        <div class="footer-links">
+                            <ul class="d-flex align-items-center justify-content-end">
+                                <li><a href="javascript:void(0);">Terms & Conditions</a></li>
+                                <li><a href="javascript:void(0);">Privacy Policy</a></li>
+                                <li><a href="javascript:void(0);">Disclaimer</a></li>
+                                <li class="social-link">
+                                    <a href="javascript:void(0);" class="facebook"><img src="~/images/facebook.svg" alt="facebook"></a>
+                                    <a href="javascript:void(0);" class="instagram"><img src="~/images/instagram.svg" alt="Instagram"></a>
+                                    <a href="javascript:void(0);" class="twitter"><img src="~/images/twitter.svg" alt="Twitter"></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- overlay -->
+    <div class="tgl-overlay"></div>
+    <!-- Success Toast -->
+    <div class="toast custom-toast success-toast" style="display:none;" data-autohide="false">
+        <span><img src="~/images/check.svg"></span>
+        <strong>Success</strong>
+        <button type="button" class="ml-2 mb-1 close" onclick="closetoast(this);">&times;</button>
+        <p>Data successfully added.</p>
+    </div>
+    <!-- Info Toast -->
+    <div class="toast custom-toast info-toast" style="display:none;" data-autohide="false">
+        <span><img src="~/images/info.svg"></span>
+        <strong>Info</strong>
+        <button type="button" class="ml-2 mb-1 close" onclick="closetoast(this);">&times;</button>
+        <p>Anyone with access can view your invited visitors.</p>
+    </div>
+    <!-- Warning Toast -->
+    <div class="toast custom-toast warning-toast" style="display:none;" data-autohide="false">
+        <span><img src="~/images/warning-sign.svg"></span>
+        <strong>Warning</strong>
+        <button type="button" class="ml-2 mb-1 close" onclick="closetoast(this);">&times;</button>
+        <p>Anyone with access can view your invited visitors.</p>
+    </div>
+    <!-- Danger Toast -->
+    <div class="toast custom-toast danger-toast" style="display:none;" data-autohide="false">
+        <span><img src="~/images/danger.svg"></span>
+        <strong>Error</strong>
+        <button type="button" class="ml-2 mb-1 close" onclick="closetoast(this);">&times;</button>
+        <p>Anyone with access can view your invited visitors.</p>
+    </div>
+
+    <a href="javascript:void(0);" class="request-call-back">Request a Call Back</a>
+    <!-- bootstrap js -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
+
+    <script src=@Url.Content("~/js/common.js")></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+  <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,47 @@
+﻿@model Leemo.Model.WrapperModels.ResultUserAndAddresses
+@using Microsoft.Extensions.Options;
+@using Leemo.Web;
+@inject IOptions<AppSettings> appSettings
+@using Leemo.Web.Models.Common
+@{
+    ViewData["Title"] = "Personal Settings";
+}
+@{ImageUpload imgObj = new ImageUpload();
+    imgObj.Id = Model.ResultUser.Id;
+    imgObj.Alt = Model.ResultUser.UserProfile.FirstName;
+    imgObj.Title = Model.ResultUser.UserProfile.FirstName;
+    imgObj.EditImageModalTarget = "#uploadPersonalImageModal";
+    imgObj.DisplayImageModalTarget = "#displayPersonalImageModal";
+    imgObj.ImagePath = string.Format("{0}{1}{2}", appSettings.Value.Resources_StaticFileContainer, appSettings.Value.ProfileImagesPath, string.Format((string.IsNullOrEmpty(Model.ResultUser.UserProfile.ImageName) ? "avtar.jpg" : Model.ResultUser.UserProfile.ImageName)));
+}
+
+<div class="custom-tab">
+    <ul class="nav nav-tabs border-0" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <a class="nav-link active " id="setting-tab" href="#" onclick="PersonalSettings()" role="tab" aria-controls="setting" aria-selected="true">Personal Settings</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="PersonalChangePassword" href="#" onclick="PersonalChangePassword()" role="tab" aria-controls="password" aria-selected="true">Change Password</a>
+        </li>
+
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div id="UserDataPersonal">
+            <partial name="_PersonalDetails" model="Model" />
+        </div>
+    </div>
+</div>
+
+<!-- Personal Detail Modal -->
+<div class="modal fade edit-info" id="personalDetailEditModal" tabindex="-1" aria-labelledby="exampleModalLabel" data-backdrop="static" aria-hidden="true">
+</div>
+
+<!-- Display Image Modal -->
+<div class="modal fade edit-info" id="displayPersonalImageModal" tabindex="-1" aria-labelledby="exampleModalLabel" data-backdrop="static" aria-hidden="true">
+    <partial name="_ImageDisplay" model="@imgObj" />
+</div>
+
+<!-- Upload Profile Modal -->
+<div class="modal fade edit-info" id="uploadPersonalImageModal" tabindex="-1" aria-labelledby="exampleModalLabel" data-backdrop="static" aria-hidden="true">
+    <partial name="_UploadImage" model="@imgObj" />
+</div>

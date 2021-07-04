@@ -1,0 +1,83 @@
+﻿@model List<Leemo.Model.Domain.DesignationHierarchy>
+@using Microsoft.Extensions.Options;
+@using Leemo.Web;
+@using System.Linq;
+@inject IOptions<AppSettings> appSettings
+@{
+    bool designationViewPermission = false;
+    bool designationAddPermission = false;
+    bool designationEditPermission = false;
+    if (ViewBag.ViewDesignationPermission != null)
+    {
+        designationViewPermission = ViewBag.ViewDesignationPermission;
+    }
+    if (ViewBag.AddDesignationPermission != null)
+    {
+        designationAddPermission = ViewBag.AddDesignationPermission;
+    }
+    if (ViewBag.EditDesignationPermission != null)
+    {
+        designationEditPermission = ViewBag.EditDesignationPermission;
+    }
+}
+
+@if (!designationViewPermission)
+{
+    <div class="general-setting card-style big-space">
+        <div class="access-denied-col text-center">
+            <img src="~/images/access-denied.png" alt="Access Denied">
+            <h2>Access Denied</h2>
+            <p>You currently does not have access to this page. <span class="d-block">Please try again later.</span></p>
+        </div>
+    </div>
+}
+else
+{
+    <div class="general-setting card-style sm-space">
+        <div class="role-top-bar">
+            <ul class="float-right">
+                <li>
+                    @if (designationAddPermission)
+                    {
+                    <a href="javascript:void(0);" class="btn-primary btn-sm-style btn-lg d-none" onclick="newDesignationPopUp();"><img src="~/images/plus.svg" title="plus"> New Designation</a>
+                    }
+                </li>
+                <li>
+                    <a href="javascript:void(0);" class="expand-role">Exapand All</a>
+                    <a href="javascript:void(0);" class="collapse-role">Collapse All</a>
+                </li>
+            </ul>
+        </div>
+        <div class="role-branches">
+            <div class="alert alert-info hide" id="info-msg-designation" role="alert">
+                <strong>Info!</strong> Choose parent for selected node.
+                <button type="button" class="close" data-tippy-content="Clear Selection" onclick="handleClearSelectionDesignation();">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <br />
+            <ul id="roleHirerachy">
+                <input type="hidden" id="hfChildNode" value="" />
+                <input type="hidden" id="hfParentNode" value="" />
+                <input type="hidden" id="hfIsSelected" value="0" />
+                @if (Model != null)
+                {
+                    @Html.Raw(Model.FirstOrDefault().DesignationListHTML)
+                }
+
+            </ul>
+        </div>
+    </div>
+
+    <div class="tab-pane fade" id="data" role="tabpanel" aria-labelledby="data-tab">
+        <div class="general-setting card-style sm-space">
+
+        </div>
+    </div>
+
+    <div class="modal fade edit-info" id="UpdateDesignation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    </div>
+}
+
+@*<script src="~/js/script.js"></script>*@
+<script src="~/js/area/security-controls.js"></script>

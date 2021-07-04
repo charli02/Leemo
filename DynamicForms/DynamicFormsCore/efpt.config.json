@@ -1,0 +1,49 @@
+﻿{
+   "ContextClassName": "DbformsContext",
+   "ContextNamespace": null,
+   "DefaultDacpacSchema": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": false,
+   "ModelNamespace": null,
+   "OutputContextPath": null,
+   "OutputPath": null,
+   "ProjectRootNamespace": "DynamicFormsCore",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 0,
+   "SelectedToBeGenerated": 0,
+   "Tables": [
+      {
+         "Name": "[dbo].[DataForm]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[DataFormField]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[DataFormFieldType]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[DataFormSection]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[DataFormSubmission]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[DataFormSubmissionItem]",
+         "ObjectType": 0
+      }
+   ],
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": false,
+   "UseDbContextSplitting": false,
+   "UseFluentApiOnly": true,
+   "UseHandleBars": false,
+   "UseInflector": false,
+   "UseLegacyPluralizer": false,
+   "UseNodaTime": false,
+   "UseSpatial": false
+}

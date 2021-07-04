@@ -1,0 +1,28 @@
+﻿
+@model List<DockerAspTestDbConnection.Models.Product>
+
+@{
+    ViewData["Title"] = "ListProducts";
+}
+
+<h1>List Products</h1>
+
+
+<table>
+    <tr>
+        <td>
+            Product Name
+        </td>
+    </tr>
+
+    @foreach(var prod in Model)
+     {
+        <tr>
+            <td>
+                @prod.ProductName
+            </td>
+        </tr>
+     }
+
+
+</table>

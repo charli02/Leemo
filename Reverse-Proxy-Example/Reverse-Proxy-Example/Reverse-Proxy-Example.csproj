@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>Reverse_Proxy_Example</RootNamespace>
+    <UserSecretsId>d67f76db-cfa6-443d-80d5-ebee712e20ec</UserSecretsId>
+  </PropertyGroup>
+<ItemGroup> 
+ <PackageReference Include="Microsoft.ReverseProxy" Version="1.0.0-preview.9.*" />
+</ItemGroup>
+<ProjectExtensions><VisualStudio><UserProperties wwwroot_4lib_4bootstrap_4dist_4js_4bootstrap_1js_1map__JsonSchema="" /></VisualStudio></ProjectExtensions> 
+</Project>

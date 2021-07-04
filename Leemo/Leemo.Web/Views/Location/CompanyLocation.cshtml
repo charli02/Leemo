@@ -1,0 +1,41 @@
+﻿@inject SessionManager _sessionManager;
+@model List<Leemo.Model.ResultModels.ResultLocation>
+@{
+    ViewData["Title"] = "CompanyLocation";
+    Layout = "~/Views/Shared/_LayoutPlain.cshtml";
+}
+<div class="locations-sec form-sec card-style form-space">
+    <h2 class="info-heading">Your Locations</h2>
+    @if (Model != null && Model.Count > 0)
+    {
+        <div class="demo-y mh-250">
+            @foreach (var location in Model)
+            {
+                <a href="@Url.Action("ChangeCompanyLocation", "Location", new { id = @location.Id,locationName = location.LocationName })" class="word_break locations  @(ViewBag.SelectedCompanyLocationID != null ? (Guid.Parse(ViewBag.SelectedCompanyLocationID) == location.Id ? "selected" : "") : (location.IsBaseLocation ? "selected" : ""))">@location.LocationName</a>
+            }
+        </div>
+    }
+    else
+    {
+        <strong>Note: Unable to login because location you are mapped with is disabled.</strong>
+    }
+    @if (User.Identity.IsAuthenticated)
+    {
+        var initials = "";
+        var names = _sessionManager.LoginName.Trim().Split('&');
+        var fullName = "";
+
+        for (int n = 0; n < names.Length; n++)
+        {
+            if (names[n] != "")
+            {
+                initials += names[n].Substring(0, 1).ToUpper();
+                fullName += names[n] + " ";
+            }
+        }
+        <p>Logged in as <span class="word_break">@fullName</span> <a is-active-route asp-controller="Account" asp-action="Logout">Log Out</a></p>
+    }
+</div>
+@section Scripts{
+    <script src="~/js/area/Location.js"></script>
+}

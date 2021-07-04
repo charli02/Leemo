@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31105.61
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reverse-Proxy-Example", "Reverse-Proxy-Example\Reverse-Proxy-Example.csproj", "{FA8519C1-B91B-42B9-A9A2-A75A2DC5AC52}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Load-Balancing", "Load-Balancing\Load-Balancing.csproj", "{E0400C4D-525F-41B6-A741-2063C254E52A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reverse-Proxy-Yarp", "Reverse-Proxy-Yarp\Reverse-Proxy-Yarp.csproj", "{38F95702-25D4-41AF-A528-C52A7E22ECE8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reverse-Proxy-Yarp-Code", "Reverse-Proxy-Yarp-Code\Reverse-Proxy-Yarp-Code.csproj", "{F1E22D3B-25D7-4852-A77E-1484DD7E7F69}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reverse-Proxy-Yarp-Code-Database", "Reverse-Proxy-Yarp-Code-Database\Reverse-Proxy-Yarp-Code-Database.csproj", "{20B8666A-9BA5-4BD3-BDDD-A2CA32AE2132}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FA8519C1-B91B-42B9-A9A2-A75A2DC5AC52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA8519C1-B91B-42B9-A9A2-A75A2DC5AC52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA8519C1-B91B-42B9-A9A2-A75A2DC5AC52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA8519C1-B91B-42B9-A9A2-A75A2DC5AC52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0400C4D-525F-41B6-A741-2063C254E52A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0400C4D-525F-41B6-A741-2063C254E52A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0400C4D-525F-41B6-A741-2063C254E52A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0400C4D-525F-41B6-A741-2063C254E52A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38F95702-25D4-41AF-A528-C52A7E22ECE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38F95702-25D4-41AF-A528-C52A7E22ECE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38F95702-25D4-41AF-A528-C52A7E22ECE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38F95702-25D4-41AF-A528-C52A7E22ECE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1E22D3B-25D7-4852-A77E-1484DD7E7F69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1E22D3B-25D7-4852-A77E-1484DD7E7F69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1E22D3B-25D7-4852-A77E-1484DD7E7F69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1E22D3B-25D7-4852-A77E-1484DD7E7F69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20B8666A-9BA5-4BD3-BDDD-A2CA32AE2132}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20B8666A-9BA5-4BD3-BDDD-A2CA32AE2132}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20B8666A-9BA5-4BD3-BDDD-A2CA32AE2132}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20B8666A-9BA5-4BD3-BDDD-A2CA32AE2132}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7F24A8EF-3BF8-4B1A-BCC7-C6D1F6089111}
+	EndGlobalSection
+EndGlobal

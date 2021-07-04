@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MimeKit" Version="2.11.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Leemo.Common\TPSS.Common.csproj" />
+    <ProjectReference Include="..\Leemo.Model\Leemo.Model.csproj" />
+    <ProjectReference Include="..\Leemo.Repository\Leemo.Repository.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,216 @@
+﻿@model Leemo.Model.WrapperModels.ResultLocationAndAddress
+@using Microsoft.Extensions.Options;
+@using Leemo.Web;
+@inject IOptions<AppSettings> appSettings
+@using Leemo.Web.Models.Common
+@{
+    bool locationeditPermission = false;
+    if (ViewBag.editLocationPermission != null)
+    {
+        locationeditPermission = ViewBag.editLocationPermission;
+    }
+
+}
+
+
+
+<div class="profile-view">
+    <div class="profile-area">
+
+        <span class="pro-img" onclick="fnDisplayImage('displayUserImageModal');">
+            @if (Model != null)
+            {
+                string FirstName = Model.ResultLocation.LocationName.Trim();
+
+                string Fnames = ""; string Lnames = "";
+                if (!string.IsNullOrEmpty(FirstName))
+                    Fnames = FirstName.Substring(0, 1).ToUpper();
+
+
+                string user_Intial = string.Concat(Fnames);
+
+
+                if (!string.IsNullOrEmpty(user_Intial)) { 
+
+                    <span class="user-name-details">@user_Intial</span>}
+              
+            }
+        </span>
+
+
+
+
+    </div>
+    <div class="pro-info">
+        <h5 class="word_break">
+            @if (Model.ResultLocation.LocationName != null)
+            {
+                @Model.ResultLocation.LocationName;
+                <input type="hidden" id="hfReturnPageType" value="@ViewBag.returnPageType" />
+
+                @if (locationeditPermission)
+                {
+                    <a href="javascript:void(0);" data-tippy-content="Edit Location Details" onclick="EditLocation('@Model.ResultLocation.Id')">
+                        <img src="~/images/pencil.svg"/>
+                    </a>
+                }
+            }
+        </h5>
+
+        @*<ul class="mt-0">
+
+
+            </ul>*@
+    </div>
+</div>
+
+<div class="info-area mt-md-5">
+    <h2 class="info-heading">Address Location Information</h2>
+    <div class="row no-gutters form-group">
+        <div class="col-auto label-area">
+            <div class="info-label label-space">AddressLine1</div>
+        </div>
+        <div class="col-auto"><span class="spacer">:</span></div>
+        <div class="col info-content-area info-pl">
+            @if (Model.Address != null)
+            {
+                <div class="info-content">@Model.Address.AddressLine1</div>
+            }
+        </div>
+    </div>
+    <div class="row no-gutters form-group">
+        <div class="col-auto label-area">
+            <div class="info-label label-space">Street</div>
+        </div>
+        <div class="col-auto"><span class="spacer">:</span></div>
+        <div class="col info-content-area info-pl">
+            @if (Model.Address != null)
+            {
+                <div class="info-content">@Model.Address.Street</div>
+            }
+        </div>
+    </div>
+    <div class="row no-gutters form-group">
+        <div class="col-auto label-area">
+            <div class="info-label label-space">City</div>
+        </div>
+        <div class="col-auto"><span class="spacer">:</span></div>
+        <div class="col info-content-area info-pl">
+            @if (Model.Address.City != null)
+            {
+                <div class="info-content">@Model.Address.City</div>
+            }
+        </div>
+    </div>
+    <div class="row no-gutters form-group">
+        <div class="col-auto label-area">
+            <div class="info-label label-space">State</div>
+        </div>
+        <div class="col-auto"><span class="spacer">:</span></div>
+        <div class="col info-content-area info-pl">
+            @if (Model.Address.State != null)
+            {
+                <div class="info-content">@Model.Address.State</div>
+            }
+        </div>
+    </div>
+    <div class="row no-gutters form-group">
+        <div class="col-auto label-area">
+            <div class="info-label label-space">Zip Code</div>
+        </div>
+        <div class="col-auto"><span class="spacer">:</span></div>
+        <div class="col info-content-area info-pl">
+            @if (Model.Address != null)
+            {
+                <div class="info-content">@Model.Address.ZipCode</div>
+            }
+        </div>
+    </div>
+    <div class="row no-gutters form-group">
+        <div class="col-auto label-area">
+            <div class="info-label label-space">Country</div>
+        </div>
+        <div class="col-auto"><span class="spacer">:</span></div>
+        <div class="col info-content-area info-pl">
+            @if (Model.Address != null)
+            {
+                <div class="info-content">@Model.Address.Country</div>
+            }
+        </div>
+    </div>
+</div>
+<div class="info-area">
+        <h2 class="info-heading">Locale Information</h2>
+        <div class="row no-gutters form-group">
+            <div class="col-auto label-area">
+                <div class="info-label label-space">Language</div>
+            </div>
+            <div class="col-auto"><span class="spacer">:</span></div>
+            <div class="col info-content-area info-pl">
+                @if (Model.resultCompany != null)
+                {
+                    <div class="info-content">@Model.resultCompany.Language</div>
+                }
+            </div>
+        </div>
+        <div class="row no-gutters form-group">
+            <div class="col-auto label-area">
+                <div class="info-label label-space">Country Locale</div>
+            </div>
+            <div class="col-auto"><span class="spacer">:</span></div>
+            <div class="col info-content-area info-pl">
+                @if (Model.resultCompany != null)
+                {
+                    <div class="info-content">@Model.resultCompany.Currency</div>
+                }
+            </div>
+        </div>
+        <div class="row no-gutters form-group">
+            <div class="col-auto label-area">
+                <div class="info-label label-space">Date Format</div>
+            </div>
+            <div class="col-auto"><span class="spacer">:</span></div>
+            <div class="col info-content-area info-pl">
+                @if (Model.resultCompany != null)
+                {
+                    <div class="info-content">@Model.resultCompany.DateFormat</div>
+                }
+            </div>
+        </div>
+        <div class="row no-gutters form-group">
+            <div class="col-auto label-area">
+                <div class="info-label label-space">Time Format</div>
+            </div>
+            <div class="col-auto"><span class="spacer">:</span></div>
+            <div class="col info-content-area info-pl">
+                @if (Model.resultCompany != null)
+                {
+                    <div class="info-content">@Model.resultCompany.TimeFormat</div>
+                }
+            </div>
+        </div>
+        <div class="row no-gutters form-group mb-0">
+            <div class="col-auto label-area">
+                <div class="info-label label-space">Time Zone</div>
+            </div>
+            <div class="col-auto"><span class="spacer">:</span></div>
+            <div class="col info-content-area info-pl">
+                @if (@Model.resultCompany != null)
+                {
+                    <div class="info-content">@Model.resultCompany.TimeZone</div>
+                }
+            </div>
+        </div>
+    </div>
+<!-- Personal Detail Modal -->
+<div class="modal fade edit-info" id="personalDetailEditModal" tabindex="-1" aria-labelledby="exampleModalLabel" data-backdrop="static" aria-hidden="true">
+</div>
+
+<script>
+    $(document).ready(function () {
+        $(".demo-y").mCustomScrollbar({
+            theme: "minimal-dark",
+        });
+        tippy('[data-tippy-content]'); //tooltip
+    });
+</script>

@@ -1,0 +1,305 @@
+﻿@model Leemo.Model.WrapperModels.ResultCompanyAndAddresses
+@using Microsoft.Extensions.Options;
+@using Leemo.Web;
+@inject IOptions<AppSettings> appSettings
+@{
+    bool viewOrganizationPermission = false;
+    bool editOrganizationPermission = false;
+    if (TempData["viewOrganizationPermission"] != null)
+    {
+        viewOrganizationPermission = (bool)TempData["viewOrganizationPermission"];
+    }
+    if (TempData["editOrganizationPermission"] != null)
+    {
+        editOrganizationPermission = (bool)TempData["editOrganizationPermission"];
+    }
+}
+
+
+
+@if (!viewOrganizationPermission)
+{
+    <div class="general-setting card-style big-space">
+        <div class="access-denied-col text-center">
+            <img src="~/images/access-denied.png" alt="Access Denied">
+            <h2>Access Denied</h2>
+            <p>You currently does not have access to this page. <span class="d-block">Please try again later.</span></p>
+        </div>
+    </div>
+}
+else
+{
+    
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="organizations" role="tabpanel" aria-labelledby="organization-tab">
+
+
+                <div class="general-setting card-style big-space">
+                    @if (Model != null)
+                    {
+                        <div class="profile-view">
+                            <div class="profile-area t-0">
+                                <span class="pro-img" onclick="@(!editOrganizationPermission?"fnAccessDenied()":"fnDisplayImage('displayCompanyImageModal')")">
+                                    @if (Model.resultCompany != null)
+                                    {
+                                        var initials = "";
+                                        var names = Model.resultCompany.Name.Trim().Split(' ');
+                                        for (int n = 0; n < names.Length; n++)
+                                        {
+                                            if (names[n] != "")
+                                                initials += names[n].Substring(0, 1).ToUpper();
+                                        }
+
+                                        if (string.IsNullOrEmpty(Model.resultCompany.ImageName))
+                                        {
+                                            
+                                            if (!string.IsNullOrEmpty(initials))
+                                         
+                                            {
+                                            <span class="user-name-details">@initials</span>
+                                            }
+                                        }
+                                        else
+                                        {
+
+                                        <img id="changedCompanyImage" src="@string.Format("{0}{1}{2}", appSettings.Value.Resources_StaticFileContainer, appSettings.Value.CompanyImagesPath, string.Format((string.IsNullOrEmpty(Model.resultCompany.ImageName) ? "avtar.jpg" : Model.resultCompany.ImageName)))" alt="@Model.resultCompany.Name" title="@Model.resultCompany.Name">
+                                        }
+                                    }
+                                </span>
+                                @if (editOrganizationPermission)
+                                {
+                                <a href="javascript:void(0);" data-tippy-content="Change Profile Photo" onclick="fnUploadImage('uploadCompanyImageModal');">Change</a>
+                                }
+                            </div>
+                            <div class="pro-info">
+                                <h5>
+                                    @Model.resultCompany.Name
+                               
+                                    @if (editOrganizationPermission)
+                                    {
+                                        <a href="javascript:void(0);" data-toggle="modal" data-tippy-content="Edit Detail" onclick="editCompanyPopup('@Model.resultCompany.Id')">
+                                            <img src="~/images/pencil.svg" />
+                                        </a>
+                                    }
+                                </h5>
+                                <ul class="mt-0">
+                                    <li>
+                                        @if (Model.CompanyAddress != null)
+                                        {
+                                        <a href="javascript:void(0);">
+                                            <img class="svg_icon" src="~/images/icon_address.svg" />
+                                            @Model.CompanyAddress.Street, @Model.CompanyAddress.City,
+                                            @Model.CompanyAddress.State-@Model.CompanyAddress.ZipCode (@Model.CompanyAddress.Country)
+                                        </a>
+                                        }
+                                    </li>
+                                    <li>
+                                        <a href="mailto:info@tech-prastish.com" target="_blank">
+                                            <img class="svg_icon" src="~/images/icon_mail.svg" />
+                                            info@tech-prastish.com
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="tel:9988660606">
+                                            <img class="svg_icon" src="~/images/icon_mobile.svg" />
+                                            @(Model.resultCompany.Mobile == "" ? "" : String.Format("+{0}", Model.resultCompany.Mobile))
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="tel:0172-501-3237">
+                                            <img class="svg_icon" src="~/images/icon_phone.svg" />
+                                            @Model.resultCompany.Phone
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="info-area mt-5">
+                            <h2 class="info-heading">Organization Information</h2>
+                            <div class="row no-gutters form-group">
+                                <div class="col-auto label-area">
+                                    <div class="info-label label-space">Organization Name</div>
+                                </div>
+                                <div class="col-auto"><span class="spacer">:</span></div>
+                                <div class="col info-content-area info-pl">
+                                    <div class="info-content">@Model.resultCompany.Name</div>
+                                </div>
+                            </div>
+                            <div class="row no-gutters form-group">
+                                <div class="col-auto label-area">
+                                    <div class="info-label label-space">Employee Count</div>
+                                </div>
+                                <div class="col-auto"><span class="spacer">:</span></div>
+                                <div class="col info-content-area info-pl">
+                                    <div class="info-content">@Model.resultCompany.EmployeeCount</div>
+                                </div>
+                            </div>
+                            <div class="row no-gutters form-group">
+                                <div class="col-auto label-area">
+                                    <div class="info-label label-space">Phone</div>
+                                </div>
+                                <div class="col-auto"><span class="spacer">:</span></div>
+                                <div class="col info-content-area info-pl">
+                                    <div class="info-content">@Model.resultCompany.Phone</div>
+                                </div>
+                            </div>
+                            <div class="row no-gutters form-group">
+                                <div class="col-auto label-area">
+                                    <div class="info-label label-space">Mobile</div>
+                                </div>
+                                <div class="col-auto"><span class="spacer">:</span></div>
+                                <div class="col info-content-area info-pl">
+                                    <div class="info-content"> @(Model.resultCompany.Mobile == "" ? "" : String.Format("+{0}", Model.resultCompany.Mobile))</div>
+                                </div>
+                            </div>
+                            <div class="row no-gutters form-group">
+                                <div class="col-auto label-area">
+                                    <div class="info-label label-space">Website</div>
+                                </div>
+                                <div class="col-auto"><span class="spacer">:</span></div>
+                                <div class="col info-content-area info-pl">
+                                    <div class="info-content"><a href="https://@Model.resultCompany.Website" target="_blank"> @Model.resultCompany.Website</a></div>
+                                </div>
+                            </div>
+                            <div class="row no-gutters form-group">
+                                <div class="col-auto label-area">
+                                    <div class="info-label label-space">Fax</div>
+                                </div>
+                                <div class="col-auto"><span class="spacer">:</span></div>
+                                <div class="col info-content-area info-pl">
+                                    <div class="info-content">@Model.resultCompany.Fax</div>
+                                </div>
+                            </div>
+                            <div class="row no-gutters form-group">
+                                <div class="col-auto label-area">
+                                    <div class="info-label label-space">Description</div>
+                                </div>
+                                <div class="col-auto"><span class="spacer">:</span></div>
+                                <div class="col info-content-area info-pl">
+                                    <div class="info-content light-color text-justify">@Model.resultCompany.Description</div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="info-area">
+                            @if (Model.CompanyAddress != null)
+                            {
+                                <h2 class="info-heading">Address Information</h2>
+                                <div class="row no-gutters form-group">
+                                    <div class="col-auto label-area">
+                                        <div class="info-label label-space">AddressLine1</div>
+                                    </div>
+                                    <div class="col-auto"><span class="spacer">:</span></div>
+                                    <div class="col info-content-area info-pl">
+                                        <div class="info-content">@Model.CompanyAddress.AddressLine1</div>
+                                    </div>
+                                </div>
+                                <div class="row no-gutters form-group">
+                                    <div class="col-auto label-area">
+                                        <div class="info-label label-space">Street</div>
+                                    </div>
+                                    <div class="col-auto"><span class="spacer">:</span></div>
+                                    <div class="col info-content-area info-pl">
+                                        <div class="info-content">@Model.CompanyAddress.Street</div>
+                                    </div>
+                                </div>
+                                <div class="row no-gutters form-group">
+                                    <div class="col-auto label-area">
+                                        <div class="info-label label-space">City</div>
+                                    </div>
+                                    <div class="col-auto"><span class="spacer">:</span></div>
+                                    <div class="col info-content-area info-pl">
+                                        <div class="info-content">@Model.CompanyAddress.City</div>
+                                    </div>
+                                </div>
+                                <div class="row no-gutters form-group">
+                                    <div class="col-auto label-area">
+                                        <div class="info-label label-space">State</div>
+                                    </div>
+                                    <div class="col-auto"><span class="spacer">:</span></div>
+                                    <div class="col info-content-area info-pl">
+                                        <div class="info-content">@Model.CompanyAddress.State</div>
+                                    </div>
+                                </div>
+                                <div class="row no-gutters form-group">
+                                    <div class="col-auto label-area">
+                                        <div class="info-label label-space">Zip Code</div>
+                                    </div>
+                                    <div class="col-auto"><span class="spacer">:</span></div>
+                                    <div class="col info-content-area info-pl">
+                                        <div class="info-content">@Model.CompanyAddress.ZipCode</div>
+                                    </div>
+                                </div>
+                                <div class="row no-gutters form-group">
+                                    <div class="col-auto label-area">
+                                        <div class="info-label label-space">Country</div>
+                                    </div>
+                                    <div class="col-auto"><span class="spacer">:</span></div>
+                                    <div class="col info-content-area info-pl">
+                                        <div class="info-content">@Model.CompanyAddress.Country</div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <div class="info-area">
+                            <h2 class="info-heading">Locale Information</h2>
+                            <div class="row no-gutters form-group mt-2">
+                                <div class="col-auto label-area">
+                                    <div class="info-label label-space">Currency</div>
+                                </div>
+                                <div class="col-auto"><span class="spacer">:</span></div>
+                                <div class="col info-content-area info-pl">
+                                    <div class="info-content">@Model.resultCompany.Currency</div>
+                                </div>
+                            </div>
+                            <div class="row no-gutters form-group mb-0 mt-2">
+                                <div class="col-auto label-area">
+                                    <div class="info-label label-space">Time Zone</div>
+                                </div>
+                                <div class="col-auto"><span class="spacer">:</span></div>
+                                <div class="col info-content-area info-pl">
+                                    <div class="info-content">@Model.resultCompany.TimeZone</div>
+                                </div>
+                            </div>
+                            <div class="row no-gutters form-group mt-2">
+                                <div class="col-auto label-area">
+                                    <div class="info-label label-space">Date Format</div>
+                                </div>
+                                <div class="col-auto"><span class="spacer">:</span></div>
+                                <div class="col info-content-area info-pl">
+                                    <div class="info-content">@Model.resultCompany.DateFormat</div>
+                                </div>
+                            </div>
+                            <div class="row no-gutters form-group mb-0 mt-2">
+                                <div class="col-auto label-area">
+                                    <div class="info-label label-space">Language</div>
+                                </div>
+                                <div class="col-auto"><span class="spacer">:</span></div>
+                                <div class="col info-content-area info-pl">
+                                    <div class="info-content">@Model.resultCompany.Language</div>
+                                </div>
+                            </div>
+                            <div class="row no-gutters form-group mb-0 mt-2">
+                                <div class="col-auto label-area">
+                                    <div class="info-label label-space">Time Format</div>
+                                </div>
+                                <div class="col-auto"><span class="spacer">:</span></div>
+                                <div class="col info-content-area info-pl">
+                                    <div class="info-content">@Model.resultCompany.TimeFormat</div>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+
+                    }
+                    else
+                    {
+                        <h4>Company details not found.</h4>
+                    }
+                </div>
+            </div>
+        </div>
+    
+}

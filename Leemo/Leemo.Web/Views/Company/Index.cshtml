@@ -1,0 +1,48 @@
+﻿@model Leemo.Model.WrapperModels.ResultCompanyAndAddresses
+@using Microsoft.Extensions.Options;
+@using Leemo.Web;
+@inject IOptions<AppSettings> appSettings
+@using Leemo.Web.Models.Common
+@{
+    ViewData["Title"] = "Organization Settings";
+}
+@{
+    ImageUpload imgObj = new ImageUpload();
+    if (Model != null)
+    {
+        imgObj.Id = Model.resultCompany.Id;
+        imgObj.Alt = Model.resultCompany.Name;
+        imgObj.Title = Model.resultCompany.Name;
+        imgObj.EditImageModalTarget = "#uploadCompanyImageModal";
+        imgObj.DisplayImageModalTarget = "#displayCompanyImageModal";
+        imgObj.ImagePath = string.Format("{0}{1}{2}", appSettings.Value.Resources_StaticFileContainer, appSettings.Value.CompanyImagesPath, string.Format((string.IsNullOrEmpty(Model.resultCompany.ImageName) ? "avtar.jpg" : Model.resultCompany.ImageName)));
+    }
+
+    
+}
+    <div class="custom-tab">
+        <ul class="nav nav-tabs border-0" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="Organization-tab" data-toggle="tab" href="#organizations" role="tab" aria-controls="users" aria-selected="true">
+                    Organization Settings
+                </a>
+            </li>
+        </ul>
+        <div id="renderCompanyDetails">
+            <partial name="_CompanyDetails" model="Model" />
+        </div>
+</div>
+        <!-- Modal -->
+        <div class="modal fade edit-info" id="organization-modal" tabindex="-1" aria-labelledby="exampleModalLabel" data-backdrop="static" aria-hidden="true">
+
+        </div>
+
+        <!-- Display Image Modal -->
+        <div class="modal fade edit-info" id="displayCompanyImageModal" tabindex="-1" aria-labelledby="exampleModalLabel" data-backdrop="static" aria-hidden="true">
+            <partial name="_ImageDisplay" model="@imgObj" />
+        </div>
+
+        <!-- Upload Company Image Modal -->
+        <div class="modal fade edit-info" id="uploadCompanyImageModal" tabindex="-1" aria-labelledby="exampleModalLabel" data-backdrop="static" aria-hidden="true">
+            <partial name="_UploadImage" model="@imgObj" />
+        </div>

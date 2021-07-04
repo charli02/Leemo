@@ -1,0 +1,159 @@
+﻿@model Leemo.Model.InputModels.InputAddress
+
+@if (Model == null)
+{
+    <div class="modal-dialog">
+        <div class="modal-content card-style xl-space">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-tippy-content="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <form id="createBillingAddressForm" asp-controller="Billing" asp-action="CreateBillingAddress" onkeypress="return event.keyCode != 13">
+                <input type="hidden" @*asp-for="Id"*@>
+                <div class="info-area">
+                    <h2 class="info-heading">Add New Billing Address</h2>
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">Address Line 1</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <input type="text" class="form-control form-style-1" asp-for="AddressLine1">
+                            <span asp-validation-for="AddressLine1" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">Street</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <input type="text" class="form-control form-style-1" asp-for="Street">
+                            <span asp-validation-for="Street" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">City</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <input type="text" class="form-control form-style-1" asp-for="City">
+                            <span asp-validation-for="City" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">State</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <input type="text" class="form-control form-style-1" asp-for="State">
+                            <span asp-validation-for="State" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">Zip Code</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <input type="text" class="form-control form-style-1" asp-for="ZipCode">
+                            <span asp-validation-for="ZipCode" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">Country</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <input type="text" class="form-control form-style-1" asp-for="Country">
+                            <span asp-validation-for="Country" class="text-danger" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-submission">
+                    <button type="button" onclick="SaveBillingAddress(this);" class="btn-primary btn-sm-style btnLocation">Save</button>
+                    <button type="button" class="btn-secondary btn-sm-style" data-dismiss="modal" aria-label="Close">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+else
+{
+    <div class="modal-dialog">
+        <div class="modal-content card-style xl-space">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-tippy-content="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <form id="editBillingAddressForm" asp-controller="Billing" asp-action="EditBillingAddress" onkeypress="return event.keyCode != 13">
+                <div class="info-area">
+                    <h2 class="info-heading">Edit Billing Address</h2>
+                    <input type="hidden" value="@Model.Id" id="hiddenId"/>
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">Address Line 1</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <input type="text" class="form-control form-style-1" asp-for="AddressLine1">
+                            <span asp-validation-for="AddressLine1" class="text-danger" />
+                        </div>
+                    </div>
+
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">Street</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <input type="text" class="form-control form-style-1" asp-for="Street">
+                            <span asp-validation-for="Street" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">City</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <input type="text" class="form-control form-style-1" asp-for="City">
+                            <span asp-validation-for="City" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">State</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <input type="text" class="form-control form-style-1" asp-for="State">
+                            <span asp-validation-for="State" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">Zip Code</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <input type="text" class="form-control form-style-1" asp-for="ZipCode">
+                            <span asp-validation-for="ZipCode" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">Country</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <input type="text" class="form-control form-style-1" asp-for="Country">
+                            <span asp-validation-for="Country" class="text-danger" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-submission">
+                    <button type="button" onclick="UpdateBillingAddress('@Model.Id');" class="btn-primary btn-sm-style btnLocation">Update</button>
+                    <button type="button" class="btn-secondary btn-sm-style" data-dismiss="modal" aria-label="Close">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+
+@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+<script>
+    tippy('[data-tippy-content]'); //tooltip
+</script>

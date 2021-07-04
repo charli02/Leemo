@@ -1,0 +1,220 @@
+﻿@model Leemo.Model.ResultModels.ResultGroup
+@using Microsoft.Extensions.Options;
+@using Leemo.Web;
+@inject IOptions<AppSettings> appSettings
+@using Leemo.Web.Models.Common
+@{
+    ImageUpload imgObj = new ImageUpload();
+    if (Model != null) 
+    {
+        //imgObj.Id = Model.Id;
+        imgObj.Alt = Model.Name;
+        imgObj.Title = Model.Name;
+        imgObj.EditImageModalTarget = "#uploadGroupImageModal";
+        imgObj.DisplayImageModalTarget = "#displayGroupImageModal";
+        imgObj.ImagePath = string.Format("{0}{1}{2}", appSettings.Value.Resources_StaticFileContainer, appSettings.Value.GroupImagesPath, string.Format((string.IsNullOrEmpty(Model.ImageName) ? "avtar.jpg" : Model.ImageName)));
+    }
+    bool groupEditPermission = false;
+    if (ViewBag.editGroupPermission != null)
+    {
+        groupEditPermission = ViewBag.editGroupPermission;
+    }
+}
+
+<div class="general-setting user-info textcenter" id="GroupDetails">
+    <div class="profile-view">
+        <div class="profile-area">
+            @if (!groupEditPermission)
+            {
+                <span class="pro-img" onclick="fnAccessDenied()">
+                @if (Model != null)
+                {
+                    var initials = "";
+                    var names = Model.Name.Trim().Split(' ');
+                    for (int n = 0; n < names.Length; n++)
+                    {
+                        if (names[n] != "")
+                            initials += names[n].Substring(0, 1).ToUpper();
+                    }
+                    @if (string.IsNullOrEmpty(Model.ImageName))
+                    {
+                       
+                        if (!string.IsNullOrEmpty(initials))
+                        {
+                        <span class="user-name-details">@initials</span>
+                        }
+
+                    }
+                    else
+                    {
+                        <img id="changedGroupImage" src="@string.Format("{0}{1}{2}", appSettings.Value.Resources_StaticFileContainer, appSettings.Value.GroupImagesPath, string.Format((string.IsNullOrEmpty(Model.ImageName) ? "avtar.jpg" : Model.ImageName)))" alt="@Model.Name" title="@Model.Name">
+                    }
+                }
+            </span>
+            }
+            else
+            {
+            <span class="pro-img" onclick="fnDisplayImage('displayGroupImageModal');">
+                @if (Model != null)
+                {
+                    var initials = "";
+                    var names = Model.Name.Trim().Split(' ');
+                    for (int n = 0; n < names.Length; n++)
+                    {
+                        if (names[n] != "")
+                            initials += names[n].Substring(0, 1).ToUpper();
+                    }
+                    @if (string.IsNullOrEmpty(Model.ImageName))
+                    {
+
+                        <span class="user-name-details">@initials</span>
+
+                    }
+                    else
+                    {
+                        <img id="changedGroupImage" src="@string.Format("{0}{1}{2}", appSettings.Value.Resources_StaticFileContainer, appSettings.Value.GroupImagesPath, string.Format((string.IsNullOrEmpty(Model.ImageName) ? "avtar.jpg" : Model.ImageName)))" alt="@Model.Name" title="@Model.Name">
+                    }
+                }
+            </span>
+            }
+            @if (groupEditPermission)
+            {
+            <a href="javascript:void(0);" data-tippy-content="Change Group Photo" onclick="fnUploadImage('uploadGroupImageModal');">Change</a>
+            }
+        </div>
+        <div class="pro-info">
+            <h5 class="word_break">
+                @Model.Name
+
+                <input type="hidden" id="hfReturngrpPageType" value="groupdtail" />
+                @if (groupEditPermission)
+                {
+                <a href="javascript:void(0);" data-tippy-content="Edit Group Details" onclick="EditGroup('@Model.Id')">
+                    <img src="~/images/pencil.svg" />
+                </a>
+                }
+            </h5>
+        </div>
+    </div>
+    <div class="info-area mt-5">
+        <h2 class="info-heading">Account Information</h2>
+        <div class="row no-gutters form-group">
+            <div class="col-auto label-area">
+                <div class="info-label label-space">Group Name</div>
+            </div>
+            <div class="col-auto"><span class="spacer">:</span></div>
+            <div class="col info-content-area info-pl">
+                <div class="info-content">  @Model.Name</div>
+            </div>
+        </div>
+        <div class="row no-gutters form-group">
+            <div class="col-auto label-area">
+                <div class="info-label label-space">Group Description</div>
+            </div>
+            <div class="col-auto"><span class="spacer">:</span></div>
+            <div class="col info-content-area info-pl">
+                <div class="info-content light-color">@Model.Description</div>
+            </div>
+        </div>
+        <div class="row no-gutters form-group">
+            <div class="col-auto label-area">
+                <div class="info-label label-space">Associated Users</div>
+            </div>
+            <div class="col-auto"><span class="spacer">:</span></div>
+            <div class="col info-content-area info-pl demo-y mh-150">
+                @if (Model.GroupUsers != null)
+                {
+
+                    foreach (var user in Model.GroupUsers)
+                    {
+                        <div class="info-content">
+                            <span>- @user.UserName</span>
+                        </div>
+                    }
+
+                }
+
+            </div>
+        </div>
+        <div class="row no-gutters form-group">
+            <div class="col-auto label-area">
+                <div class="info-label label-space">Associated Designation</div>
+            </div>
+            <div class="col-auto"><span class="spacer">:</span></div>
+            <div class="col info-content-area info-pl demo-y mh-150">
+
+                @if (Model.GroupRoles != null)
+                {
+
+                    foreach (var role in Model.GroupRoles)
+                    {
+                        <div class="info-content">- @role.RoleName</div>
+                    }
+
+                }
+            </div>
+        </div>
+        <div class="row no-gutters form-group">
+            <div class="col-auto label-area">
+                <div class="info-label label-space">Associated Group</div>
+            </div>
+            <div class="col-auto"><span class="spacer">:</span></div>
+            <div class="col info-content-area info-pl demo-y mh-150">
+                @if (Model.GroupsMapping != null)
+                {
+
+                    foreach (var grpMap in Model.GroupsMapping)
+                    {
+                        if (@grpMap.MappedGroupIsActive == true)
+                        {
+                        <div class="info-content">
+                            <span>- @grpMap.MappedGroupName</span>
+                        </div>
+                        }
+                    }
+
+                }
+            </div>
+        </div>
+        <div class="row no-gutters form-group hide">
+            <div class="col-auto label-area">
+                <div class="info-label label-space">Group Users</div>
+            </div>
+            <div class="col-auto"><span class="spacer">:</span></div>
+            <div class="col info-content-area info-pl demo-y mh-150">
+                @if (ViewBag.users != null)
+                {
+                    foreach (var user in ViewBag.users)
+                    {
+                        
+                            <div class="info-content">
+                                <span>- @user.UserName</span>
+                            </div>
+                        
+
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Display Group Image Modal -->
+<div class="modal fade edit-info" id="displayGroupImageModal" tabindex="-1" aria-labelledby="exampleModalLabel"  data-backdrop="static" aria-hidden="true">
+    <partial name="_ImageDisplay" model="@imgObj" />
+</div>
+
+<!-- Upload Group Image Modal -->
+<div class="modal fade edit-info" id="uploadGroupImageModal" tabindex="-1" aria-labelledby="exampleModalLabel"  data-backdrop="static" aria-hidden="true">
+    <partial name="_UploadImage" model="@imgObj" />
+</div>
+
+<script>
+    $(document).ready(function () {
+        $(".demo-y").mCustomScrollbar({
+            theme: "minimal-dark",
+        });
+        tippy('[data-tippy-content]'); //tooltip
+    });
+</script>
+

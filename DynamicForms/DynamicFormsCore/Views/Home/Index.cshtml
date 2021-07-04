@@ -1,0 +1,317 @@
+﻿@*@model DynamicFormsMVC.Models.Control*@
+@model DynamicFormsCore.Models.ViewModels.DataFormViewModal
+@using DynamicFormsCore.Common
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>
+        Form Name : @Model.FormName
+    </p>
+    <form method="post" enctype="multipart/form-data">
+        <p>
+            Form Sections
+            @foreach (var item in Model.DataFormSection)
+            {
+                <div>
+                    @item.SectionName
+                </div>
+                <hr />
+                foreach (var field in item.DataFormField)
+                {
+                    string renderControl = "";
+                    string inputAttributes = (field.DataFormFieldType.AttributeChecked
+                                    ? (field.AttributeCheckedValue == "true" ? " checked" : "")
+                                    : "")
+                            + (field.DataFormFieldType.AttributeDisabled
+                                    ? (field.AttributeDisabledValue == "false" ? " disabled = 'true'" : "")
+                                    : "")
+                            + (field.DataFormFieldType.AttributeMax
+                                    ? (!string.IsNullOrEmpty(field.AttributeMaxValue) ? " max='" + field.AttributeMaxValue + "'" : "")
+                                    : "")
+                            + (field.DataFormFieldType.AttributeMin
+                                    ? (!string.IsNullOrEmpty(field.AttributeMinValue) ? " min='" + field.AttributeMinValue + "'" : "")
+                                    : "")
+                            + (field.DataFormFieldType.AttributeMaxlength
+                                    ? (!string.IsNullOrEmpty(field.AttributeMaxlengthValue) ? " maxlength='" + field.AttributeMaxlengthValue + "'" : "")
+                                    : "")
+                            + (field.DataFormFieldType.AttributePattern
+                                    ? (!string.IsNullOrEmpty(field.AttributePatternValue) ? " pattern='" + field.AttributePatternValue + "'" : "")
+                                    : "")
+                            + (field.DataFormFieldType.AttributeReadonly
+                                    ? (!string.IsNullOrEmpty(field.AttributeReadonlyValue) ? " readonly='" + field.AttributeReadonlyValue + "'" : "")
+                                    : "")
+                            + (field.DataFormFieldType.AttributeRequired
+                                    ? (!string.IsNullOrEmpty(field.AttributeRequiredValue) ? " required='" + field.AttributeRequiredValue + "'" : "")
+                                    : "")
+                            + (field.DataFormFieldType.AttributeSize
+                                    ? (!string.IsNullOrEmpty(field.AttributeSizeValue) ? " size='" + field.AttributeSizeValue + "'" : "")
+                                    : "")
+                            + (field.DataFormFieldType.AttributeStep
+                                    ? (!string.IsNullOrEmpty(field.AttributeStepValue) ? " step='" + field.AttributeStepValue + "'" : "")
+                                    : "")
+                            + (field.DataFormFieldType.AttributeValue
+                                    ? (!string.IsNullOrEmpty(field.AttributeValueValue) ? " value='" + field.AttributeValueValue + "'" : "")
+                                    : "");
+
+
+                    <div>
+                    <span> @field.FieldName :</span>
+                    @{
+                        #region Render Control
+
+                        ////Image
+                        //if (field.DataFormFieldType.FieldTypeName == FormInputType.Image.ToString())
+                        //{
+
+                        //}
+
+                        //Date
+                        //else 
+                        if (field.DataFormFieldType.FieldTypeName == FormInputType.Date.ToString())
+                        {
+                            renderControl = "<input type='date' "
+                                + " id='" + item.SectionName + "-" + field.FieldName + "' "
+                                + " name='" + item.SectionName + "-" + field.FieldName + "' "
+                                + inputAttributes
+                                + " value='"+ field.FieldValue + "' "
+                                + " />";
+                        }
+
+                        //Text
+                        else if (field.DataFormFieldType.FieldTypeName == FormInputType.Text.ToString())
+                        {
+                            renderControl = "<input type='text' "
+                                + " id='" + item.SectionName + "-" + field.FieldName + "' "
+                                + " name='" + item.SectionName + "-" + field.FieldName + "' "
+                                + inputAttributes
+                                + " value='" + field.FieldValue + "' "
+                                + " />";
+                        }
+
+                        //CheckBox
+                        else if (field.DataFormFieldType.FieldTypeName == FormInputType.CheckBox.ToString())
+                        {
+                            renderControl = "<input type='checkbox' id='" + item.SectionName + "-" + field.FieldName + "' "
+                                + " name='" + item.SectionName + "-" + field.FieldName + "' "
+                                ////+ " value='"+ fieldItem.Value + "' "
+                                + (!string.IsNullOrEmpty(field.FieldValue) ? " checked" : "" )
+                                + " />"
+                                + "<label for='" + item.SectionName + "-" + field.FieldName + "'></label><br>" ;
+                            //foreach(var fieldItem in Model.Control.ItemList.Items)
+                            //{
+                            // renderControl="<input type='checkbox' id='" + item.SectionName + "-" + field.FieldName + "-" + fieldItem.Name + "' "
+                            // + " name='" + item.SectionName + "-" + field.FieldName + "-" + fieldItem.Name + "' "
+                            // + " value='" + fieldItem.Value + "' "
+                            // + (!string.IsNullOrEmpty(fieldItem.Selected) ? "checked" : "" )
+                            // + " >"
+                            // + "<label for='" + item.SectionName + "-" + field.FieldName + "-" + fieldItem.Name + "'>" + fieldItem.Text + "</label><br>" ;
+                            //}
+                        }
+                        ////CheckBoxList
+                        //else if (field.DataFormFieldType.FieldTypeName == FormInputType.CheckBoxList.ToString())
+                        //{
+                        //    foreach(var fieldItem in field.ControlXML.ItemList.Items)
+                        //    {
+                        //        renderControl +="<input type='checkbox' id='" + item.SectionName + "-" + field.FieldName + "-" + fieldItem.Name + "' "
+                        //                    + " name='" + item.SectionName + "-" + field.FieldName + "-" + fieldItem.Name + "' "
+                        //                    + " value='" + fieldItem.Value + "' "
+                        //                    + (!string.IsNullOrEmpty(fieldItem.Selected) ? "checked" : "" )
+                        //                    + " >"
+                        //                    + "<label for='" + item.SectionName + "-" + field.FieldName + "-" + fieldItem.Name + "'>" + fieldItem.Text + "</label><br>" ;
+                        //    }
+                        //}
+                        //Number
+                        else if (field.DataFormFieldType.FieldTypeName == FormInputType.Number.ToString())
+                        {
+                            renderControl=@"<input type='number' "
+                                + " id='" + item.SectionName + "-" + field.FieldName + "' "
+                                + " name='" + item.SectionName + "-" + field.FieldName + "' "
+                                + inputAttributes
+                                + " value='" + field.FieldValue + "' "
+                                + " />";
+                        }
+
+                        ////File
+                        //else if (field.DataFormFieldType.FieldTypeName == FormInputType.File.ToString())
+                        //{
+                        //    renderControl = @"<input type='file' "
+                        //        + " id='" + item.SectionName + "-" + field.FieldName + "' "
+                        //        + " name='" + item.SectionName + "-" + field.FieldName + "' "
+                        //        + inputAttributes
+                        //        + " />";
+                        //}
+
+                        //Radio
+                        else if (field.DataFormFieldType.FieldTypeName == FormInputType.Radio.ToString())
+                        {
+                            foreach(var fieldItem in field.ControlXML.ItemList.Items)
+                            {
+                                renderControl += "<input type='radio' id='" + item.SectionName + "-" + field.FieldName + "-" + fieldItem.Name  + "' "
+                                    + " name='" + item.SectionName + "-" + field.FieldName + "' "
+                                    + " value='"+ fieldItem.Value + "' "
+                                    + (!string.IsNullOrEmpty(field.FieldValue) ? " checked" : "" )
+                                    //+ " value='" + field.FieldValue + "' "
+                                    + " >"
+                                    + "<label for='" + item.SectionName + "-" + field.FieldName + "-" + fieldItem.Name + "'>" + fieldItem.Text + "</label><br>" ;
+                            }
+                        }
+
+                        //Password
+                        else if (field.DataFormFieldType.FieldTypeName == FormInputType.Password.ToString())
+                        {
+                            renderControl = @"<input type='password' "
+                                + " id='" + item.SectionName + "-" + field.FieldName + "' "
+                                + " name='" + item.SectionName + "-" + field.FieldName + "' "
+                                + inputAttributes
+                                + " value='" + field.FieldValue + "' "
+                                + " />";
+                        }
+
+                        ////Time
+                        //else if (field.DataFormFieldType.FieldTypeName == FormInputType.Time.ToString())
+                        //{
+                        //    renderControl = @"<input type='time' "
+                        //        + " id='" + item.SectionName + "-" + field.FieldName + "' "
+                        //        + " name='" + item.SectionName + "-" + field.FieldName + "' "
+                        //        + inputAttributes
+                        //        + " value='" + field.FieldValue + "' "
+                        //        + " />";
+                        //}
+
+                        ////URL
+                        //else if (field.DataFormFieldType.FieldTypeName == FormInputType.URL.ToString())
+                        //{
+                        //    renderControl = @"<input type='url' "
+                        //        + " id='" + item.SectionName + "-" + field.FieldName + "' "
+                        //        + " name='" + item.SectionName + "-" + field.FieldName + "' "
+                        //        + inputAttributes
+                        //        + " value='" + field.FieldValue + "' "
+                        //        + " />";
+                        //}
+
+                        //Color
+                        else if (field.DataFormFieldType.FieldTypeName == FormInputType.Color.ToString())
+                        {
+                            renderControl = @"<input type='color' "
+                                + " id='" + item.SectionName + "-" + field.FieldName + "' "
+                                + " name='" + item.SectionName + "-" + field.FieldName + "' "
+                                + inputAttributes
+                                + " value='" + field.FieldValue + "' "
+                                + " />";
+                        }
+
+                        ////Hidden
+                        //else if (field.DataFormFieldType.FieldTypeName == FormInputType.Hidden.ToString())
+                        //{
+                        //    renderControl = @"<input type='hidden' "
+                        //        + " id='" + item.SectionName + "-" + field.FieldName + "' "
+                        //        + " name='" + item.SectionName + "-" + field.FieldName + "' "
+                        //        + inputAttributes
+                        //        + " value='" + field.FieldValue + "' "
+                        //        + " />";
+                        //}
+
+                        //Email
+                        else if (field.DataFormFieldType.FieldTypeName == FormInputType.Email.ToString())
+                        {
+                            renderControl = @"<input type='email' "
+                                + " id='" + item.SectionName + "-" + field.FieldName + "' "
+                                + " name='" + item.SectionName + "-" + field.FieldName + "' "
+                                + inputAttributes
+                                + " value='" + field.FieldValue + "' "
+                                + " />";
+                        }
+
+                        //Range
+                        else if (field.DataFormFieldType.FieldTypeName == FormInputType.Range.ToString())
+                        {
+                            renderControl = @"<input type='range' min='0' max='100' "
+                                + " id='" + item.SectionName + "-" + field.FieldName + "' "
+                                + " name='" + item.SectionName + "-" + field.FieldName + "' "
+                                + inputAttributes
+                                + " value='" + field.FieldValue + "' "
+
+                                + " onchange='updateTextInput(this.value);' />" 
+                                + "<input type='text' m id='rangeTextInput' size='2' value='"+ field.FieldValue + "' />";
+                        }
+
+                        //DateTimeLocal
+                        else if (field.DataFormFieldType.FieldTypeName == FormInputType.DateTimeLocal.ToString())
+                        {
+                            renderControl = @"<input type='datetime-local' "
+                                + " id='" + item.SectionName + "-" + field.FieldName + "' "
+                                + " name='" + item.SectionName + "-" + field.FieldName + "' "
+                                + inputAttributes
+                                + " value='" + field.FieldValue + "' "
+                                + " />";
+                        }
+
+                        ////Month
+                        //else if (field.DataFormFieldType.FieldTypeName == FormInputType.Month.ToString())
+                        //{
+                        //    renderControl = @"<input type='month' "
+                        //        + " id='" + item.SectionName + "-" + field.FieldName + "' "
+                        //        + " name='" + item.SectionName + "-" + field.FieldName + "' "
+                        //        + inputAttributes
+                        //        + " value='" + field.FieldValue + "' "
+                        //        + " />";
+                        //}
+
+                        ////Tel
+                        //else if (field.DataFormFieldType.FieldTypeName == FormInputType.Tel.ToString())
+                        //{
+                        //    renderControl = @"<input type='tel' "
+                        //        + " id='" + item.SectionName + "-" + field.FieldName + "' "
+                        //        + " name='" + item.SectionName + "-" + field.FieldName + "' "
+                        //        + inputAttributes
+                        //        + " value='" + field.FieldValue + "' "
+                        //        + " />";
+                        //}
+
+                        ////Week
+                        //else if (field.DataFormFieldType.FieldTypeName == FormInputType.Week.ToString())
+                        //{
+                        //    renderControl = @"<input type='week' "
+                        //        + " id='" + item.SectionName + "-" + field.FieldName + "' "
+                        //        + " name='" + item.SectionName + "-" + field.FieldName + "' "
+                        //        + inputAttributes
+                        //        + " value='" + field.FieldValue + "' "
+                        //        + " />";
+                        //}
+
+                        //SelectList
+                        else if (field.DataFormFieldType.FieldTypeName == FormInputType.SelectList.ToString())
+                        {
+                            renderControl += "<select id='" + item.SectionName + "-" + field.FieldName + "' "
+                                + "name='" + item.SectionName + "-" + field.FieldName + "' >";
+
+                            foreach(var fieldItem in field.ControlXML.ItemList.Items)
+                            {
+                                renderControl +="<option value='" + fieldItem.Value + "' "
+                                    + (fieldItem.Value == field.FieldValue ? " selected" : "")
+                                    +" >" + fieldItem.Text + "</option> ";
+                            }
+
+                            renderControl += "</select>";
+                        }
+
+                        @Html.Raw(renderControl)
+
+                        #endregion
+                     }
+                    </div>
+                }
+            }
+        </p>
+        <input type="submit" value="Submit" />
+    </form>
+    <script>
+        function updateTextInput(val) {
+          document.getElementById('rangeTextInput').value=val; 
+        }
+    </script>
+</div>

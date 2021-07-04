@@ -1,0 +1,87 @@
+﻿@model Leemo.Model.WrapperModels.SecurityProfile
+
+
+@if (Model.inputProfile != null)
+{
+    <div class="modal-dialog">
+        <div class="modal-content card-style xl-space">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-tippy-content="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+            <div class="info-area mt-0">
+                <h2 class="info-heading">Edit Role</h2>
+                <form id="updateProfile" method="post" enctype="multipart/form-data" onkeypress="return event.keyCode != 13">
+                    <input type="hidden" id="hdnProfileNameold" asp-for="@Model.inputProfile.Id" value="@Model.inputProfile.Name" />
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">Role Name</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <input type="text" class="form-control form-style-1" asp-for="inputProfile.Name" id="txtProName" onblur="checkRoleName()">
+                            <span id="existroleMsg" asp-validation-for="inputProfile.Name" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">Description</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <textarea type="text" class="form-control form-style-1" asp-for="inputProfile.Description" id="txtProDesc"></textarea>
+                            <span asp-validation-for="inputProfile.Description" class="text-danger" />
+                        </div>
+                    </div>
+                </form>
+              
+            </div>
+            <div class="form-submission">
+                <button type="button" class="btn-primary btn-sm-style btnProfile" onclick="UpdateProfile('@Model.inputProfile.Id',this)">Update</button>
+                <button type="button" class="btn-secondary btn-sm-style" data-dismiss="modal" aria-label="Close">Cancel</button>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="modal-dialog">
+        <div class="modal-content card-style xl-space">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-tippy-content="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+            <div class="info-area mt-0">
+                <h2 class="info-heading">Add New Role</h2>
+                <form id="CreateProfile" method="post" enctype="multipart/form-data" onkeypress="return event.keyCode != 13">
+                   
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">Role Name</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <input type="text" class="form-control form-style-1" asp-for="inputProfile.Name" id="txtProName" onblur="checkRoleName()">
+                            <span id="existroleMsg" asp-validation-for="inputProfile.Name" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">Description</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <textarea type="text" class="form-control form-style-1" asp-for="inputProfile.Description"></textarea>
+                            <span asp-validation-for="inputProfile.Description" class="text-danger" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="form-submission">
+                <button type="button" class="btn-primary btn-sm-style btnProfile" onclick="CreateProfile(this)">Save</button>
+                <button type="button" class="btn-secondary btn-sm-style" data-dismiss="modal" aria-label="Close">Cancel</button>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script>
+    tippy('[data-tippy-content]'); //tooltip
+</script>

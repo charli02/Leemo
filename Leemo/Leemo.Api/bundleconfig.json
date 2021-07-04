@@ -1,0 +1,8 @@
+[
+  {
+    "outputFileName": "site.min.css",
+    "inputFiles": [
+      "site.css"
+    ]
+  }
+]

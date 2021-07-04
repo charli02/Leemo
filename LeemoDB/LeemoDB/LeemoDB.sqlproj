@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>LeemoDB</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{67a1ea85-15b2-41d8-8ab4-176b8196a0ab}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>LeemoDB</RootNamespace>
+    <AssemblyName>LeemoDB</AssemblyName>
+    <ModelCollation>1033, CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="dbo\" />
+    <Folder Include="dbo\Tables\" />
+    <Folder Include="dbo\Stored Procedures\" />
+    <Folder Include="dbo\User Defined Types\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Tables\UserProfile.sql" />
+    <Build Include="dbo\Tables\User.sql" />
+    <Build Include="dbo\Tables\SubscriptionPlanResource.sql" />
+    <Build Include="dbo\Tables\SubscriptionPlanFeature.sql" />
+    <Build Include="dbo\Tables\SubscriptionPlan.sql" />
+    <Build Include="dbo\Tables\ResourceGroup.sql" />
+    <Build Include="dbo\Tables\Resource.sql" />
+    <Build Include="dbo\Tables\ProductLead.sql" />
+    <Build Include="dbo\Tables\ProductFeatureGroup.sql" />
+    <Build Include="dbo\Tables\Product.sql" />
+    <Build Include="dbo\Tables\PackageType.sql" />
+    <Build Include="dbo\Tables\Nlog.sql" />
+    <Build Include="dbo\Tables\MessageRequestCallback.sql" />
+    <Build Include="dbo\Tables\MessageEmailLogType.sql" />
+    <Build Include="dbo\Tables\MessageEmailLog.sql" />
+    <Build Include="dbo\Tables\LocationState.sql" />
+    <Build Include="dbo\Tables\LocationCountry.sql" />
+    <Build Include="dbo\Tables\LocationCity.sql" />
+    <Build Include="dbo\Tables\HostingInfo.sql" />
+    <Build Include="dbo\Tables\GroupUser.sql" />
+    <Build Include="dbo\Tables\GroupGroupsMapping.sql" />
+    <Build Include="dbo\Tables\GroupDesignationMapping.sql" />
+    <Build Include="dbo\Tables\Group.sql" />
+    <Build Include="dbo\Tables\GeneralCodeGroup.sql" />
+    <Build Include="dbo\Tables\GeneralCode.sql" />
+    <Build Include="dbo\Tables\Feature.sql" />
+    <Build Include="dbo\Tables\ErrorLog.sql" />
+    <Build Include="dbo\Tables\DesignationHierarchy.sql" />
+    <Build Include="dbo\Tables\Designation.sql" />
+    <Build Include="dbo\Tables\CustomerSubscriptionResource.sql" />
+    <Build Include="dbo\Tables\CustomerSubscriptionFeature.sql" />
+    <Build Include="dbo\Tables\CustomerSubscription.sql" />
+    <Build Include="dbo\Tables\CompanyLocationUserMapping.sql" />
+    <Build Include="dbo\Tables\CompanyLocation.sql" />
+    <Build Include="dbo\Tables\Company.sql" />
+    <Build Include="dbo\Tables\Auth_RoleUserMapping.sql" />
+    <Build Include="dbo\Tables\Auth_RoleFeatureMappingTemp.sql" />
+    <Build Include="dbo\Tables\Auth_RoleFeatureMappingDeleted.sql" />
+    <Build Include="dbo\Tables\Auth_RoleFeatureMapping.sql" />
+    <Build Include="dbo\Tables\Auth_Role.sql" />
+    <Build Include="dbo\Tables\Auth_FeatureCodeMapping.sql" />
+    <Build Include="dbo\Tables\AuditLogs.sql" />
+    <Build Include="dbo\Tables\AuditLogEmailTracking.sql" />
+    <Build Include="dbo\Tables\Audit.sql" />
+    <Build Include="dbo\Tables\ApiRequestLog.sql" />
+    <Build Include="dbo\Tables\AdminMenu.sql" />
+    <Build Include="dbo\Tables\AddressType.sql" />
+    <Build Include="dbo\Tables\Addresses.sql" />
+    <Build Include="dbo\Stored Procedures\sp_UpdateAuth_RoleFeatureMappingChanges.sql" />
+    <Build Include="dbo\Stored Procedures\sp_InsertNewLocationAuth_RoleFeatureMapping.sql" />
+    <Build Include="dbo\Stored Procedures\sp_GetAuth_FeatureListWithGeneralCodeByUserId_New.sql" />
+    <Build Include="dbo\Stored Procedures\sp_GetAuth_FeatureListWithGeneralCodeByUserId.sql" />
+    <Build Include="dbo\Stored Procedures\sp_GetAuth_FeatureListWithGeneralCode.sql" />
+    <Build Include="dbo\Stored Procedures\sp_DeleteRole.sql" />
+    <Build Include="dbo\Stored Procedures\sp_DeleteDesignation.sql" />
+    <Build Include="dbo\Stored Procedures\sp_DeleteAuth_RoleUsersMappingByUserId.sql" />
+    <Build Include="dbo\Stored Procedures\sp_CompanySetup.sql" />
+    <Build Include="dbo\User Defined Types\MessageEmailLogTableType.sql" />
+  </ItemGroup>
+</Project>

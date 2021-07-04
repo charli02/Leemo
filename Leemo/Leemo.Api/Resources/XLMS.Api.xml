@@ -1,0 +1,624 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Leemo.Api</name>
+    </assembly>
+    <members>
+        <member name="T:Leemo.Api.Controllers.BaseController">
+            <summary>
+            Created of applying exception filter, so inherit this basecontroller to have controller with loging in db.
+            </summary>
+        </member>
+        <member name="M:Leemo.Api.Controllers.BaseController.getUserEmail">
+            <summary>
+            get current logged in user email
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Leemo.Api.Controllers.BaseController.getUserData">
+            <summary>
+            get current logged in user data
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Leemo.Api.Controllers.CompanyController">
+            <summary>
+            Company controller class contains all the methods related to company entity.
+            </summary>
+        </member>
+        <member name="M:Leemo.Api.Controllers.CompanyController.#ctor(Leemo.Service.Interface.ICompanyService,Leemo.Service.Interface.ICommonService,Leemo.Service.Interface.IAddressesService,Leemo.Service.Interface.ICompanyLocationService)">
+            <summary>
+            Constructor of compnay controller for initialize the required stuff.
+            </summary>
+            <param name="companyService">Refers to company service class</param>
+            <param name="commonService">Refers to common service class</param>
+        </member>
+        <member name="M:Leemo.Api.Controllers.CompanyController.GetCompanies(Leemo.Api.Filters.PaginationFilter)">
+            <summary>
+            Return the list of companies
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Leemo.Api.Controllers.CompanyController.GetCompany(System.Guid)">
+            <summary>
+            Get company method for fetching
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Leemo.Api.Controllers.CompanyController.CreateCompany(Leemo.Model.WrapperModels.InputCompanyAndAddresses)">
+            <summary>
+            For inserting a new company record.
+            </summary>
+            <param name="company"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Leemo.Api.Controllers.CompanyController.UpdateCompany(System.Guid,Leemo.Model.WrapperModels.InputCompanyAndAddresses)">
+            <summary>
+            Update company record against the company id passed.
+            </summary>
+            <param name="id"></param>
+            <param name="company"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Leemo.Api.Controllers.CompanyController.UpdateCompanyImage(Leemo.Model.InputModels.InputUpdateCompanyImage)">
+            <summary>
+            Update Company profile image against the company id passed.
+            </summary>
+            <param name="updateCompanyImage"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Leemo.Api.Controllers.DesignationController">
+            <summary>
+            Designation controller class contains all the methods related to Designation entity.
+            </summary>
+        </member>
+        <member name="M:Leemo.Api.Controllers.DesignationController.#ctor(Leemo.Service.Interface.IDesignationService,Leemo.Service.Interface.IDesignationHierarchyService,Microsoft.Extensions.Options.IOptions{TPSS.Common.AppSettings},Leemo.Service.Interface.ICommonService,Leemo.Service.Interface.IUserService)">
+            <summary>
+            Constructor of designation controller for initialize the required stuff.
+            </summary>
+            <param name="designationService">Refers to designation service class</param>
+            <param name="designationHierarchyService"></param>
+            <param name="appSettings"></param>
+            <param name="commonService"></param>
+            <param name="userService"></param>
+        </member>
+        <member name="M:Leemo.Api.Controllers.DesignationController.GetDesignations(System.Guid)">
+            <summary>
+            Return the list of designation
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Leemo.Api.Controllers.DesignationController.GetDesignation(System.Guid)">
+            <summary>
+            Get designation method for fetching
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Leemo.Api.Controllers.DesignationController.CreateDesignation(Leemo.Model.Domain.Designation,System.Guid)">
+            <summary>
+            For inserting a new designation record.
+            </summary>
+            <param name="designation"></param>
+            <returns></returns> 
+        </member>
+        <member name="M:Leemo.Api.Controllers.DesignationController.SetPosition(Leemo.Model.Domain.DesignationHierarchy)">
+            <summary>
+            For set designation position in structure
+            </summary>
+            <param name="designationHierarchy"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Leemo.Api.Controllers.DesignationController.GetDesignationStructure(System.Guid)">
+            <summary>
+            For get designation structure
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Leemo.Api.Controllers.DesignationController.GetAssociatedUsersWithDesignation(System.Guid,System.Guid)">
+            <summary>
+            For getting designation parent associated users
+            </summary>
+            <param name="DesignationId"></param>
+            <returns></returns>        
+        </member>
+        <member name="M:Leemo.Api.Controllers.DesignationController.PutDesignation(System.Guid,Leemo.Model.Domain.Designation)">
+            <summary>
+            Update group record against the group id passed.
+            </summary>
+            <param name="id"></param>
+            <param name="designation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Leemo.Api.Controllers.DesignationController.GetUsersWithDesignation(System.Guid,System.Guid)">
+            <summary>
+            For getting designation associated users
+            </summary>
+            <param name="DesignationId"></param>
+            <param name="CompanyId"></param>
+            <returns></returns>        
+        </member>
+        <member name="T:Leemo.Api.Controllers.DesignationHierarchyController">
+            <summary>
+            Designation Hierarchy controller class contains all the methods related to designation hierarchy entity.
+            </summary>
+        </member>
+        <member name="M:Leemo.Api.Controllers.DesignationHierarchyController.#ctor(Leemo.Service.Interface.IDesignationService,Leemo.Service.Interface.IDesignationHierarchyService,Microsoft.Extensions.Options.IOptions{TPSS.Common.AppSettings},Leemo.Service.Interface.ICommonService,Leemo.Service.Interface.IUserService)">
+            <summary>
+            Constructor of designation controller for initialize the required stuff.
+            </summary>
+            <param name="designationService">Refers to designation service class</param>
+            <param name="designationHierarchyService"></param>
+            <param name="appSettings"></param>
+            <param name="commonService"></param>
+            <param name="userService"></param>
+        </member>
+        <member name="M:Leemo.Api.Controllers.DesignationHierarchyController.GetDesignationHierarchy(System.Guid)">
+            <summary>
+            For get designation structure
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Leemo.Api.Controllers.DesignationHierarchyController.CreateDesignationHierarchy(Leemo.Model.Domain.DesignationHierarchy)">
+            <summary>
+            For inserting a new Designation Hierarchy record.
+            </summary>
+            <param name="designationHierarchy"></param>
+            <returns></returns> 
+        </member>
+        <member name="M:Leemo.Api.Controllers.DesignationHierarchyController.ResetDesignationHierarchy(System.Collections.Generic.IList{Leemo.Model.Domain.DesignationHierarchy})">
+            <summary>
+            Get Designation Hierarchies
+            </summary>
+            <param name="designationHierarchies"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Leemo.Api.Controllers.GroupController">
+            <summary>
+            Group controller class contains all the methods related to Group entity.
+            </summary>
+        </member>
+        <member name="M:Leemo.Api.Controllers.GroupController.#ctor(Leemo.Service.Interface.IGroupService,Microsoft.Extensions.Options.IOptions{TPSS.Common.AppSettings},Leemo.Service.Interface.ICommonService)">
+            <summary>
+            Constructor of Group controller for initialize the required stuff.
+            </summary>
+            <param name="groupService">Refers to Group service class</param>
+            <param name="appSettings"></param>
+            <param name="commonService"></param>
+        </member>
+        <member name="M:Leemo.Api.Controllers.GroupController.GetGroups(Leemo.Api.Filters.PaginationFilter,System.Guid)">
+            <summary>
+            Return the list of grouops
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Leemo.Api.Controllers.GroupController.CreateGroup(Leemo.Model.InputModels.InputGroup)">
+            <summary>
+            For inserting a new Group record.
+            </summary>
+            <param name="inputGroup"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Leemo.Api.Controllers.GroupController.GetGroup(System.Guid)">
+            <summary>
+            Get group method for fetching
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Leemo.Api.Controllers.GroupController.PutGroup(System.Guid,Leemo.Model.InputModels.InputGroup)">
+            <summary>
+            Update group record against the group id passed.
+            </summary>
+            <param name="id"></param>
+            <param name="inputGroup"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Leemo.Api.Controllers.GroupController.GetGroupByName(System.String,System.Guid)">
+            <summary>
+            return group record against the group name passed.
+            </summary>
+            <param name="groupName"></param>
+            <returns></returns>        
+        </member>
+        <member name="M:Leemo.Api.Controllers.GroupController.UpdateGroupImage(Leemo.Model.InputModels.InputUpdateGroupImage)">
+            <summary>
+            Update Group profile image against the group id passed.
+            </summary>
+            <param name="updateGroupImage"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Leemo.Api.Controllers.LocationController.#ctor(Leemo.Service.Interface.ICompanyLocationService,Leemo.Service.Interface.IAuth_RoleUserMappingService,Leemo.Service.Interface.ICommonService,Microsoft.Extensions.Options.IOptions{TPSS.Common.AppSettings},Leemo.Service.Interface.IAddressesService,Leemo.Service.Interface.ICompanyService,Leemo.Service.Interface.IAddressTypeService)">
+            <summary>
+            Constructor of user controller for initialize the required stuff.
+            </summary>
+            <param name="userService">Refers to user service class</param>
+            <param name="profilePermissionMappingService"></param>
+            <param name="appSettings"></param>
+            <param name="commonService"></param>
+        </member>
+        <member name="M:Leemo.Api.Controllers.LocationController.UpdateHeadOffice(System.Guid,System.Boolean,System.Guid)">
+            <summary>
+            Update Head Office
+            </summary>
+            <param name="id"></param>
+            <param name="isHeadOffice"></param>
+            <param name="CompanyId"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Leemo.Api.Controllers.LogController">
+            <summary>
+            Log controller for logging with db
+            </summary>
+        </member>
+        <member name="M:Leemo.Api.Controllers.LogController.#ctor(Leemo.Service.Interface.ICommonService)">
+            <summary>
+            constructor for initalizing log controller
+            </summary>
+            <param name="commonService"></param>
+        </member>
+        <member name="M:Leemo.Api.Controllers.LogController.Exception(Leemo.Model.Domain.ErrorLog)">
+            <summary>
+            Log exception
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Leemo.Api.Controllers.RoleController">
+            <summary>
+            Pofile controller class contains all the methods related to proflie entity.
+            </summary>
+        </member>
+        <member name="M:Leemo.Api.Controllers.RoleController.#ctor(Leemo.Service.Interface.IAuth_RoleService,Microsoft.Extensions.Options.IOptions{TPSS.Common.AppSettings},Leemo.Service.Interface.ICommonService)">
+            <summary>
+            Constructor of pofile controller for initialize the required stuff.
+            </summary>
+            <param name="roleService">Refers to proflie service class</param>
+            <param name="appSettings"></param>
+        </member>
+        <member name="M:Leemo.Api.Controllers.RoleController.GetRoles(Leemo.Api.Filters.PaginationFilter,System.Guid)">
+            <summary>
+            Return the list of Roles
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Leemo.Api.Controllers.RoleController.GetRole(System.Guid)">
+            <summary>
+            Get proflie method for fetching
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Leemo.Api.Controllers.RoleController.CreateRole(Leemo.Model.Domain.Auth_Role)">
+            <summary>
+            For inserting a new role record.
+            </summary>
+            <param name="role"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Leemo.Api.Controllers.RoleController.EditRole(System.Guid,Leemo.Model.Domain.Auth_Role)">
+            <summary>
+            Update role record against the role id passed.
+            </summary>
+            <param name="id"></param>
+            <param name="role"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Leemo.Api.Controllers.RoleController.GetRoleusers(System.Guid)">
+            <summary>
+            Return the list of role users
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Leemo.Api.Controllers.RoleController.DeleteRole(System.Guid)">
+            <summary>
+            Delete role record against the role id passed.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Leemo.Api.Controllers.RoleController.GetAuth_RoleJoinedUsers(System.Guid,System.Guid)">
+            <summary>
+            Return the list of Auth_Role Join Users
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Leemo.Api.Controllers.RoleController.GetRoleByName(System.String,System.Guid)">
+            <summary>
+            Get role method for fetching by name
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Leemo.Api.Controllers.RoleFeaturesController">
+            <summary>
+            Proflie Permission Controller
+            </summary>
+        </member>
+        <member name="M:Leemo.Api.Controllers.RoleFeaturesController.#ctor(Leemo.Service.Interface.IAuth_RoleService,Leemo.Service.Interface.IAuth_RoleFeatureMappingService,Microsoft.Extensions.Options.IOptions{TPSS.Common.AppSettings},Leemo.Service.Interface.ICommonService)">
+            <summary>
+            constructor for pforifle permissions
+            </summary>
+            <param name="profilePermissionService"></param>
+        </member>
+        <member name="M:Leemo.Api.Controllers.RoleFeaturesController.GetAuth_RoleFeatures">
+            <summary>
+            Return the list of proflies permissions
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Leemo.Api.Controllers.RoleFeaturesController.GetProfilePermissionsByAuth_RoleId(System.Guid,System.Guid)">
+            <summary>
+            Return the list of proflies permissions
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Leemo.Api.Controllers.RoleFeaturesController.PostProfilePermission(Leemo.Model.InputModels.InputAuth_RoleFeatureMapping)">
+            <summary>
+            For inserting a new user for profile permission mapping.
+            </summary>
+            <param name="profilePermissionMapping"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Leemo.Api.Controllers.RoleFeaturesController.PutProfilePermission(System.Guid,Leemo.Model.InputModels.InputAuth_RoleFeatureMapping)">
+            <summary>
+            For updating record for profile permission mapping.
+            </summary>
+            <param name="id"></param>
+            <param name="inputProfilePermissionMapping"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Leemo.Api.Controllers.RoleFeaturesController.InsertUpdateAuth_RoleFeatureMappingTemp(Leemo.Model.InputModels.InputAuth_RoleFeatureMappingTemp)">
+            <summary>
+            For updating record for profile permission mapping.
+            </summary>
+            <param name="inputAuth_RoleFeatureMappingTemp"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Leemo.Api.Controllers.RoleFeaturesController.BulkUpdateAuth_RoleFeatureMappingTemp(Leemo.Model.InputModels.InputAuth_RoleFeatureMappingTemp)">
+            <summary>
+            For Bulk updating record for profile permission mapping.
+            </summary>
+            <param name="inputAuth_RoleFeatureMappingTemp"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Leemo.Api.Controllers.RoleFeaturesController.UpdateAuth_RoleFeatureMappingChanges(System.Guid,System.Guid)">
+            <summary>
+            For updating record for profile permission mapping.
+            </summary>
+            <param name="roleId"></param>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Leemo.Api.Controllers.UserController">
+            <summary>
+            User controller class contains all the methods related to user entity.
+            </summary>
+        </member>
+        <member name="M:Leemo.Api.Controllers.UserController.#ctor(Leemo.Service.Interface.ICompanyService,Leemo.Service.Interface.IUserService,Leemo.Service.Interface.IAuth_RoleUserMappingService,Leemo.Service.Interface.ICommonService,Microsoft.Extensions.Options.IOptions{TPSS.Common.AppSettings},Leemo.Service.Interface.IAddressesService,Leemo.Service.Interface.ICompanyLocationUserMappingService,Leemo.Service.Interface.ICompanyLocationService)">
+            <summary>
+            Constructor of user controller for initialize the required stuff.
+            </summary>
+            <param name="userService">Refers to user service class</param>
+            <param name="profilePermissionMappingService"></param>
+            <param name="appSettings"></param>
+            <param name="commonService"></param>
+        </member>
+        <member name="M:Leemo.Api.Controllers.UserController.GetActiveUsers">
+            <summary>
+            Return the list of active users with username and status
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Leemo.Api.Controllers.UserController.GetUsers(Leemo.Api.Filters.PaginationFilter,System.Guid)">
+            <summary>
+            Return the list of users
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Leemo.Api.Controllers.UserController.PostUser(Leemo.Model.InputModels.InputUser)">
+            <summary>
+            For inserting a new user record.
+            </summary>
+            <param name="inputUser"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Leemo.Api.Controllers.UserController.GetUser(System.Guid,System.Guid)">
+            <summary>
+            Get user method for fetching
+            </summary>
+            <param name="id"></param>
+            <param name="CompanyId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Leemo.Api.Controllers.UserController.ValidateUser(Leemo.Model.InputModels.InputUserLogin)">
+            <summary>
+            Validate user using email and password
+            </summary>
+            <param name="inputUserLogin"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Leemo.Api.Controllers.UserController.PutUser(System.Guid,Leemo.Model.WrapperModels.InputUserAndAddresses)">
+            <summary>
+            Update user record against the user id passed.
+            </summary>
+            <param name="id"></param>
+            <param name="updateUser"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Leemo.Api.Controllers.UserController.ChangePassword(Leemo.Model.InputModels.InputChangePassword)">
+            <summary>
+            Change user password using old password
+            </summary>
+            <param name="inputChangePassword"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Leemo.Api.Controllers.UserController.SendForgetPasswordLink(Leemo.Model.InputModels.InputForgetPassword)">
+            <summary>
+            Send Forget Password Link
+            </summary>
+            <param name="inputForgetPassword"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Leemo.Api.Controllers.UserController.ResetPassword(Leemo.Model.InputModels.InputChangePassword)">
+            <summary>
+            Reset user password using temp password
+            </summary>
+            <param name="inputChangePassword"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Leemo.Api.Controllers.UserController.UpdateProfileImage(Leemo.Model.InputModels.InputUpdateProfileImage)">
+            <summary>
+            Update user profile image against the user id passed.
+            </summary>
+            <param name="updateProfileImage"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Leemo.Api.Controllers.UserController.GetUserByEmail(System.String,System.Guid)">
+            <summary>
+            Get user method for fetching by email
+            </summary>
+            <param name="email"></param>
+            <param name="CompanyId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Leemo.Api.Controllers.UserController.GetUserFeatures(System.Guid,System.Guid)">
+            <summary>
+            Return the list of users
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Leemo.Api.ActionFilters.ActionPermissionFilterAttribute">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:Leemo.Api.ActionFilters.ActionPermissionFilterAttribute.#ctor(System.String[])">
+            <summary>
+            
+            </summary>
+            <param name="permissionData"></param>
+        </member>
+        <member name="T:Leemo.Api.ActionFilters.ActionPermissionFilterAttribute.ActionPermissionFilter">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Leemo.Api.ActionFilters.ActionPermissionFilterAttribute.ActionPermissionFilter.PermissionData">
+            <summary>
+            permission data send from controller inicluding PermissionName and access requested.
+            </summary>
+        </member>
+        <member name="M:Leemo.Api.ActionFilters.ActionPermissionFilterAttribute.ActionPermissionFilter.#ctor(Leemo.Service.Interface.IUserService,System.String[])">
+             <summary>
+            
+             </summary>
+             <param name="auth_RoleFeatureMappingService"></param>
+             <param name="permissionData"></param>
+        </member>
+        <member name="M:Leemo.Api.ActionFilters.ActionPermissionFilterAttribute.ActionPermissionFilter.OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="T:Leemo.Api.Filters.ExceptionFilter">
+            <summary>
+            Exception filter
+            </summary>
+        </member>
+        <member name="F:Leemo.Api.Filters.ExceptionFilter._logReposiory">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Leemo.Api.Filters.ExceptionFilter.#ctor(Leemo.Repository.Interface.ILogReposiory)">
+            <summary>
+            log repository costructor
+            </summary>
+            <param name="logReposiory"></param>
+        </member>
+        <member name="M:Leemo.Api.Filters.ExceptionFilter.OnException(Microsoft.AspNetCore.Mvc.Filters.ExceptionContext)">
+            <summary>
+            It will log the exception in database.
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="T:Leemo.Api.Middlewares.ExceptionHandlerMiddleware">
+            <summary>
+            exception middleware
+            </summary>
+        </member>
+        <member name="M:Leemo.Api.Middlewares.ExceptionHandlerMiddleware.#ctor(Microsoft.AspNetCore.Http.RequestDelegate)">
+            <summary>
+            constructor for exception middleware
+            </summary>
+            <param name="next"></param>
+        </member>
+        <member name="M:Leemo.Api.Middlewares.ExceptionHandlerMiddleware.Invoke(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            Invoke with context
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Leemo.Api.Middlewares.ExceptionHandlerMiddlewareExtensions">
+            <summary>
+            Exception handler middleware extension
+            </summary>
+        </member>
+        <member name="M:Leemo.Api.Middlewares.ExceptionHandlerMiddlewareExtensions.UseExceptionHandlerMiddleware(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            Exception middleware extension
+            </summary>
+            <param name="app"></param>
+        </member>
+        <member name="T:Leemo.Api.Program">
+            <summary>
+            Program class for API project.
+            </summary>
+        </member>
+        <member name="M:Leemo.Api.Program.Main(System.String[])">
+            <summary>
+            Main method of API project.
+            </summary>
+            <param name="args"></param>
+        </member>
+        <member name="M:Leemo.Api.Program.CreateHostBuilder(System.String[])">
+            <summary>
+            Web host builder for API project.
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Leemo.Api.Startup">
+            <summary>
+            Entry point of the application and used to configure the request pipeline which handles all requests made to the application.
+            </summary>
+        </member>
+        <member name="M:Leemo.Api.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Initialise starup class with required stuff.
+            </summary>
+            <param name="configuration"></param>
+        </member>
+        <member name="P:Leemo.Api.Startup.Configuration">
+            <summary>
+            Proerties area
+            </summary>
+        </member>
+        <member name="M:Leemo.Api.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            This method gets called by the runtime. Use this method to add services to the container. 
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:Leemo.Api.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+            This method gets called by the runtime. Use this method to configure the HTTP request pipeline. 
+            </summary>
+            <param name="app"></param>
+            <param name="env"></param>
+        </member>
+    </members>
+</doc>

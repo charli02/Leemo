@@ -1,0 +1,65 @@
+﻿@model List<Leemo.Model.ResultModels.ResultGroup>
+@using Microsoft.Extensions.Options;
+@using Leemo.Web;
+@inject IOptions<AppSettings> appSettings
+
+<input type="hidden" id="hfGrpActiveCount" value="@ViewBag.ActiveGroups" />
+<input type="hidden" id="hfGrpInActiveCount" value="@ViewBag.InActiveGroups" />
+<input type="hidden" id="hfAllGrpCount" value="@ViewBag.AllGroups" />
+
+<ul>
+    @if (Model != null && Model.Count > 0)
+    {
+        @foreach (var group in Model)
+        {
+            <li>
+                <div class="checkbox-style-1">
+                    <input class="form-check-input" type="radio" name="radio12" value="" id="radio12" onclick="GroupDetails('@group.Id')">
+                    <label class="form-check-label" for="radio1">
+                        @if (group != null)
+                        {
+                            var initials = "";
+
+                            var names = group.Name.Trim().Split(' ');
+                            for (int n = 0; n < names.Length; n++)
+                            {
+                                if (names[n] != "")
+                                    initials += names[n].Substring(0, 1).ToUpper();
+                            }
+
+
+                            @if (string.IsNullOrEmpty(group.ImageName))
+                            {
+                        <span class="users-img">
+                            @if (!string.IsNullOrEmpty(initials))
+                            {
+                            <span class="user-name">@initials</span>
+                            }
+                            @if (group.IsActive)
+                            {
+                                <span class="active"></span>
+                            }
+                        </span>
+                            }
+                            else
+                            {
+                                <span class="users-img">
+                                    <img src="@string.Format("{0}{1}{2}", appSettings.Value.Resources_StaticFileContainer, appSettings.Value.GroupImagesPath, group.ImageName)" alt="@group.Name" title="@group.Name">
+                                    @if (group.IsActive)
+                                    {
+                                        <span class="active"></span>
+                                    }
+                                </span>
+                            }
+                            <span class="name word_break">@group.Name</span>
+                        }
+                    </label>
+                </div>
+            </li>
+        }
+    }
+    else
+    {
+        <p class="text-center mt-5">@TPSS.Common.Constants.Messages.RecordNotFound</p>
+    }
+</ul>

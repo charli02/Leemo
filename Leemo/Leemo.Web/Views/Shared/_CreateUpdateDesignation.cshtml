@@ -1,0 +1,149 @@
+﻿
+@model Leemo.Model.Domain.Designation
+@using Microsoft.Extensions.Options;
+@using Leemo.Web;
+@inject IOptions<AppSettings> appSettings
+@{
+    ViewData["Title"] = "Users";
+
+
+}
+
+@*@Model.Designation.Id
+    @if (Model.DesignationId != null && Model.DesignationId != Guid.Empty)*@
+@if (Model != null && Model.Id != Guid.Empty && Model.Id != null)
+@*@if (Model.Designation.Id != null && Model.Designation.Id != Guid.Empty && Model.Designation != null)*@
+{
+
+    <div class="modal-dialog" id="editDesignationModel">
+        <div class="modal-content card-style xl-space">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-tippy-content="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <form id="DesignationUpdateForm" method="post" enctype="multipart/form-data" onkeypress="return event.keyCode != 13">
+
+
+                <div class="info-area mt-0">
+                    <h2 class="info-heading">Edit Designation</h2>
+                    <input type="hidden" id="hdnDesignationId" asp-for="Id" value="@Model.Id" />
+                    <input type="hidden" id="hdnDesignationNameold" asp-for="Id" value="@Model.Name" />
+
+                    <div class="row no-gutters form-group">
+                        <div class="col-sm-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">Designation Name</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <input type="text" id="txtDegName" asp-for="Name" class="form-control form-style-1" placeholder="Designation Name" value="@Model.Name" onblur="checkDesignationName()">
+                            <span id="existDegMsg" asp-validation-for="Name" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="row no-gutters form-group">
+                        <div class="col-sm-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">Description</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <textarea class="form-control form-style-1 light-color" asp-for="Description" placeholder="Description" id="txtdegDesc">@Model.Description</textarea>
+                            <span asp-validation-for="Description" class="text-danger" />
+                        </div>
+                    </div>
+
+                    @*<div class="row no-gutters form-group align-items-center">
+                <div class="col-sm-auto label-area">
+                    <div class=" info-label label-sm-space mt-2">Parent Designation</div>
+                </div>
+                <div class="col info-content-area">
+                    <select class="form-control form-style-1 light-color" id="rolesIDs">
+                        <option>Select</option>
+                        @if (ViewBag.roles != null)
+                        {
+                            foreach (var role in ViewBag.roles)
+                            {
+                                <option value="@role.Id">@role.Name</option>
+                            }
+                        }
+
+
+
+                    </select>
+                </div>
+            </div>*@
+                </div>
+                <div class="form-submission">
+                    <button type="button"  class="btn-primary btn-sm-style btnDesignation" onclick="UpdateDesignationInfo()">Update</button>
+                    <button type="button" class="btn-secondary btn-sm-style" data-dismiss="modal" aria-label="Close">Cancel</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+
+}
+else
+{
+
+    <div class="modal-dialog">
+        <div class="modal-content card-style xl-space">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-tippy-content="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <form id="DesignationAddForm" method="post" onkeypress="return event.keyCode != 13">
+                <input type="hidden" asp-for="ParentDesignationId" id="ParentDesignationId" />
+                <div class="info-area mt-0">
+                    <h2 class="info-heading">Add New Designation</h2>
+                    <div class="row no-gutters form-group">
+                        <div class="col-sm-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">Designation Name</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <input type="text" id="txtDegName" asp-for="Name" placeholder="Designation Name" class="form-control form-style-1" onblur="checkDesignationName()">
+                            <span id="existDegMsg" asp-validation-for="Name" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="row no-gutters form-group">
+                        <div class="col-sm-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">Description</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <textarea class="form-control form-style-1 light-color" asp-for="Description" placeholder="Description" id="txtdegDesc"></textarea>
+                            <span asp-validation-for="Description" class="text-danger" />
+                        </div>
+                    </div>
+
+                    @*<div class="row no-gutters form-group align-items-center">
+                <div class="col-sm-auto label-area">
+                    <div class=" info-label label-sm-space mt-2">Parent Designation</div>
+                </div>
+                <div class="col info-content-area">
+                    <select class="form-control form-style-1 light-color" id="rolesIDs">
+                        <option>Select</option>
+                        @if (ViewBag.roles != null)
+                        {
+                            foreach (var role in ViewBag.roles)
+                            {
+                                <option value="@role.Id">@role.Name</option>
+                            }
+                        }
+
+
+
+                    </select>
+                </div>
+            </div>*@
+                </div>
+                <div class="form-submission">
+                    <button type="button" class="btn-primary btn-sm-style btnDesignation" onclick="SaveDesignation()">Save</button>
+                    <button type="button" class="btn-secondary btn-sm-style" data-dismiss="modal" aria-label="Close">Cancel</button>
+                </div>
+            </form>
+               
+        </div>
+    </div>
+
+}
+
+
+@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script>
+    tippy('[data-tippy-content]'); //tooltip
+</script>

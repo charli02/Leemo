@@ -1,0 +1,198 @@
+﻿@model List<Leemo.Model.ResultModels.ResultRole>
+@using Microsoft.Extensions.Options;
+@using Leemo.Web;
+@inject IOptions<AppSettings> appSettings
+@{
+    int counterDown = 1;
+    string CurrentRole = "";
+    if (TempData["Auth_RoleName"] != null)
+    {
+        CurrentRole = TempData["Auth_RoleName"].ToString();
+    }
+    bool securityViewPermission = false;
+    bool securityEditPermission = false;
+    bool securityviewUsersPermission = false;
+    bool securityDeletePermission = false;
+    bool authRoleViewPermission = false;
+    if (TempData["ViewSecurityRolePermission"] != null)
+    {
+        securityViewPermission = (bool)TempData["ViewSecurityRolePermission"];
+    }
+    if (TempData["EditSecurityRolePermission"] != null)
+    {
+        securityEditPermission = (bool)TempData["EditSecurityRolePermission"];
+    }
+    if (TempData["ViewUsersSecurityRolePermission"] != null)
+    {
+        securityviewUsersPermission = (bool)TempData["ViewUsersSecurityRolePermission"];
+    }
+    if (TempData["DeleteSecurityRolePermission"] != null)
+    {
+        securityDeletePermission = (bool)TempData["DeleteSecurityRolePermission"];
+    }
+    if (TempData["ViewAuthRolePermission"] != null)
+    {
+        authRoleViewPermission = (bool)TempData["ViewAuthRolePermission"];
+    }
+}
+
+@if (!securityViewPermission)
+{
+    <div class="access-denied-col text-center">
+            <input type="hidden" id="RolesAccessDenied" value="-1" />
+        <img src="~/images/access-denied.png" alt="Access Denied">
+        <h2>Access Denied</h2>
+        <p>You currently does not have access to this page. <span class="d-block">Please try again later.</span></p>
+    </div>
+}
+else
+{
+    <div class="table-responsive profile-listing mCustomScrollbar _mCS_1 mCS-autoHide" @*id="content-6" style="position: relative; overflow: visible;"*@>
+        @*<div id="mCSB_1" class="mCustomScrollBox mCS-minimal-dark mCSB_horizontal mCSB_outside" style="max-height: none;" tabindex="0">*@
+        @*<div id="mCSB_1_container" class="mCSB_container" style="top: 0px; left: 0px; position: relative; width: 952px; min-width: 100%; overflow-x: inherit;" dir="ltr">*@
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Role Name</th>
+                    <th>Role Description</th>
+                    <th>Created On</th>
+                    <th>Modified On</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Count > 0)
+                {
+                    @foreach (var profiles in Model)
+                    {
+
+
+                        string FirstNameCreatedBy = @profiles.FirstNameCreatedBy.Trim();
+                        string LastNameCreatedBy = @profiles.LastNameCreatedBy.Trim();
+                        string user_createdBy = "";
+                        if (!string.IsNullOrEmpty(profiles.FirstNameCreatedBy))
+                        {
+                            string FnamesCreatedBy = FirstNameCreatedBy.Substring(0, 1).ToUpper().Trim();
+                            string LnamesCreatedBy = LastNameCreatedBy.Substring(0, 1).ToUpper().Trim();
+                            user_createdBy = string.Concat(FnamesCreatedBy + LnamesCreatedBy).Trim();
+                        }
+
+
+                        string FirstNameModifiedBy = @profiles.FirstNameModifiedBy.Trim() == null ? "" : @profiles.FirstNameModifiedBy.Trim();
+                        string LastNameModifiedBy = @profiles.LastNameModifiedBy.Trim() == null ? "" : @profiles.LastNameModifiedBy.Trim();
+                        string user_ModifiedBy = "";
+                        if (!string.IsNullOrEmpty(profiles.FirstNameModifiedBy))
+                        {
+                            string FnamesModifiedBy = FirstNameModifiedBy.Substring(0, 1).ToUpper().Trim();
+                            string LnamesModifiedBy = LastNameModifiedBy.Substring(0, 1).ToUpper().Trim();
+                            user_ModifiedBy = string.Concat(FnamesModifiedBy + LnamesModifiedBy).Trim();
+
+                        }
+                        <tr>
+                            <td class="pro-list-name">
+                                <span class="dropdown  @(counterDown>2?"dropup":"") dorpdown-style-1 pro-edit">
+                                    @if (securityEditPermission || securityviewUsersPermission || securityDeletePermission)
+                                    {
+                                        <button class="btn dropdown-toggle p-0" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="setSecirtyUpdatePopup()">
+                                            <span class="pro-tgl">
+                                                <img src="~/images/dots.png" class="mCS_img_loaded">
+                                            </span>
+                                        </button>
+                                    }
+
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        @if (securityEditPermission && profiles.Name != CurrentRole && profiles.Name != "Owner")
+                                        {
+                                            <a class="dropdown-item" href="javascript:void(0);" onclick="RenameProfile('@profiles.Id')">Rename</a>
+                                            @if (securityviewUsersPermission || securityDeletePermission)
+                                            {
+                                                <div class="dropdown-divider"></div>
+                                            }
+                                        }
+                                        @if (securityviewUsersPermission)
+                                        {
+                                            <a class="dropdown-item" href="javascript:void(0);" onclick="ProfileUsers('@profiles.Id')">View Users</a>
+                                            @if (securityDeletePermission && profiles.Name != CurrentRole && profiles.Name != "Owner")
+                                            {
+                                                <div class="dropdown-divider"></div>
+                                            }
+                                        }
+                                        @if (securityDeletePermission && profiles.Name != CurrentRole && profiles.Name != "Owner")
+                                        {
+                                            <a class="dropdown-item" href="javascript:void(0);" onclick="DeleteProfileInfo('@profiles.Id')">Delete</a>
+                                        }
+                                    </div>
+                                </span>
+                                @if (!authRoleViewPermission)
+                                {
+                                    <a href="javascript:void(0);" @*class="goto-permission"*@ onclick="fnAccessDenied()"> @profiles.Name </a>
+                                }
+                                else
+                                {
+                                    <a href="javascript:void(0);" @*class="goto-permission"*@ onclick="ProfilePermission('@profiles.Id', '@profiles.Name')"> @profiles.Name </a>
+                                }
+                            </td>
+                            <td class="wrap-ellipsis" data-tippy-content="@profiles.Description" @(profiles.Description==null? "data-tippy-onShow=false": "")>@profiles.Description</td>                            
+                            <td>
+                                @if (!string.IsNullOrEmpty(profiles.FirstNameCreatedBy))
+                                {<label class="pro-lable">
+                                        <span>
+                                            @if (string.IsNullOrEmpty(profiles.CreatedByUser))
+                                            {
+                                                <span class="alt-image" data-tippy-content="@profiles.FirstNameCreatedBy @profiles.LastNameCreatedBy">@user_createdBy</span>
+
+                                            }
+                                            else
+                                            {
+                                                <img src="@string.Format("{0}{1}{2}", appSettings.Value.Resources_StaticFileContainer,
+                                                         appSettings.Value.ProfileImagesPath, @profiles.CreatedByUser)"
+                                                     class="mCS_img_loaded" data-tippy-content="@profiles.FirstNameCreatedBy @profiles.LastNameCreatedBy">
+
+                                            }
+
+                                        </span>@profiles.CreatedOn.ToString("MMM dd, yyy")
+                                    </label>
+                                }
+                            </td>
+
+                            <td>
+                                @if (!string.IsNullOrEmpty(profiles.FirstNameModifiedBy))
+                                {
+                                    <label class="pro-lable">
+                                        <span>
+                                            @if (string.IsNullOrEmpty(profiles.ModifiedByUser))
+                                            {
+
+                                                <span class="alt-image" data-tippy-content="@profiles.FirstNameModifiedBy @profiles.LastNameModifiedBy">@user_ModifiedBy</span>
+
+                                            }
+                                            else
+                                            {<img src="@string.Format("{0}{1}{2}", appSettings.Value.Resources_StaticFileContainer, appSettings.Value.ProfileImagesPath,
+                                                      @profiles.ModifiedByUser)" class="mCS_img_loaded" data-tippy-content="@profiles.FirstNameModifiedBy @profiles.LastNameModifiedBy">
+                                            }
+                                        </span>
+                                        @profiles.ModifiedOn?.ToString("MMM dd, yyy")
+
+                                    </label>
+                                }
+                            </td>
+                        </tr>
+                        counterDown++;
+                    }
+
+                }
+                else
+                {
+                    <tr>
+                        <td class="text-center" colspan="4">@TPSS.Common.Constants.Messages.RecordNotFound</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        @*</div>
+            </div>*@
+        @*<div id="mCSB_1_scrollbar_horizontal" class="mCSB_scrollTools mCSB_1_scrollbar mCS-minimal-dark mCSB_scrollTools_horizontal" style="display: block;"><div class="mCSB_draggerContainer">*@
+        @*<div class="mCSB_draggerRail"></div></div></div>*@
+    </div>
+}
+
+

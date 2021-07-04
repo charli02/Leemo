@@ -1,0 +1,514 @@
+﻿@inject SessionManager _sessionManager;
+@using Microsoft.Extensions.Options;
+@using Newtonsoft.Json;
+@using Leemo.Web;
+@inject IOptions<AppSettings> appSettings
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <!-- additional CSS -->
+    <link rel="stylesheet" href="~/css/gijgo.min.css">
+    <link rel="stylesheet" href="~/css/mCustomScrollbar.css">
+    <link rel="stylesheet" href="~/css/nice-select.css">
+    <!-- International Telephone Input css -->
+    <link href="~/lib/intlTelInput/css/intlTelInput.css" rel="stylesheet" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="~/css/style.css">
+    <link href="~/css/common.css" rel="stylesheet" />
+    <!-- ToolTip CSS -->
+    <link href="https://unpkg.com/tippy.js@6/animations/scale.css" />
+
+    <title>Leemo - @ViewData["Title"]</title>
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+    <div class="wrapper">
+        <!-- site header -->
+        <header class="site-header">
+            <div class="container-fluid large-padding">
+                <div class="row">
+                    <div class="col-auto d-flex align-items-center">
+                        <div class="site-logo">
+                            <a href="javascript:void(0);">
+                                <img src="~/images/sitelogo.png" alt="LEEMO" title="LEEMO">
+                            </a>
+                            <div class="full-menu">
+                                <img src="~/images/more.svg" alt="more">
+                            </div>
+                        </div>
+                        <div class="site-tgl">
+                            <span></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <ul class="header-right navbar-nav flex-row justify-content-end align-items-center">
+                            <li>
+                                <div class="search-bar">
+                                    <input type="search" id="search" name="search" class="form-control" placeholder="Search here...">
+                                    <span class="search-icon">
+                                        <img src="~/images/search-icon.png">
+                                    </span>
+                                    <span class="search-cls-icon d-lg-none">
+                                        <img src="~/images/cancel.svg">
+                                    </span>
+                                </div>
+                                <span class="inner-search-icon d-lg-none">
+                                    <img src="~/images/search-icon.png">
+                                </span>
+                            </li>
+                            <li>
+                                <div class="dropdown notification">
+                                    <button class="btn dropdown-toggle" data-tippy-content="Notifications" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <img src="~/images/notification-icon.png">
+                                        <span class="notification-alert"><img src="~/images/notification-alert-icon.png"></span>
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <div class="p-3 t-notifications">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <h6 class="m-0"> Notifications </h6>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <a href="javascript:void(0);" class="view-more"> View All</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="notification-list demo-y">
+                                            <a href="javascript:void(0);" class="media">
+                                                <span class="avatar mr-3"><img src="~/images/avatar-3.jpg"></span>
+                                                <div class="media-body">
+                                                    <h5 class="mt-0">Media heading</h5>
+                                                    <p class="mb-1">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin...</p>
+                                                    <span>3 min ago</span>
+                                                </div>
+                                            </a>
+                                            <a href="javascript:void(0);" class="media">
+                                                <span class="avatar mr-3"><img src="~/images/avatar-3.jpg"></span>
+                                                <div class="media-body">
+                                                    <h5 class="mt-0">Media heading</h5>
+                                                    <p class="mb-1">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin...</p>
+                                                    <span>3 min ago</span>
+                                                </div>
+                                            </a>
+                                            <a href="javascript:void(0);" class="media">
+                                                <span class="avatar mr-3"><img src="~/images/avatar-3.jpg"></span>
+                                                <div class="media-body">
+                                                    <h5 class="mt-0">Media heading</h5>
+                                                    <p class="mb-1">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin...</p>
+                                                    <span>3 min ago</span>
+                                                </div>
+                                            </a>
+                                            <a href="javascript:void(0);" class="media">
+                                                <span class="avatar mr-3"><img src="~/images/avatar-3.jpg"></span>
+                                                <div class="media-body">
+                                                    <h5 class="mt-0">Media heading</h5>
+                                                    <p class="mb-1">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin...</p>
+                                                    <span>3 min ago</span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="p-2 border-top t-view-more text-center">
+                                            <a class="view-more" href="javascript:void(0)">
+                                                <span>View More..</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="dropdown profile-dropdown">
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            @if (string.IsNullOrEmpty(_sessionManager.UserProfileImage))
+
+                                            {
+
+                                                var initials = "";
+                                                var names = _sessionManager.LoginName.Trim().Split('&');
+                                                var fullName = "";
+
+                                                for (int n = 0; n < names.Length; n++)
+                                                {
+                                                    if (names[n] != "")
+                                                    {
+                                                        initials += names[n].Substring(0, 1).ToUpper();
+                                                        fullName += names[n] + " ";
+                                                    }
+                                                }
+                                                <span class="user-name">@initials</span>
+                                                <span class="name d-md-block d-none wraptext" style="max-width:200px" title="@fullName">@fullName<br /></span>
+                                                <span class="wraptext loggedCompanyName" style="max-width:200px" title="@_sessionManager.CompanyLocationName">@_sessionManager.CompanyLocationName</span>
+                                            }
+
+
+                                            else
+                                            {
+
+                                                var names = _sessionManager.LoginName.Trim().Split('&');
+                                                var fullName = "";
+
+                                                for (int n = 0; n < names.Length; n++)
+                                                {
+                                                    if (names[n] != "")
+                                                    {
+                                                        fullName += names[n] + " ";
+                                                    }
+                                                }
+
+                                                <span class="img"><img id="loggedUserImage" src="@string.Format("{0}{1}{2}", appSettings.Value.Resources_StaticFileContainer, appSettings.Value.ProfileImagesPath, _sessionManager.UserProfileImage)"></span>
+                                                <span class="name d-md-block d-none wraptext" style="max-width:200px" title="@fullName">@fullName<br /></span>
+                                                <span class="wraptext loggedCompanyName" style="max-width:200px" title="@_sessionManager.CompanyLocationName">@_sessionManager.CompanyLocationName</span>
+
+                                            }
+
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <a class="dropdown-item" is-active-route asp-controller="User" asp-action="Details"><img src="~/images/settings.png"> Settings</a>
+                                            <div class="dropdown-divider"></div>
+                                            @if (!Convert.ToBoolean(_sessionManager.SingleLocation))
+                                            {
+                                                <a class="dropdown-item layoutSwitchLocation" is-active-route asp-controller="Location" asp-action="CompanyLocation"><img src="~/images/icon_location_grey.svg"> Switch Location</a>
+                                                <div class="dropdown-divider layoutSwitchLocation"></div>
+                                            }
+                                            else
+                                            {
+                                                <a class="dropdown-item hide layoutSwitchLocation" is-active-route asp-controller="Location" asp-action="CompanyLocation"><img src="~/images/icon_location_grey.svg"> Switch Location</a>
+                                                <div class="dropdown-divider hide layoutSwitchLocation"></div>
+                                            }
+                                            <a class="dropdown-item text-danger" is-active-route asp-controller="Account" asp-action="Logout"><img src="~/images/logout.png"> Logout</a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <a class="dropdown-item" href="javascript:void(0);"><img src="~/images/profile.png">Sign In</a>
+                                    }
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- site header -->
+        <section class="site-main">
+            <div class="container-fluid large-padding">
+                <div class="row main-row">
+                    <!-- site left area navigation -->
+                    <div class="col-lg-3 navigation-sec">
+                        <div class="site-nav">
+                            <div class="site-logo py-4 d-xl-none">
+                                <a href="javascript:void(0);">
+                                    <img src="~/images/sitelogo.png" alt="LEEMO" title="LEEMO">
+                                </a>
+                                <span class="close-tgl">
+                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <polygon points="0 0 24 0 24 24 0 24"></polygon>
+                                            <path d="M5.29288961,6.70710318 C4.90236532,6.31657888 4.90236532,5.68341391 5.29288961,5.29288961 C5.68341391,4.90236532 6.31657888,4.90236532 6.70710318,5.29288961 L12.7071032,11.2928896 C13.0856821,11.6714686 13.0989277,12.281055 12.7371505,12.675721 L7.23715054,18.675721 C6.86395813,19.08284 6.23139076,19.1103429 5.82427177,18.7371505 C5.41715278,18.3639581 5.38964985,17.7313908 5.76284226,17.3242718 L10.6158586,12.0300721 L5.29288961,6.70710318 Z" fill="#000000" fill-rule="nonzero" transform="translate(8.999997, 11.999999) scale(-1, 1) translate(-8.999997, -11.999999)"></path>
+                                            <path d="M10.7071009,15.7071068 C10.3165766,16.0976311 9.68341162,16.0976311 9.29288733,15.7071068 C8.90236304,15.3165825 8.90236304,14.6834175 9.29288733,14.2928932 L15.2928873,8.29289322 C15.6714663,7.91431428 16.2810527,7.90106866 16.6757187,8.26284586 L22.6757187,13.7628459 C23.0828377,14.1360383 23.1103407,14.7686056 22.7371482,15.1757246 C22.3639558,15.5828436 21.7313885,15.6103465 21.3242695,15.2371541 L16.0300699,10.3841378 L10.7071009,15.7071068 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" transform="translate(15.999997, 11.999999) scale(-1, 1) rotate(-270.000000) translate(-15.999997, -11.999999)"></path>
+                                        </g>
+                                    </svg>
+                                </span>
+                            </div>
+                            <div class="menu-list">
+                                <div class="listing">
+                                    <span class="menu-heading">
+                                        <span class="menu-heading-text">General Settings</span>
+                                    </span>
+                                    <ul>
+                                        <li>
+                                            <a is-active-route asp-controller="Company" asp-action="Index" data-tippy-placement="right">
+                                                @*<a is-active-route asp-controller="Company" asp-action="Index" asp-route-id="@_sessionManager.CompanyId">*@
+                                                <span class="menu-icons"><img src="~/images/organization-setting.png"></span>
+                                                @*Organization Settings*@
+                                                <span class="menu-text">
+                                                    Organization Settings
+                                                </span>
+                                                <span class="menu-title">Organization Settings</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a is-active-route asp-controller="Location" asp-action="Index" data-tippy-placement="right">
+                                                <span class="menu-icons"><img src="~/images/location-gray.svg"></span>
+                                                <span class="menu-text">Locations</span>
+                                                <span class="menu-title">Locations</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="listing">
+                                    <span class="menu-heading">
+                                        <span class="menu-heading-text">Users & Control</span>
+                                    </span>
+                                    <ul>
+                                        <li>
+                                            <a is-active-route asp-controller="User" asp-action="Index" data-tippy-placement="right">
+                                                <span class="menu-icons"><img src="~/images/users.png"></span>
+                                                <span class="menu-text">
+                                                    Users
+                                                </span>
+                                                <span class="menu-title">Users</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a is-active-route asp-controller="Group" asp-action="Index" data-tippy-placement="right">
+                                                <span class="menu-icons"><img src="~/images/group.png"></span>
+                                                <span class="menu-text">
+                                                    Groups
+                                                </span>
+                                                <span class="menu-title">Groups</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a is-active-route asp-controller="SecurityControls" asp-action="Index" data-tippy-placement="right">
+                                                <span class="menu-icons"><img src="~/images/security.png"></span>
+                                                <span class="menu-text">
+                                                    Security Controls
+                                                </span>
+                                                <span class="menu-title">Security Controls</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="listing">
+                                    <span class="menu-heading"><span class="menu-heading-text">Billing</span></span>
+                                    <ul>
+                                        @*<li>
+                                            <a is-active-route asp-controller="Home" asp-action="CommingSoon" data-tippy-content="Manage Subscriptions" data-tippy-placement="right">
+                                                <span class="menu-icons">
+                                                    <img src="~/images/subscription.svg" alt="Manage Subscriptions">
+                                                </span>
+                                                <span class="menu-text">
+                                                    Manage Subscriptions
+                                                </span>
+                                                <span class="menu-title">Manage Subscriptions</span>
+                                            </a>
+                                        </li>*@
+                                        <li>
+                                            <a is-active-route asp-controller="Billing" asp-action="Index" data-tippy-content="Billing Details" data-tippy-placement="right">
+                                                <span class="menu-icons">
+                                                    <img src="~/images/invoice.svg" alt="Billing Details">
+                                                </span>
+                                                <span class="menu-text">
+                                                    Billing Details
+                                                </span>
+                                                <span class="menu-title">Billing Details</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="listing">
+                                    <span class="menu-heading">
+                                        <span class="menu-heading-text">Marketplace</span>
+                                    </span>
+                                    <ul>
+                                        <li>
+                                            <a is-active-route asp-controller="Home" asp-action="CommingSoon" data-tippy-placement="right">
+                                                <span class="menu-icons"><img src="~/images/plugins.png"></span>
+                                                <span class="menu-text">
+                                                    Leafs
+                                                </span>
+                                                <span class="menu-title">Leafs</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a asp-controller="Home" asp-action="CommingSoon">
+                                                <span class="menu-icons"><img src="~/images/themes.png"></span>
+                                                <span class="menu-text">Themes</span>
+                                                <span class="menu-title">Themes</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="listing">
+                                    <span class="menu-heading">
+                                        <span class="menu-heading-text">Developer Space</span>
+                                    </span>
+                                    <ul>
+                                        <li>
+                                            <a asp-controller="Home" asp-action="CommingSoon" data-tippy-placement="right">
+                                                <span class="menu-icons"><img src="~/images/api.png"></span>
+                                                <span class="menu-text">APIs</span>
+                                                <span class="menu-title">APIs</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a asp-controller="Home" asp-action="CommingSoon" data-tippy-placement="right">
+                                                <span class="menu-icons"><img src="~/images/plugins.png"></span>
+                                                <span class="menu-text">Plugins</span>
+                                                <span class="menu-title">Plugins</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="listing">
+                                    <span class="menu-heading">
+                                        <span class="menu-heading-text">Data Administration</span>
+                                    </span>
+                                    <ul>
+                                        <li>
+                                            <a asp-controller="Home" asp-action="CommingSoon" data-tippy-placement="right">
+                                                <span class="menu-icons"><img src="~/images/import.png"></span>
+                                                <span class="menu-text">Import</span>
+                                                <span class="menu-title">Import</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a asp-controller="Home" asp-action="CommingSoon" data-tippy-placement="right">
+                                                <span class="menu-icons"><img src="~/images/export.png"></span>
+                                                <span class="menu-text">Export</span>
+                                                <span class="menu-title">Export</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a asp-controller="Home" asp-action="CommingSoon" data-tippy-placement="right">
+                                                <span class="menu-icons"><img src="~/images/data-storage.png"></span>
+                                                <span class="menu-text">Data Storage</span>
+                                                <span class="menu-title">Data Storage</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a asp-controller="Home" asp-action="CommingSoon" data-tippy-placement="right">
+                                                <span class="menu-icons"><img src="~/images/audit.png"></span>
+                                                <span class="menu-text">Audit Logs</span>
+                                                <span class="menu-title">Audit Logs</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- site left area navigation -->
+                    <!-- site right area content -->
+                    <div class="col-9 content-area">
+                        @RenderBody()
+                    </div>
+                    <!-- site right area content -->
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- loader -->
+    <div class="loader align-items-center justify-content-center">
+        <span>
+            <img src="~/images/sitelogo.png" alt="LEEMO" title="LEEMO">
+        </span>
+    </div>
+    <!-- overlay -->
+    <div class="tgl-overlay"></div>
+    <!-- Success Toast -->
+    <div class="toast custom-toast success-toast" style="display:none;" data-autohide="false">
+        <span><img src="~/images/check.svg"></span>
+        <strong>Success</strong>
+        <button type="button" class="ml-2 mb-1 close" onclick="closetoast(this);">&times;</button>
+        <p>Data successfully added.</p>
+    </div>
+    <!-- Info Toast -->
+    <div class="toast custom-toast info-toast" style="display:none;" data-autohide="false">
+        <span><img src="~/images/info.svg"></span>
+        <strong>Info</strong>
+        <button type="button" class="ml-2 mb-1 close" onclick="closetoast(this);">&times;</button>
+        <p>Anyone with access can view your invited visitors.</p>
+    </div>
+    <!-- Warning Toast -->
+    <div class="toast custom-toast warning-toast" style="display:none;" data-autohide="false">
+        <span><img src="~/images/warning-sign.svg"></span>
+        <strong>Warning</strong>
+        <button type="button" class="ml-2 mb-1 close" onclick="closetoast(this);">&times;</button>
+        <p>Anyone with access can view your invited visitors.</p>
+    </div>
+    <!-- Danger Toast -->
+    <div class="toast custom-toast danger-toast" style="display:none;" data-autohide="false">
+        <span><img src="~/images/danger.svg"></span>
+        <strong>Error</strong>
+        <button type="button" class="ml-2 mb-1 close" onclick="closetoast(this);">&times;</button>
+        <p>Anyone with access can view your invited visitors.</p>
+    </div>
+
+    <!-- Access Denied Popup -->
+    <div class="modal fade edit-info" id="access_denied-modal" tabindex="-1" aria-labelledby="exampleModalLabel" data-backdrop="static" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content card-style xl-space">
+                @*<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>*@
+                <div class="info-area mt-0">
+                    <div class="access-denied-col text-center">
+                        <img src="~/images/access-denied.png" alt="Access Denied">
+                        <h2>Access Denied</h2>
+                        <p>You currently does not have access to this page. <span class="d-block">Please try again later.</span></p>
+                    </div>
+                </div>
+                <div class="form-submission">
+                    <button type="button" class="btn-secondary btn-sm-style" data-dismiss="modal" aria-label="Close">OK</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!--Delete Modal -->
+    <div class="modal fade edit-info" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content deleteinfo card-style xl-space text-center">
+                <div>
+                    <img src="~/images/remove.png" alt="Delete">
+                    <input type="hidden" id="deleteProfileID" />
+                    <h3></h3>
+                    <button type="button" class="btn-secondary btn-sm-style" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    <button type="button" class="btn-primary btn-sm-style" onclick="DeleteProfile(this)">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- new location modal -->
+    <div class="modal fade edit-info" id="newLocation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
+
+    </div>
+
+    <!--Session Modal -->
+    <div class="modal fade edit-info" id="sessionLogOutModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content deleteinfo card-style xl-space text-center">
+                <div>
+                    <h3>OOps !!!.....Your Session Has Expired. Please Login Again.</h3>
+                    <button type="button" id="okButton" class="btn-primary btn-sm-style" onclick="window.location.href ='/Account/Login'">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- bootstrap js -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <!-- <script src="js/jquery-3.5.1.slim.min.js"></script> -->
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <!-- additional js -->
+    <script src="~/js/gijgo.min.js"></script>
+    <script src="~/js/jquery.nice-select.min.js"></script>
+    <script src="~/js/fastclick.js"></script>
+    <script src="~/js/mCustomScrollbar.min.js"></script>
+    <!-- International Telephone Input js -->
+    <script src="~/lib/intlTelInput/js/intlTelInput.js"></script>
+    <!-- custom js -->
+    <script src="~/js/script.js"></script>
+    <script src="~/js/common.js"></script>
+    <!-- Production -->
+    <script src=@Url.Content("https://unpkg.com/@popperjs/core@2")></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

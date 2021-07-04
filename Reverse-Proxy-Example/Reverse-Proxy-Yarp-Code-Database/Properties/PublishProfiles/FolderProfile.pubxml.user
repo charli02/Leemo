@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_PublishTargetUrl>D:\TPProjects\rnd\Reverse-Proxy-Example\Reverse-Proxy-Yarp-Code-Database\bin\Release\net5.0\publish\</_PublishTargetUrl>
+    <History>True|2021-03-25T10:05:37.9171435Z;True|2021-03-25T15:34:44.0983846+05:30;True|2021-03-25T15:15:45.0822276+05:30;True|2021-03-25T14:57:25.7314264+05:30;True|2021-03-25T14:17:31.4865521+05:30;True|2021-03-25T13:53:02.9464198+05:30;True|2021-03-25T13:43:49.1326132+05:30;True|2021-03-25T12:17:11.9259148+05:30;True|2021-03-25T12:12:24.4412201+05:30;True|2021-03-25T12:04:59.2789105+05:30;</History>
+  </PropertyGroup>
+</Project>

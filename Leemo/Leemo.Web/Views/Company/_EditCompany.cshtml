@@ -1,0 +1,223 @@
+﻿@model Leemo.Model.WrapperModels.InputCompanyAndAddresses
+
+<style>
+    input[type=number]::-webkit-outer-spin-button,
+    input[type=number]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    /* Firefox */
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+
+</style>
+
+<div class="modal-dialog">
+    <div class="modal-content card-style xl-space">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-tippy-content="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <form id="updateCompany" method="post" onkeypress="return event.keyCode != 13">
+            <div class="info-area mt-0">
+                @if (Model != null)
+                {
+                    <input type="hidden" asp-for="inputCompany.Id" />
+                
+                    <h2 class="info-heading">Organization Information</h2>
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">Organization Name</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <input type="text" class="form-control form-style-1" asp-for="inputCompany.Name">
+                            <span asp-validation-for="inputCompany.Name" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">Employee Count</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <input type="number" class="form-control form-style-1" asp-for="inputCompany.EmployeeCount" min="0">
+                            <span asp-validation-for="inputCompany.EmployeeCount" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">Phone</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <input type="text" class="form-control form-style-1" asp-for="inputCompany.Phone">
+                            <span asp-validation-for="inputCompany.Phone" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">Mobile</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <input type="hidden" id="CountryCode" asp-for="inputCompany.CountryCode" />
+                            <input type="hidden" id="CountryCodeNumber" asp-for="inputCompany.CountryCodeNumber" />
+
+                            <input type="tel" id="userCompany_Mobile" class="form-control form-style-1" asp-for="inputCompany.MobileNumber">
+                            <span asp-validation-for="inputCompany.MobileNumber" class="text-danger" />
+                            <span asp-validation-for="inputCompany.CountryCodeNumber" class="text-danger" />
+                            
+                        </div>
+                    </div>
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">Website</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <input type="text" class="form-control form-style-1" asp-for="inputCompany.Website">
+                            <span asp-validation-for="inputCompany.Website" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">Fax</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <input type="text" class="form-control form-style-1" asp-for="inputCompany.Fax">
+                            <span asp-validation-for="inputCompany.Fax" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">Description</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <textarea type="name" class="form-control form-style-1" asp-for="inputCompany.Description">@Model.inputCompany.Description</textarea>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="info-area">
+                @if (Model.CompanyAddress != null)
+                {
+                    <input type="hidden" asp-for="CompanyAddress.Id" />
+                    <input type="hidden" asp-for="CompanyAddress.AddressTypeId" />
+                    <input type="hidden" asp-for="CompanyAddress.ReferenceId" />
+                    <h2 class="info-heading">Address Information</h2>
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">AddressLine1</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <input type="text" class="form-control form-style-1" asp-for="CompanyAddress.AddressLine1">
+                            <span asp-validation-for="CompanyAddress.AddressLine1" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">Street</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <input type="text" class="form-control form-style-1" asp-for="CompanyAddress.Street">
+                            <span asp-validation-for="CompanyAddress.Street" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">City</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <input type="text" class="form-control form-style-1" asp-for="CompanyAddress.City">
+                            <span asp-validation-for="CompanyAddress.City" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">State</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <input type="text" class="form-control form-style-1" asp-for="CompanyAddress.State">
+                            <span asp-validation-for="CompanyAddress.State" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">Zip Code</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <input type="text" class="form-control form-style-1" asp-for="CompanyAddress.ZipCode">
+                            <span asp-validation-for="CompanyAddress.ZipCode" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">Country</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <input type="text" class="form-control form-style-1" asp-for="CompanyAddress.Country">
+                            <span asp-validation-for="CompanyAddress.Country" class="text-danger" />
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="info-area">
+                @if (Model != null)
+                {
+                    <h2 class="info-heading">Locale Information</h2>
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">Language</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <input type="text" class="form-control form-style-1" asp-for="inputCompany.Language">
+                            <span asp-validation-for="inputCompany.Language" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">Time Zone</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <input type="text" class="form-control form-style-1" asp-for="inputCompany.TimeZone">
+                            <span asp-validation-for="inputCompany.TimeZone" class="text-danger" />
+                        </div>
+                    </div>
+                    
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">Time Format</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <input type="text" class="form-control form-style-1" asp-for="inputCompany.TimeFormat">
+                            <span asp-validation-for="inputCompany.TimeFormat" class="text-danger" />
+                        </div>
+                    </div>
+                    
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">Date Format</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <input type="text" class="form-control form-style-1" asp-for="inputCompany.DateFormat">
+                            <span asp-validation-for="inputCompany.DateFormat" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area">
+                            <div class=" info-label label-sm-space mt-2">Currency</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <input type="text" class="form-control form-style-1" asp-for="inputCompany.Currency">
+                            <span asp-validation-for="inputCompany.Currency" class="text-danger" />
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="form-submission">
+                <button type="button" class="btn-primary btn-sm-style" onclick="updateCompany(this)">Update</button>
+                <button type="button" class="btn-secondary btn-sm-style" data-dismiss="modal" aria-label="Close">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script>
+    tippy('[data-tippy-content]'); //tooltip
+</script>

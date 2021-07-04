@@ -1,0 +1,65 @@
+﻿@model Leemo.Model.InputModels.InputUserLogin
+@{
+    Layout = "~/Views/Shared/_LayoutPlain.cshtml";
+    ViewData["Title"] = "Login";
+    var returnUrl = @Context.Request.Query["returnurl"];
+}
+
+<input type="hidden" id="loginPage" value="@ViewBag.LoginCheck" />
+<input type="hidden" id="SessionOut" value="Login" />
+<div class="register-form form-sec card-style form-space">
+    <h2 class="info-heading">Sign In</h2>
+    <form asp-action="Login" asp-route-returnurl="@returnUrl" method="post" class="login100-form validate-form">
+        <div class="form-group">
+            <label class="info-label">Email Address</label>
+            <input class="form-control form-style-1" type="text" name="email" id="email" placeholder="Email" asp-for="@Model.Email" autofocus>
+            <span asp-validation-for="@Model.Email" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label class="info-label">Password</label>
+            <input class="form-control form-style-1" type="password" name="password" id="password" placeholder="Password" asp-for="@Model.Password">
+            <span asp-validation-for="@Model.Password" class="text-danger"></span>
+        </div>
+        <span class="text-danger">@ViewBag.Message</span>
+        <div class="text-right pt-3">
+            <button type="submit" class="btn-primary btn-sm-style btn-lg">Sign in</button>
+        </div>
+
+        <div class="forgot-link"><a href="/Account/ForgotPassword">Forgot Password ?</a></div>
+        <div class="text-center form-account d-none">
+            <p>Doesn't Have An Account Yet? <a href="javascript:void(0);">Register Here!</a></p>
+        </div>
+    </form>
+</div>
+@section scripts{
+    <script src=@Url.Content("~/js/common.js")></script>
+    <script>
+        var smsg = '@ViewBag.NewMessage';
+        var ChangePwdMsg = '@ViewBag.Changepwdmsg';
+        var fromForgotCheck = '@ViewBag.TempModelCheck';
+        var toastType = 'Success';
+        if (fromForgotCheck == '1') {
+            toastType = 'Info';
+        }
+        if (ChangePwdMsg != "") {
+        $(window).on('load', function () {
+                Alert(ChangePwdMsg, toastType);
+         });
+        }
+        if (smsg != "") {
+            $(window).on('load', function () {
+                Alert(smsg, toastType);
+            });
+        }
+
+        //function preventBack() {
+        //    window.history.forward();
+        //}
+        //setTimeout("preventBack()", 0);
+        //window.onunload = function () {
+        //    null;
+        //};
+        window.history.forward();
+    </script>
+}
+

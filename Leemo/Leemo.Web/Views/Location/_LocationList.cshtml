@@ -1,0 +1,64 @@
+﻿@model List<Leemo.Model.ResultModels.ResultLocation>
+@using Microsoft.Extensions.Options;
+@using Leemo.Web;
+@inject IOptions<AppSettings> appSettings
+
+
+    <input type="hidden" id="hfActiveCount" value="@ViewBag.ActiveLocations" />
+    <input type="hidden" id="hfInActiveCount" value="@ViewBag.inActiveLocations" />
+    <input type="hidden" id="hfAllLocationsCount" value="@ViewBag.AllLocations" />
+
+<ul>
+    @if (Model != null && Model.Count > 0)
+    {
+        @foreach (var user in Model)
+        {
+            <li>
+                <div class="checkbox-style-1">
+
+                        <input class="form-check-input" type="radio" name="radio1" value="" id="radio1" onclick="LocationDetails('@user.Id')">
+                        <label class="form-check-label" for="radio1">
+
+                            @if (user != null)
+                            {
+                                string FirstName = user.LocationName;
+                                string Fnames = "";
+                                if (!string.IsNullOrEmpty(FirstName))
+                                    Fnames = FirstName.Substring(0, 1).ToUpper();
+                              
+                                string user_Intial = string.Concat(Fnames);
+                            <span class="users-img">
+
+                              
+                                @if(!string.IsNullOrEmpty(FirstName))
+                               {
+                                <span class="user-name">@user_Intial</span>
+                                }
+
+                                @if (user.IsActive)
+                                {
+                                    <span class="active"></span>
+                                }
+                            </span>
+                                
+
+                                <span class="name word_break">@user.LocationName</span>
+                               
+
+                            }
+
+
+
+
+
+                        </label>
+                    
+                </div>
+            </li>
+        }
+    }
+    else
+    {
+        <p class="text-center mt-5">@TPSS.Common.Constants.Messages.RecordNotFound</p>
+    }
+</ul>

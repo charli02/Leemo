@@ -1,0 +1,198 @@
+﻿@model Leemo.Model.InputModels.InputGroup
+
+@if (Model.Id != null)
+{
+    <div class="modal-dialog" id="groupModal">
+        <div class="modal-content card-style xl-space">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-tippy-content="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <form id="GroupForm" asp-controller="Group" asp-action="CreateGroup" method="post" onkeypress="return event.keyCode != 13">
+                <div class="info-area mt-0">
+                    <h2 class="info-heading">Edit Details</h2>
+                    <input type="hidden" asp-for="Id" id="hdnGroupId" />
+                    <input type="hidden" id="hdnImageName" value=@Model.ImageName />
+                    <input type="hidden" id="hdnGroupNameOld" value='@Model.Name'/>
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area mt-2">
+                            <div class="info-label label-sm-space">Group Name</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <input type="text" id="groupName" class="form-control form-style-1" asp-for="Name" data-name="@Model.Name" onblur="checkGroupName()">
+                            <span id="existgrpMsg" asp-validation-for="Name" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area mt-2">
+                            <div class="info-label label-sm-space">Group Source</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <select class="form-control form-style-1" id="GroupSource" onchange="fnGroupSourceChange()">
+                                <option selected>Select Group Source</option>
+                                <option>Users</option>
+                                <option>Designation</option>
+                                <option>Groups</option>
+                            </select>
+                            <div class="invalid-feedback" id="groupSourcemsg" asp-validation-for="GroupSource"><span>Please select a Group Source.</span></div>
+                        </div>
+                    </div>
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area mt-2">
+                            <div class="info-label label-sm-space">Group Description</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <textarea class="form-control form-style-1 light-color" asp-for="Description">@Model.Description</textarea>
+                            <span asp-validation-for="Description" class="text-danger" />
+                        </div>
+                    </div>
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area mt-2">
+                            <div class="info-label label-sm-space">Available</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <div class="form-control form-style-1 h-120" id="Available" style="height:130px;">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area mt-2">
+                            <div class="info-label label-sm-space">Selected</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <div class="form-control form-style-1 h-120 demo-y selectedList">
+                                <ul>
+                                    @if (Model.GroupRoles != null)
+                                    {
+                                        foreach (var item in Model.GroupRoles)
+                                        {
+                                            <li class="selectedItems word_break" data-source="Designation" data-Id="@item.RoleId" onmouseover="fnOnHoverShow_Cancel(this)" onmouseout="fnOnHoverHide_Cancel(this)">D: @item.RoleName<span class="float-right pointer hide h5" onclick="deleteListItem(this)">x</span></li>
+                                        }
+                                    }
+                                    @if (Model.GroupUsers != null)
+                                    {
+                                        foreach (var item in Model.GroupUsers)
+                                        {
+                                            <li class="selectedItems word_break" data-source="Users" data-Id="@item.UserId" onmouseover="fnOnHoverShow_Cancel(this)" onmouseout="fnOnHoverHide_Cancel(this)">U: @item.UserName<span class="float-right pointer hide h5" onclick="deleteListItem(this)">x</span></li>
+                                        }
+                                    }
+                                    @if (Model.GroupsMapping != null)
+                                    {
+                                        foreach (var item in Model.GroupsMapping)
+                                        {
+                                            if (item.MappedGroupIsActive==true) {
+                                              <li class="selectedItems word_break" data-source="Groups" data-Id="@item.MappedGroupId" onmouseover="fnOnHoverShow_Cancel(this)" onmouseout="fnOnHoverHide_Cancel(this)">G: @item.MappedGroupName<span class="float-right pointer hide h5" onclick="deleteListItem(this)">x</span></li>
+                                            }
+                                            
+                                        }
+                                    }
+                                </ul>
+                            </div>
+                    </div>
+                 </div>
+
+                    <div class="row no-gutters form-group">
+                        <div class="col-auto label-area mt-2">
+                            <div class="info-label label-sm-space">IsActive</div>
+                        </div>
+                        <div class="col info-content-area">
+                            <label class="switch">
+                                <input type="checkbox" asp-for="@Model.IsActive" />
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="form-submission">
+                    <button type="button" id="submitGroup" class="btn-primary btn-sm-style btnGroup" onclick="saveGroup()">Update</button>
+                    <button type="button" class="btn-secondary btn-sm-style" data-dismiss="modal" aria-label="Close">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+else
+{
+<div class="modal-dialog" id="groupModal">
+    <div class="modal-content card-style xl-space">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-tippy-content="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <form id="GroupForm" asp-controller="Group" asp-action="CreateGroup" method="post" onkeypress="return event.keyCode != 13">
+            <div class="info-area mt-0">
+                <h2 class="info-heading">Add New Group</h2>
+                <input type="hidden" asp-for="Id" id="hdnGroupId" />
+                <div class="row no-gutters form-group">
+                    <div class="col-auto label-area mt-2">
+                        <div class="info-label label-sm-space">Group Name</div>
+                    </div>
+                    <div class="col info-content-area">
+                        <input type="text" id="groupName" class="form-control form-style-1" asp-for="Name" onblur="checkGroupName()">
+                        <span id="existgrpMsg" asp-validation-for="Name" class="text-danger" />
+                    </div>
+                </div>
+                <div class="row no-gutters form-group">
+                    <div class="col-auto label-area mt-2">
+                        <div class="info-label label-sm-space">Group Source</div>
+                    </div>
+                    <div class="col info-content-area">
+                        <select class="form-control form-style-1" id="GroupSource" onchange="fnGroupSourceChange()">
+                            <option disabled selected>Select Group Source</option>
+                            <option>Users</option>
+                            <option>Designation</option>
+                            <option>Groups</option>
+                        </select>
+                        <div class="text-danger" id="groupSourcemsg" asp-validation-for="GroupSource">Please select a Group Source.</div>
+                    </div>
+                </div>
+                <div class="row no-gutters form-group">
+                    <div class="col-auto label-area mt-2">
+                        <div class="info-label label-sm-space">Group Description</div>
+                    </div>
+                    <div class="col info-content-area">
+                        <textarea class="form-control form-style-1 light-color h-120" asp-for="Description">@Model.Description</textarea>
+                        <span asp-validation-for="Description" class="text-danger" />
+                    </div>
+                </div>
+                <div class="row no-gutters form-group">
+                    <div class="col-auto label-area mt-2">
+                        <div class="info-label label-sm-space">Available</div>
+                    </div>
+                    <div class="col info-content-area">
+                        <div class="form-control form-style-1 h-120" id="Available">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row no-gutters form-group">
+                    <div class="col-auto label-area mt-2">
+                        <div class="info-label label-sm-space">Selected</div>
+                    </div>
+                    <div class="col info-content-area">
+                        <div class="form-control form-style-1 h-120 selectedList">
+                            <ul>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-submission">
+                <button type="button" id="submitGroup" class="btn-primary btn-sm-style btnGroup" onclick="saveGroup()">Save</button>
+                <button type="button" class="btn-secondary btn-sm-style" data-dismiss="modal" aria-label="Close">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+}
+
+@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+<script>
+    $('select').niceSelect();
+    $(".demo-y").mCustomScrollbar({
+        theme: "minimal-dark"
+    });
+    tippy('[data-tippy-content]'); //tooltip
+</script>

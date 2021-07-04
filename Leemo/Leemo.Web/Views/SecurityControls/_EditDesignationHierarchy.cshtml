@@ -1,0 +1,37 @@
+﻿@model List<Leemo.Model.Domain.DesignationHierarchy>
+@using Microsoft.Extensions.Options;
+@using Leemo.Web;
+@using System.Linq;
+@inject IOptions<AppSettings> appSettings;
+
+<div class="modal fade edit-info show" id="setPos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-modal="true" 
+     style="display: block; padding-left: 17px;">
+    <div class="modal-dialog">
+        <div class="modal-content card-style xl-space">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+            <h2 class="info-heading">Set Position</h2>
+
+            @if (Model != null)
+            {
+                var parentItem = Model.Where(q => q.ParentDesignationId == Guid.Parse("00000000-0000-0000-0000-000000000000")).FirstOrDefault();
+
+                <div class="role-list-content-root my-role" desig="@parentItem.Designation.Id">
+                    @parentItem.Designation.Name <span>(@parentItem.Designation.Description)</span>
+                </div>
+                <div class="role-list">
+                    @Html.Raw(Model.FirstOrDefault().DesignationListHTML)
+                </div>
+            }
+            <div class="form-submission">
+                <button type="button" id="btnSaveDesignation" class="btn-primary btn-sm-style" onclick="resetDesignations()">Save</button>
+                <button type="button" class="btn-secondary btn-sm-style" data-dismiss="modal" aria-label="Close">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/script.js"></script>
+<script src="~/js/area/security-controls.js"></script>
+<script src="~/js/gijgo.min.js"></script>

@@ -1,0 +1,1044 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+<style>
+    .vefs-milestone-wrapper .milestone-container {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        width: 90%;
+        height: 50px;
+    }
+
+    .vefs-milestone-wrapper .milestone-container .chart-container {
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        flex: 1 50%;
+    }
+
+            .vefs-milestone-wrapper .milestone-container .chart-container .line-container {
+                position: absolute;
+                display: flex;
+                align-items: center;
+                width: 100%;
+                height: 17.5px;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .chart-container .line-container .line {
+                    align-self: center;
+                    position: absolute;
+                    top: 8.75px;
+                    transform: translateY(-50%);
+                    order: 1;
+                    width: 100%;
+                    height: 5px;
+                    background-color: #cccccc;
+                    background-color: rgba(204, 204, 204, 0.5);
+                }
+
+                    .vefs-milestone-wrapper .milestone-container .chart-container .line-container .line.left {
+                        order: 0;
+                        background-color: #bbbbbb;
+                    }
+
+            .vefs-milestone-wrapper .milestone-container .chart-container .dot-container {
+                position: absolute;
+                height: 17.5px;
+                width: 100%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .chart-container .dot-container .dot {
+                    position: absolute;
+                    width: 17.5px;
+                    height: 17.5px;
+                    border-radius: 50%;
+                    background-color: #cccccc;
+                    transform: translateX(-50%);
+                    transition: all 0.25s ease-out;
+                }
+
+                    .vefs-milestone-wrapper .milestone-container .chart-container .dot-container .dot.completed {
+                        background-color: #bbbbbb;
+                    }
+
+        .vefs-milestone-wrapper .milestone-container .label-container {
+            display: flex;
+            flex-flow: column nowrap;
+            align-items: flex-start;
+            flex: 1 50%;
+        }
+
+            .vefs-milestone-wrapper .milestone-container .label-container .label {
+                position: relative;
+                font-size: 0.7rem;
+                font-weight: 600;
+                color: #cccccc;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .label-container .label.colored {
+                    color: #bbbbbb;
+                }
+
+        .vefs-milestone-wrapper .milestone-container .milestones {
+            position: absolute;
+            transform: translate(-50%, 0);
+        }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__1 {
+                left: 1%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__1 .dot.colored {
+                    background-color: #ffbc42;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__2 {
+                left: 2%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__2 .dot.colored {
+                    background-color: #ffbc42;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__3 {
+                left: 3%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__3 .dot.colored {
+                    background-color: #ffbc42;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__4 {
+                left: 4%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__4 .dot.colored {
+                    background-color: #ffbc42;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__5 {
+                left: 5%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__5 .dot.colored {
+                    background-color: #ffbc42;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__6 {
+                left: 6%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__6 .dot.colored {
+                    background-color: #ffbc42;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__7 {
+                left: 7%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__7 .dot.colored {
+                    background-color: #ffbc42;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__8 {
+                left: 8%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__8 .dot.colored {
+                    background-color: #ffbc42;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__9 {
+                left: 9%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__9 .dot.colored {
+                    background-color: #ffbc42;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__10 {
+                left: 10%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__10 .dot.colored {
+                    background-color: #ffbc42;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__11 {
+                left: 11%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__11 .dot.colored {
+                    background-color: #ffbc42;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__12 {
+                left: 12%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__12 .dot.colored {
+                    background-color: #ffbc42;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__13 {
+                left: 13%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__13 .dot.colored {
+                    background-color: #ffbc42;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__14 {
+                left: 14%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__14 .dot.colored {
+                    background-color: #ffbc42;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__15 {
+                left: 15%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__15 .dot.colored {
+                    background-color: #ffbc42;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__16 {
+                left: 16%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__16 .dot.colored {
+                    background-color: #ffbc42;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__17 {
+                left: 17%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__17 .dot.colored {
+                    background-color: #ffbc42;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__18 {
+                left: 18%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__18 .dot.colored {
+                    background-color: #ffbc42;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__19 {
+                left: 19%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__19 .dot.colored {
+                    background-color: #ffbc42;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__20 {
+                left: 20%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__20 .dot.colored {
+                    background-color: #ffbc42;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__21 {
+                left: 21%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__21 .dot.colored {
+                    background-color: #d81159;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__22 {
+                left: 22%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__22 .dot.colored {
+                    background-color: #d81159;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__23 {
+                left: 23%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__23 .dot.colored {
+                    background-color: #d81159;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__24 {
+                left: 24%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__24 .dot.colored {
+                    background-color: #d81159;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__25 {
+                left: 25%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__25 .dot.colored {
+                    background-color: #d81159;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__26 {
+                left: 26%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__26 .dot.colored {
+                    background-color: #d81159;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__27 {
+                left: 27%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__27 .dot.colored {
+                    background-color: #d81159;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__28 {
+                left: 28%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__28 .dot.colored {
+                    background-color: #d81159;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__29 {
+                left: 29%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__29 .dot.colored {
+                    background-color: #d81159;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__30 {
+                left: 30%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__30 .dot.colored {
+                    background-color: #d81159;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__31 {
+                left: 31%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__31 .dot.colored {
+                    background-color: #d81159;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__32 {
+                left: 32%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__32 .dot.colored {
+                    background-color: #d81159;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__33 {
+                left: 33%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__33 .dot.colored {
+                    background-color: #d81159;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__34 {
+                left: 34%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__34 .dot.colored {
+                    background-color: #d81159;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__35 {
+                left: 35%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__35 .dot.colored {
+                    background-color: #d81159;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__36 {
+                left: 36%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__36 .dot.colored {
+                    background-color: #d81159;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__37 {
+                left: 37%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__37 .dot.colored {
+                    background-color: #d81159;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__38 {
+                left: 38%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__38 .dot.colored {
+                    background-color: #d81159;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__39 {
+                left: 39%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__39 .dot.colored {
+                    background-color: #d81159;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__40 {
+                left: 40%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__40 .dot.colored {
+                    background-color: #d81159;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__41 {
+                left: 41%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__41 .dot.colored {
+                    background-color: #8f2d56;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__42 {
+                left: 42%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__42 .dot.colored {
+                    background-color: #8f2d56;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__43 {
+                left: 43%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__43 .dot.colored {
+                    background-color: #8f2d56;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__44 {
+                left: 44%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__44 .dot.colored {
+                    background-color: #8f2d56;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__45 {
+                left: 45%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__45 .dot.colored {
+                    background-color: #8f2d56;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__46 {
+                left: 46%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__46 .dot.colored {
+                    background-color: #8f2d56;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__47 {
+                left: 47%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__47 .dot.colored {
+                    background-color: #8f2d56;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__48 {
+                left: 48%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__48 .dot.colored {
+                    background-color: #8f2d56;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__49 {
+                left: 49%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__49 .dot.colored {
+                    background-color: #8f2d56;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__50 {
+                left: 50%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__50 .dot.colored {
+                    background-color: #8f2d56;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__51 {
+                left: 51%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__51 .dot.colored {
+                    background-color: #8f2d56;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__52 {
+                left: 52%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__52 .dot.colored {
+                    background-color: #8f2d56;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__53 {
+                left: 53%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__53 .dot.colored {
+                    background-color: #8f2d56;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__54 {
+                left: 54%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__54 .dot.colored {
+                    background-color: #8f2d56;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__55 {
+                left: 55%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__55 .dot.colored {
+                    background-color: #8f2d56;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__56 {
+                left: 56%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__56 .dot.colored {
+                    background-color: #8f2d56;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__57 {
+                left: 57%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__57 .dot.colored {
+                    background-color: #8f2d56;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__58 {
+                left: 58%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__58 .dot.colored {
+                    background-color: #8f2d56;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__59 {
+                left: 59%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__59 .dot.colored {
+                    background-color: #8f2d56;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__60 {
+                left: 60%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__60 .dot.colored {
+                    background-color: #8f2d56;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__61 {
+                left: 61%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__61 .dot.colored {
+                    background-color: #218380;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__62 {
+                left: 62%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__62 .dot.colored {
+                    background-color: #218380;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__63 {
+                left: 63%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__63 .dot.colored {
+                    background-color: #218380;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__64 {
+                left: 64%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__64 .dot.colored {
+                    background-color: #218380;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__65 {
+                left: 65%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__65 .dot.colored {
+                    background-color: #218380;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__66 {
+                left: 66%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__66 .dot.colored {
+                    background-color: #218380;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__67 {
+                left: 67%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__67 .dot.colored {
+                    background-color: #218380;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__68 {
+                left: 68%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__68 .dot.colored {
+                    background-color: #218380;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__69 {
+                left: 69%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__69 .dot.colored {
+                    background-color: #218380;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__70 {
+                left: 70%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__70 .dot.colored {
+                    background-color: #218380;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__71 {
+                left: 71%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__71 .dot.colored {
+                    background-color: #218380;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__72 {
+                left: 72%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__72 .dot.colored {
+                    background-color: #218380;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__73 {
+                left: 73%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__73 .dot.colored {
+                    background-color: #218380;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__74 {
+                left: 74%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__74 .dot.colored {
+                    background-color: #218380;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__75 {
+                left: 75%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__75 .dot.colored {
+                    background-color: #218380;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__76 {
+                left: 76%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__76 .dot.colored {
+                    background-color: #218380;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__77 {
+                left: 77%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__77 .dot.colored {
+                    background-color: #218380;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__78 {
+                left: 78%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__78 .dot.colored {
+                    background-color: #218380;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__79 {
+                left: 79%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__79 .dot.colored {
+                    background-color: #218380;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__80 {
+                left: 80%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__80 .dot.colored {
+                    background-color: #218380;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__81 {
+                left: 81%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__81 .dot.colored {
+                    background-color: #73d2de;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__82 {
+                left: 82%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__82 .dot.colored {
+                    background-color: #73d2de;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__83 {
+                left: 83%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__83 .dot.colored {
+                    background-color: #73d2de;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__84 {
+                left: 84%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__84 .dot.colored {
+                    background-color: #73d2de;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__85 {
+                left: 85%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__85 .dot.colored {
+                    background-color: #73d2de;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__86 {
+                left: 86%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__86 .dot.colored {
+                    background-color: #73d2de;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__87 {
+                left: 87%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__87 .dot.colored {
+                    background-color: #73d2de;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__88 {
+                left: 88%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__88 .dot.colored {
+                    background-color: #73d2de;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__89 {
+                left: 89%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__89 .dot.colored {
+                    background-color: #73d2de;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__90 {
+                left: 90%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__90 .dot.colored {
+                    background-color: #73d2de;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__91 {
+                left: 91%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__91 .dot.colored {
+                    background-color: #73d2de;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__92 {
+                left: 92%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__92 .dot.colored {
+                    background-color: #73d2de;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__93 {
+                left: 93%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__93 .dot.colored {
+                    background-color: #73d2de;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__94 {
+                left: 94%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__94 .dot.colored {
+                    background-color: #73d2de;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__95 {
+                left: 95%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__95 .dot.colored {
+                    background-color: #73d2de;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__96 {
+                left: 96%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__96 .dot.colored {
+                    background-color: #73d2de;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__97 {
+                left: 97%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__97 .dot.colored {
+                    background-color: #73d2de;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__98 {
+                left: 98%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__98 .dot.colored {
+                    background-color: #73d2de;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__99 {
+                left: 99%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__99 .dot.colored {
+                    background-color: #73d2de;
+                    transition: all 0.25s ease-out;
+                }
+
+            .vefs-milestone-wrapper .milestone-container .milestones.milestone__100 {
+                left: 100%;
+            }
+
+                .vefs-milestone-wrapper .milestone-container .milestones.milestone__100 .dot.colored {
+                    background-color: #73d2de;
+                    transition: all 0.25s ease-out;
+                }
+</style>
+<div class="text-center">
+    <h1 class="display-4">Install Wordpress</h1>
+
+</div>
+<div class="vefs-milestone-wrapper">
+    <div class="milestone-container">
+
+        <div class="chart-container">
+            <div class="line-container">
+                <div class="line"></div>
+                <div class="line left" style="width: 67%;"></div>
+            </div>
+
+            <div class="dot-container">
+                <div class="milestones milestone__10">
+                    <div class="dot completed colored"></div>
+                </div>
+                <div class="milestones milestone__25">
+                    <div class="dot completed colored"></div>
+                </div>
+                <div class="milestones milestone__50">
+                    <div class="dot completed colored"></div>
+                </div>
+                <div class="milestones milestone__80">
+                    <div class="dot"></div>
+                </div>
+                <div class="milestones milestone__100">
+                    <div class="dot"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="label-container">
+            <div class="milestones milestone__10">
+                <div class="label colored">10%</div>
+            </div>
+            <div class="milestones milestone__25">
+                <div class="label colored">25%</div>
+            </div>
+            <div class="milestones milestone__50">
+                <div class="label colored">50%</div>
+            </div>
+            <div class="milestones milestone__80">
+                <div class="label">80%</div>
+            </div>
+            <div class="milestones milestone__100">
+                <div class="label">100%</div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<form action="" method="post">
+    <input type="submit" value="Submit" />
+</form>

@@ -1,0 +1,462 @@
+﻿@model Leemo.Model.WrapperModels.ResultUserAndAddresses
+@using Microsoft.Extensions.Options;
+@using Leemo.Web;
+@inject IOptions<AppSettings> appSettings
+@using Leemo.Web.Models.Common
+@{
+    ImageUpload imgObj = new ImageUpload();
+    if (Model != null)
+    {
+        imgObj.Id = Model.ResultUser.Id;
+        imgObj.Alt = Model.ResultUser.UserProfile.FirstName;
+        imgObj.Title = Model.ResultUser.UserProfile.FirstName;
+        imgObj.EditImageModalTarget = "#uploadUserImageModal";
+        imgObj.DisplayImageModalTarget = "#displayUserImageModal";
+        imgObj.ImagePath = string.Format("{0}{1}{2}", appSettings.Value.Resources_StaticFileContainer, appSettings.Value.ProfileImagesPath, string.Format((string.IsNullOrEmpty(Model.ResultUser.UserProfile.ImageName) ? "avtar.jpg" : Model.ResultUser.UserProfile.ImageName)));
+    }
+    bool editUserPermission = false;
+    if (ViewBag.editUserPermission != null)
+    {
+        editUserPermission = ViewBag.editUserPermission;
+    }
+
+}
+
+
+
+<div class="profile-view">
+    <div class="profile-area">
+        @if (!editUserPermission)
+        {
+            <span class="pro-img" onclick="fnAccessDenied()">
+                @if (Model.ResultUser.UserProfile != null)
+                {
+                    string FirstName = Model.ResultUser.UserProfile.FirstName.Trim();
+                    string LastName = Model.ResultUser.UserProfile.LastName.Trim();
+                    string Fnames = ""; string Lnames = "";
+                    if (!string.IsNullOrEmpty(FirstName))
+                        Fnames = FirstName.Substring(0, 1).ToUpper();
+                    if (!string.IsNullOrEmpty(LastName))
+                        Lnames = LastName.Substring(0, 1).ToUpper();
+                    string user_Intial = string.Concat(Fnames + Lnames);
+                    string user_FLName = string.Concat(FirstName, " ", LastName);
+
+                    if (string.IsNullOrEmpty(Model.ResultUser.UserProfile.ImageName))
+                    {
+                        if (!string.IsNullOrEmpty(user_Intial))
+                        {
+                            <span class="user-name-details">@user_Intial</span>
+                        }
+                    }
+                    else
+                    {
+                        <img id="changedImage" src="@string.Format("{0}{1}{2}", appSettings.Value.Resources_StaticFileContainer, appSettings.Value.ProfileImagesPath, string.Format((string.IsNullOrEmpty(Model.ResultUser.UserProfile.ImageName) ? "avtar.jpg" : Model.ResultUser.UserProfile.ImageName)))" alt="@Model.ResultUser.UserProfile.FirstName" title="@Model.ResultUser.UserProfile.FirstName">
+                    }
+                }
+            </span>
+        }
+        else
+        {
+            <span class="pro-img" onclick="fnDisplayImage('displayUserImageModal');">
+                @if (Model.ResultUser.UserProfile != null)
+                {
+                    string FirstName = Model.ResultUser.UserProfile.FirstName.Trim();
+                    string LastName = Model.ResultUser.UserProfile.LastName.Trim();
+                    string Fnames = ""; string Lnames = "";
+                    if (!string.IsNullOrEmpty(FirstName))
+                        Fnames = FirstName.Substring(0, 1).ToUpper();
+                    if (!string.IsNullOrEmpty(LastName))
+                        Lnames = LastName.Substring(0, 1).ToUpper();
+                    string user_Intial = string.Concat(Fnames + Lnames);
+                    string user_FLName = string.Concat(FirstName, " ", LastName);
+
+                    if (string.IsNullOrEmpty(Model.ResultUser.UserProfile.ImageName))
+                    {
+                        if (!string.IsNullOrEmpty(user_Intial))
+                        {
+                            <span class="user-name-details">@user_Intial</span>
+                        }
+                    }
+                    else
+                    {
+                        <img id="changedImage" src="@string.Format("{0}{1}{2}", appSettings.Value.Resources_StaticFileContainer, appSettings.Value.ProfileImagesPath, string.Format((string.IsNullOrEmpty(Model.ResultUser.UserProfile.ImageName) ? "avtar.jpg" : Model.ResultUser.UserProfile.ImageName)))" alt="@Model.ResultUser.UserProfile.FirstName" title="@Model.ResultUser.UserProfile.FirstName">
+                    }
+                }
+            </span>
+        }
+
+        @if (editUserPermission)
+        {
+            <a href="javascript:void(0);" data-tippy-content="Change User Photo" onclick="fnUploadImage('uploadUserImageModal');">Change</a>
+        }
+    </div>
+    <div class="pro-info">
+        <h5 class="word_break">
+            @if (Model.ResultUser.UserProfile != null)
+            {
+                @String.Format("{0} {1}", Model.ResultUser.UserProfile.FirstName, Model.ResultUser.UserProfile.LastName);
+                <input type="hidden" id="returnFrom" name="returnFrom" value="@ViewBag.returnPageType" />
+
+                @if (editUserPermission)
+                {
+                    <a href="javascript:void(0);" data-tippy-content="Edit User Detail" onclick="EditUser('@Model.ResultUser.Id')">
+                        <img src="~/images/pencil.svg" />
+                    </a>
+                }
+            }
+        </h5>
+        @if (Model.ResultUser.UserProfile != null && Model.ResultUser.UserProfile.Role != null)
+        {
+            <h6 class="word_break">@Model.ResultUser.UserProfile.Role.Name</h6>
+        }
+
+        <ul class="mt-0">
+            <li>
+                <a href="mailto:@Model.ResultUser.UserName" target="_blank" style="word-break:break-all">
+                    <img class="svg_icon" src="~/images/icon_mail.svg" />
+                    @Model.ResultUser.UserName
+                </a>
+            </li>
+            @if (Model.ResultUser.UserProfile != null && Model.ResultUser.UserProfile.Phone != null)
+            {
+                <li>
+                    <a href="tel:@Model.ResultUser.UserProfile.Phone">
+                        <img class="svg_icon" src="~/images/icon_phone.svg" />
+                        @Model.ResultUser.UserProfile.Phone
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+<div class="info-area mt-5">
+    <h2 class="info-heading">Account Information</h2>
+
+    <div class="row no-gutters form-group">
+        <div class="col-auto label-area">
+            <div class="info-label label-space">First Name</div>
+        </div>
+        <div class="col-auto"><span class="spacer">:</span></div>
+        <div class="col info-content-area info-pl">
+            @if (Model.ResultUser.UserProfile != null)
+            {
+                <div class="info-content word_break">@Model.ResultUser.UserProfile.FirstName</div>
+                <input type="hidden" id="UserId" value="@Model.ResultUser.UserProfile.UserId" />
+            }
+        </div>
+
+    </div>
+    <div class="row no-gutters form-group">
+        <div class="col-auto label-area">
+            <div class="info-label label-space">Last Name</div>
+        </div>
+        <div class="col-auto"><span class="spacer">:</span></div>
+
+        <div class="col info-content-area info-pl">
+            @if (Model.ResultUser.UserProfile != null)
+            {
+                <div class="info-content word_break">@Model.ResultUser.UserProfile.LastName</div>
+            }
+        </div>
+
+    </div>
+    <div class="row no-gutters form-group">
+        <div class="col-auto label-area">
+            <div class="info-label label-space">Email/Username</div>
+        </div>
+        <div class="col-auto"><span class="spacer">:</span></div>
+        <div class="col info-content-area info-pl">
+            <div class="info-content word_break"><a href="mailto:@Model.ResultUser.UserName">@Model.ResultUser.UserName</a></div>
+        </div>
+    </div>
+    <div class="row no-gutters form-group">
+        <div class="col-auto label-area">
+            <div class="info-label label-space">Date of Birth</div>
+        </div>
+        <div class="col-auto"><span class="spacer">:</span></div>
+
+        <div class="col info-content-area info-pl">
+            @if (Model.ResultUser.UserProfile != null)
+            {
+                if (Model.ResultUser.UserProfile.DateOfBirth.Date != null)
+                {
+                    if (Model.ResultUser.UserProfile.DateOfBirth.Date.Year != 1)
+                    {
+                        <div class="info-content">@(Convert.ToString(Model.ResultUser.UserProfile.DateOfBirth.Day + "/" + Model.ResultUser.UserProfile.DateOfBirth.Month + "/" + Model.ResultUser.UserProfile.DateOfBirth.Year))</div>
+                    }
+                    
+
+                    @*<div class="info-content">@(Convert.ToString(Model.ResultUser.UserProfile.DateOfBirth.Date) != Convert.ToString(default(DateTime).Date) ? Model.ResultUser.UserProfile.DateOfBirth.ToShortDateString() : "")</div>*@
+                }
+                else
+                {
+                    <div class="info-content"></div>
+                }
+            }
+        </div>
+
+    </div>
+    <div class="row no-gutters form-group">
+        <div class="col-auto label-area">
+            <div class="info-label label-space">Designation</div>
+        </div>
+        <div class="col-auto"><span class="spacer">:</span></div>
+        <div class="col info-content-area info-pl">
+            @if (Model.ResultUser.UserProfile != null && Model.ResultUser.UserProfile.Role != null)
+            {
+                <div class="info-content">@Model.ResultUser.UserProfile.Role.Name</div>
+            }
+        </div>
+
+    </div>
+    <div class="row no-gutters form-group">
+        <div class="col-auto label-area">
+            <div class="info-label label-space">Security Role</div>
+        </div>
+        <div class="col-auto"><span class="spacer">:</span></div>
+        <div class="col info-content-area info-pl">
+            @if (Model.ResultUser.Auth_Roles.Any())
+            {
+                @if (Model.ResultUser.Auth_Roles.FirstOrDefault().IsDeleted == true)
+                {
+                    <div class="info-content" id="UserRole"></div>
+                }
+                else
+                {
+                    <div class="info-content" id="UserRole">@Model.ResultUser.Auth_Roles.FirstOrDefault().Name</div>
+                }
+
+            }
+        </div>
+
+    </div>
+    <div class="row no-gutters form-group">
+        <div class="col-auto label-area">
+            <div class="info-label label-space">Reporting To</div>
+        </div>
+        <div class="col-auto"><span class="spacer">:</span></div>
+        <div class="col info-content-area info-pl">
+            @if (Model.ResultUser.UserProfile.ReportingToUserName != null)
+            {
+                <div class="info-content">@Model.ResultUser.UserProfile.ReportingToUserName</div>
+            }
+        </div>
+
+    </div>
+
+    <div class="row no-gutters form-group">
+        <div class="col-auto label-area">
+            <div class="info-label label-space">Alias</div>
+        </div>
+        <div class="col-auto"><span class="spacer">:</span></div>
+
+        <div class="col info-content-area info-pl">
+            @if (Model.ResultUser.UserProfile != null)
+            {
+                <div class="info-content">@Model.ResultUser.UserProfile.Alias</div>
+            }
+        </div>
+
+    </div>
+    <div class="row no-gutters form-group">
+        <div class="col-auto label-area">
+            <div class="info-label label-space">Phone</div>
+        </div>
+        <div class="col-auto"><span class="spacer">:</span></div>
+        <div class="col info-content-area info-pl">
+            @if (Model.ResultUser.UserProfile != null)
+            {
+                <div class="info-content">@Model.ResultUser.UserProfile.Phone</div>
+            }
+        </div>
+    </div>
+    <div class="row no-gutters form-group">
+        <div class="col-auto label-area">
+            <div class="info-label label-space">Mobile</div>
+        </div>
+        <div class="col-auto"><span class="spacer">:</span></div>
+        <div class="col info-content-area info-pl">
+            @if (Model.ResultUser.UserProfile != null)
+            {
+                <div class="info-content">@(Model.ResultUser.UserProfile.Mobile == "" ? "" : String.Format("+{0}", Model.ResultUser.UserProfile.Mobile)) </div>
+            }
+        </div>
+
+    </div>
+    <div class="row no-gutters form-group">
+        <div class="col-auto label-area">
+            <div class="info-label label-space">Website</div>
+        </div>
+        <div class="col-auto"><span class="spacer">:</span></div>
+        <div class="col info-content-area info-pl">
+            @if (Model.ResultUser.UserProfile != null)
+            {
+                <div class="info-content"><a href="@Model.ResultUser.UserProfile.Website" target="_blank">@Model.ResultUser.UserProfile.Website</a></div>
+            }
+        </div>
+    </div>
+    <div class="row no-gutters form-group">
+        <div class="col-auto label-area">
+            <div class="info-label label-space">Fax</div>
+        </div>
+        <div class="col-auto"><span class="spacer">:</span></div>
+        <div class="col info-content-area info-pl">
+            @if (Model.ResultUser.UserProfile != null)
+            {
+                <div class="info-content">@Model.ResultUser.UserProfile.Fax</div>
+            }
+        </div>
+    </div>
+</div>
+<div class="info-area">
+    <h2 class="info-heading">Address Information</h2>
+    <div class="row no-gutters form-group">
+        <div class="col-auto label-area">
+            <div class="info-label label-space">AddressLine1</div>
+        </div>
+        <div class="col-auto"><span class="spacer">:</span></div>
+        <div class="col info-content-area info-pl">
+            @if (Model.userAddress != null)
+            {
+                <div class="info-content">@Model.userAddress.AddressLine1</div>
+            }
+        </div>
+    </div>
+    <div class="row no-gutters form-group">
+        <div class="col-auto label-area">
+            <div class="info-label label-space">Street</div>
+        </div>
+        <div class="col-auto"><span class="spacer">:</span></div>
+        <div class="col info-content-area info-pl">
+            @if (Model.userAddress != null)
+            {
+                <div class="info-content">@Model.userAddress.Street</div>
+            }
+        </div>
+    </div>
+    <div class="row no-gutters form-group">
+        <div class="col-auto label-area">
+            <div class="info-label label-space">City</div>
+        </div>
+        <div class="col-auto"><span class="spacer">:</span></div>
+        <div class="col info-content-area info-pl">
+            @if (Model.userAddress != null)
+            {
+                <div class="info-content">@Model.userAddress.City</div>
+            }
+        </div>
+    </div>
+    <div class="row no-gutters form-group">
+        <div class="col-auto label-area">
+            <div class="info-label label-space">State</div>
+        </div>
+        <div class="col-auto"><span class="spacer">:</span></div>
+        <div class="col info-content-area info-pl">
+            @if (Model.userAddress != null)
+            {
+                <div class="info-content">@Model.userAddress.State</div>
+            }
+        </div>
+    </div>
+    <div class="row no-gutters form-group">
+        <div class="col-auto label-area">
+            <div class="info-label label-space">Zip Code</div>
+        </div>
+        <div class="col-auto"><span class="spacer">:</span></div>
+        <div class="col info-content-area info-pl">
+            @if (Model.userAddress != null)
+            {
+                <div class="info-content">@Model.userAddress.ZipCode</div>
+            }
+        </div>
+    </div>
+    <div class="row no-gutters form-group">
+        <div class="col-auto label-area">
+            <div class="info-label label-space">Country</div>
+        </div>
+        <div class="col-auto"><span class="spacer">:</span></div>
+        <div class="col info-content-area info-pl">
+            @if (Model.userAddress != null)
+            {
+                <div class="info-content">@Model.userAddress.Country</div>
+            }
+        </div>
+    </div>
+</div>
+<div class="info-area">
+    <h2 class="info-heading">Locale Information</h2>
+    <div class="row no-gutters form-group">
+        <div class="col-auto label-area">
+            <div class="info-label label-space">Language</div>
+        </div>
+        <div class="col-auto"><span class="spacer">:</span></div>
+        <div class="col info-content-area info-pl">
+            @if (Model.resultCompany != null)
+            {
+                <div class="info-content">@Model.resultCompany.Language</div>
+            }
+        </div>
+    </div>
+    <div class="row no-gutters form-group hide">
+        <div class="col-auto label-area">
+            <div class="info-label label-space">Country Locale</div>
+        </div>
+        <div class="col-auto"><span class="spacer">:</span></div>
+        <div class="col info-content-area info-pl">
+            @if (Model.resultCompany != null)
+            {
+                <div class="info-content">@Model.ResultUser.UserProfile.CountryLocale</div>
+            }
+        </div>
+    </div>
+    <div class="row no-gutters form-group">
+        <div class="col-auto label-area">
+            <div class="info-label label-space">Date Format</div>
+        </div>
+        <div class="col-auto"><span class="spacer">:</span></div>
+        <div class="col info-content-area info-pl">
+            @if (Model.resultCompany != null)
+            {
+                <div class="info-content">@Model.resultCompany.DateFormat</div>
+            }
+        </div>
+    </div>
+    <div class="row no-gutters form-group">
+        <div class="col-auto label-area">
+            <div class="info-label label-space">Time Format</div>
+        </div>
+        <div class="col-auto"><span class="spacer">:</span></div>
+        <div class="col info-content-area info-pl">
+            @if (Model.resultCompany != null)
+            {
+                <div class="info-content">@Model.resultCompany.TimeFormat</div>
+            }
+        </div>
+    </div>
+    <div class="row no-gutters form-group mb-0">
+        <div class="col-auto label-area">
+            <div class="info-label label-space">Time Zone</div>
+        </div>
+        <div class="col-auto"><span class="spacer">:</span></div>
+        <div class="col info-content-area info-pl">
+            @if (@Model.resultCompany != null)
+            {
+                <div class="info-content">@Model.resultCompany.TimeZone</div>
+            }
+        </div>
+    </div>
+</div>
+<!-- Personal Detail Modal -->
+<div class="modal fade edit-info" id="personalDetailEditModal" tabindex="-1" aria-labelledby="exampleModalLabel" data-backdrop="static" aria-hidden="true">
+</div>
+
+<!-- Display User Image Modal -->
+<div class="modal fade edit-info" id="displayUserImageModal" tabindex="-1" aria-labelledby="exampleModalLabel" data-backdrop="static" aria-hidden="true">
+    <partial name="_ImageDisplay" model="@imgObj" />
+</div>
+
+<!-- Upload Company Image Modal -->
+<div class="modal fade edit-info" id="uploadUserImageModal" tabindex="-1" aria-labelledby="exampleModalLabel" data-backdrop="static" aria-hidden="true">
+    <partial name="_UploadImage" model="@imgObj" />
+</div>
+

@@ -1,0 +1,22 @@
+﻿@model List<Leemo.Model.ResultModels.ResultRoleUser>
+@if (Model != null && Model.Count > 0)
+{
+    foreach (var user in Model)
+    {
+        <tr>
+            <td class="word_break">@user.UserName</td>
+            <td class="wrap-ellipsis" data-tippy-content="@user.Role">@user.Role</td>
+            <td>@(user.IsActive ? "Active" : "Inactive")</td>
+        </tr>
+    }
+}
+else
+{
+<td class="text-center" colspan="3">@TPSS.Common.Constants.Messages.RecordNotFound</td>
+   
+}
+
+<script>
+    tippy('[data-tippy-content]'); //tooltip
+</script>
+

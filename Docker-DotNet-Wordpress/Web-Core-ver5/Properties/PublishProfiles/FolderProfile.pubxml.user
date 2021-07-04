@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_PublishTargetUrl>D:\TPProjects\rnd\Docker-DotNet-Wordpress\Web-Core-ver5\bin\Release\net5.0\publish\</_PublishTargetUrl>
+    <History>True|2021-03-22T08:42:49.1077578Z;True|2021-03-19T13:51:22.1131311+05:30;True|2021-03-19T13:49:13.3435876+05:30;True|2021-03-19T13:45:00.7941693+05:30;True|2021-03-19T13:43:22.1934621+05:30;True|2021-03-19T13:38:08.9631785+05:30;True|2021-03-19T12:08:13.5732355+05:30;True|2021-03-18T18:16:33.7655804+05:30;True|2021-03-18T17:02:55.6586359+05:30;True|2021-03-18T17:01:15.6592346+05:30;True|2021-03-16T10:01:18.9347440+05:30;True|2021-03-15T17:44:25.3328863+05:30;</History>
+  </PropertyGroup>
+</Project>

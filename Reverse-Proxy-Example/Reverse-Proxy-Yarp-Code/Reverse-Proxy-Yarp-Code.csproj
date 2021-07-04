@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>Reverse_Proxy_Yarp_Code</RootNamespace>
+    <UserSecretsId>59832b9a-cbd5-42d1-8bab-972c413231f4</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Yarp.ReverseProxy" Version="1.0.0-preview.10.21168.2" />
+  </ItemGroup>
+
+</Project>

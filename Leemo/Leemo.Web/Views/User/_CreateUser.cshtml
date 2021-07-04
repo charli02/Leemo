@@ -1,0 +1,181 @@
+﻿@inject SessionManager _sessionManager;
+@model Leemo.Model.InputModels.InputUser
+
+
+
+<div class="modal-dialog">
+    <div class="modal-content card-style xl-space">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-tippy-content="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <form id="createUserForm" method="post" enctype="multipart/form-data" onkeypress="return event.keyCode != 13">
+            <div class="info-area mt-0">
+                <input type="hidden" id="hfUserExist" value="1" />
+                <input type="checkbox" class="hide" asp-for="IsExistingUser" />
+                <input type="hidden" asp-for="ExistingUserData.Id" />
+
+                <h2 class="info-heading">Add New User</h2>
+
+                <div class="alert alert-warning hide word_break" role="alert" id="warningMessage">
+                    <strong>Note: This user already exists in @Model.CompanyLocationName, You are going to add it to @_sessionManager.CompanyLocationName.</strong>
+                </div>
+
+                <div class="row no-gutters form-group">
+                    <div class="col-auto label-area mt-2">
+                        <div class="info-label label-sm-space">First Name</div>
+                    </div>
+                    <div class="col info-content-area">
+                        <input type="text" asp-for="userProfile.FirstName" class="form-control form-style-1" />
+                        <span asp-validation-for="userProfile.FirstName" class="text-danger" />
+                    </div>
+                </div>
+                <div class="row no-gutters form-group">
+                    <div class="col-auto label-area mt-2">
+                        <div class="info-label label-sm-space">Last Name</div>
+                    </div>
+                    <div class="col info-content-area">
+                        <input type="text" asp-for="userProfile.LastName" class="form-control form-style-1">
+                        <span asp-validation-for="userProfile.LastName" class="text-danger" />
+                    </div>
+                </div>
+                <div class="row no-gutters form-group">
+                    <div class="col-auto label-area mt-2">
+                        <div class="info-label label-sm-space">Email/Username</div>
+                    </div>
+                    <div class="col info-content-area">
+                        @*<input list="existingUserList" type="email" id="userEmail" class="form-control form-style-1" asp-for="UserName" onblur="checkEmail()">*@
+                        <input list="existingUserList" type="email" id="userEmail" autocomplete="new-password" class="form-control form-style-1" asp-for="UserName">
+                        <datalist id="existingUserList">
+                        </datalist>
+                        <span id="existMsg" asp-validation-for="UserName" class="text-danger" />
+                    </div>
+                </div>
+                <div class="row no-gutters form-group">
+                    <div class="col-auto label-area mt-2">
+                        <div class="info-label label-sm-space">Designation</div>
+                    </div>
+                    <div class="col info-content-area ">
+                        <select class="form-control form-style-1 nice-select " asp-for="userProfile.DesignationId" id="selectUserRole" onchange="getSelectedRoleId()">
+                            <option selected value="" disabled> -- select an option -- </option>
+                            @if (ViewBag.designations != null)
+                            {
+                                foreach (var item in ViewBag.designations)
+                                {
+                                    if (Model.IsExistingUser)
+                                    {
+
+                                        <option value="@item.Id" selected>@item.Name</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Id">@item.Name</option>
+                                    }
+
+                                }
+                            }
+
+                        </select>
+                        <span asp-validation-for="userProfile.DesignationId" class="text-danger" />
+                        <div class=" hide text-danger" id="DesignationData" asp-validation-for="userProfile.DesignationId">Please select a Designation.</div>
+                    </div>
+
+                </div>
+
+                <div class="row no-gutters form-group">
+                    <div class="col-auto label-area mt-2">
+                        <div class="info-label label-sm-space">Reporting To</div>
+                    </div>
+                    <div class="col info-content-area">
+                        <select class="form-control form-style-1  nice-select2" asp-for="userProfile.ReportingToUserId" onchange="checkValidReportingToUser()" id="selectRepotingUsers">
+                            <option selected value="@Guid.Empty"> -- select an option -- </option>
+                            @if (ViewBag.ReportingToUser != null)
+                            {
+                                foreach (var item in ViewBag.ReportingToUser)
+                                {
+                                    if (Model.userProfile.ReportingToUserId != null)
+                                    {
+                                        var isSelected = item.UserId == Model.userProfile.ReportingToUserId ? "selected" : "";
+                                        if (isSelected == "selected")
+                                        {
+                                            <option value="@item.UserId" selected="@isSelected">@item.FirstName @item.LastName (@item.UserName)</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.UserId">@item.FirstName @item.LastName (@item.UserName)</option>
+                                        }
+                                    }
+                                }
+                            }
+                        </select>
+                        <div class="hide text-danger" id="ReportingUser" asp-validation-for="userProfile.ReportingToUserId">Please select a Reporting To.</div>
+
+                    </div>
+                </div>
+
+
+
+                <div class="row no-gutters form-group">
+                    <div class="col-auto label-area mt-2">
+                        <div class="info-label label-sm-space">Security Role</div>
+                    </div>
+                    <div class="col info-content-area">
+                        <select class="form-control form-style-1 nice-select" asp-for="roles" onchange="getprofiles()">
+                            <option disabled value="" selected> -- select an option -- </option>
+                            @if (ViewBag.roles != null)
+                            {
+                                foreach (var item in ViewBag.roles)
+                                {
+
+                                    <option value="@item.Id">@item.Name</option>
+                                }
+                            }
+                        </select>
+                        <span asp-validation-for="roles" class="text-danger" />
+                        <div class="hide text-danger" id="UserProfile" asp-validation-for="roles">Please select a Role.</div>
+
+                    </div>
+                </div>
+                <div class="row no-gutters form-group">
+                    <div class="col-auto label-area mt-2">
+                        <div class="info-label label-sm-space">Description</div>
+                    </div>
+                    <div class="col info-content-area">
+                        <textarea class="form-control form-style-1 light-color" asp-for="userProfile.Description"></textarea>
+                        <span asp-validation-for="userProfile.Description" class="text-danger" />
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-submission">
+                <button type="button" onclick="saveUser(this);" class="btn-primary btn-sm-style">Save</button>
+                <button type="button" class="btn-secondary btn-sm-style" data-dismiss="modal" aria-label="Close">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script src="~/js/area/user.js"></script>
+<script>
+
+    $('select').niceSelect();
+    $('.nice-select ul').addClass('demo-y ');
+
+    $(".demo-y").mCustomScrollbar({
+        theme: "minimal-dark"
+    });
+    tippy('[data-tippy-content]'); //tooltip
+    $(function () {
+        $('#createUserForm .nice-select ul li').each(function (i) {
+            if (i > 0) {
+
+                var title = $(this).text();
+                $(this).attr("data-tippy-content", title);
+            }
+        });
+
+    }
+    )
+
+
+</script>

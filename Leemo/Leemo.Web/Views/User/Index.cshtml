@@ -1,0 +1,107 @@
+﻿@model Leemo.Model.WrapperModels.GroupsAndUsers
+@using Microsoft.Extensions.Options;
+@using Leemo.Web;
+@inject IOptions<AppSettings> appSettings
+@inject SessionManager _sessionManager;
+@{
+    ViewData["Title"] = "Users";
+    bool userAddPermission = false;
+    bool userViewPermission = false;
+    if (ViewBag.addUserPermission != null)
+    {
+        userAddPermission = ViewBag.addUserPermission;
+    }
+    if (ViewBag.viewUserPermission != null)
+    {
+        userViewPermission = ViewBag.viewUserPermission;
+    }
+
+}
+<div class="custom-tab">
+    @if (!userViewPermission)
+    {
+        <div class="general-setting card-style big-space">
+                <input type="hidden" id="UserAccessDenied" value="-1" />
+            <div class="access-denied-col text-center">
+                <img src="~/images/access-denied.png" alt="Access Denied">
+                <h2>Access Denied</h2>
+                <p>You currently does not have access to this page. <span class="d-block">Please try again later.</span></p>
+            </div>
+        </div>
+    }
+    else
+    {
+        <ul class="nav nav-tabs border-0" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="users-tab" data-toggle="tab" href="#users" role="tab" aria-controls="users" aria-selected="true">Users</a>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="users" role="tabpanel" aria-labelledby="users-tab">
+                <div class="general-setting card-style big-space">
+                    <div class="row">
+                        <div class="col-md-5 users-list">
+                            <div class="check-user-status">
+                                <div class="active-users">
+                                    <select class="form-control form-style-1 bg-transparent light-color niceSelect" id="GetActiveUsrs" name="GetActiveUsrs" onchange="UserList();">
+                                        <option value=0>All Users(@ViewBag.AllUsers)</option>
+                                        <option value=1 selected>Active Users(@ViewBag.ActiveUsers)</option>
+                                        <option value=2>InActive Users (@ViewBag.InActiveUsers)</option>
+                                    </select>
+                                    @if (userAddPermission)
+                                    {
+                                        <a href="javascript:void(0);" class="btn-primary btn-sm-style" onclick="CreateUser()"><img src="~/images/plus.svg" title="plus"> New User</a>
+                                    }
+                                </div>
+                                <div class="search-users">
+                                    <input type="text" id="QuerySearch" name="QuerySearch" placeholder="Search Users" class="form-control form-style-1 bg-transparent">
+                                    <span class="search-icon">
+                                        <a href="javascript:;" onclick="fnOnClickUserCancelBtn();">
+                                            <img src="~/images/search-icon.png" alt="Search" id="searchImg" data-tippy-content="Search User" />
+                                            <img src="~/images/cancel.svg" alt="Cancel" id="closeImg" class="cancelImg" data-tippy-content="Cancel Search" />
+                                        </a>
+                                    </span>
+                                </div>
+                                <div class="select-users adjHight demo-y">
+                                    <div id="_UserList">
+                                        <partial name="_UserList" model="Model.ResultUser" />
+                                    </div>
+                                    <div class="text-center hide partialLoader">
+                                        <div class="spinner-border text-secondary" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-7 user-info textcenter" id="user-info">
+                        </div>
+                    </div>
+                    <!-- loader -->
+                    <div class="loader align-items-center justify-content-center">
+                        <span>
+                            <img src="~/images/sitelogo.png" alt="LEEMO" title="LEEMO">
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    }
+</div>
+
+<!--Popups -->
+<!-- Edit info modal -->
+<div class="modal fade edit-info" id="userEditModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
+
+</div>
+<!-- new user modal -->
+<div class="modal fade edit-info" id="newUser" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
+
+</div>
+
+@section scripts{
+    <script src=@Url.Content("~/lib/jquery-blockUI/jquery.blockUI.js")></script>
+    <script src=@Url.Content("~/js/area/user.js")></script>
+}

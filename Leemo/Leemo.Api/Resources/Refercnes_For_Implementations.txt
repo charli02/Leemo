@@ -1,0 +1,5 @@
+﻿
+SerialLog Logging Configurations
+====================================
+Add package Serilog.Extensions.Logging.File and configure in startup.cs for the required folder/file for logging.
+

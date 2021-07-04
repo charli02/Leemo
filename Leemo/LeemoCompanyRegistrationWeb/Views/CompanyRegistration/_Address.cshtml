@@ -1,0 +1,96 @@
+﻿
+@model Leemo.Model.InputModels.UpdateInputProductLead
+
+
+
+<input type="hidden" asp-for="DomainName" value="@Model.DomainName" />
+
+<div class="multisteps-form__form">
+    <div class="multisteps-form__panel js-active" data-animation="scaleIn">
+        <h3 class="multisteps-form__title text-center">Address Information</h3>
+        <div class="api-field">
+
+            <input type="text" id="txtGoogleSearch" placeholder="Search Address ">
+            <img src="~/images/pin.svg" alt="pin">
+        </div>
+        <div class="multisteps-form__content">
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    <div class="form-group">
+                        <label for="AddressLine1" class="label-style-2">Address Line 1</label>
+                        <input class="multisteps-form__input input-style-2" asp-for="AddressLine1" type="text" />
+                        <span class="text-danger" asp-validation-for="AddressLine1"></span>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6">
+                    <div class="form-group">
+                        <label for="AddressLine2" class="label-style-2">Address Line 2</label>
+                        <input class="multisteps-form__input input-style-2" asp-for="AddressLine2" type="text" />
+                        <span class="text-danger" asp-validation-for="AddressLine2"></span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    <div class="form-group">
+                        <label for="city" class="label-style-2">City</label>
+                        <input class="multisteps-form__input input-style-2" asp-for="City" type="text" />
+                        <span class="text-danger" asp-validation-for="City"></span>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6">
+                    <div class="form-group">
+                        <label for="state" class="label-style-2">State</label>
+                        <input class="multisteps-form__input input-style-2" asp-for="State" type="text" />
+                        <span class="text-danger" asp-validation-for="State"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    <div class="form-group">
+                        <label for="zip" class="label-style-2">Zip Code</label>
+                        <input class="multisteps-form__input input-style-2" asp-for="ZipCode" type="text" value="@Model.ZipCode" />
+                        <span class="text-danger" asp-validation-for="ZipCode"></span>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6">
+                    <div class="form-group">
+                        <label for="country" class="label-style-2">Country</label>
+                        <input class="multisteps-form__input input-style-2" type="text" asp-for="Country" value="@Model.Country" />
+                        <span class="text-danger" asp-validation-for="Country"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    <div class="form-group">
+                        <label for="phone" class="label-style-2">Phone</label>
+                        <input class="multisteps-form__input input-style-2" type="text" asp-for="Phone" />
+
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6">
+                    <div class="form-group">
+                        <label for="fax" class="label-style-2">Fax</label>
+                        <input class="multisteps-form__input input-style-2" type="text" asp-for="Fax" value="@Model.Fax" />
+                        <span class="text-danger" asp-validation-for="Fax"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="button-row d-flex">
+                <button class="btn ml-auto js-btn-next custom-btn" type="button" onclick="OrderInfo()" title="Next">Next Step <img src="~/images/arrow-r.svg" alt="arrow"></button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+
+
+</script>
+
+
+

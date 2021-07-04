@@ -1,0 +1,224 @@
+﻿@using Microsoft.Extensions.Options;
+@model Leemo.Model.WrapperModels.SecurityProfile
+@using Leemo.Web;
+@inject IOptions<AppSettings> appSettings
+@{
+    ViewData["Title"] = "Index";
+
+    bool securityViewPermission = false;
+    bool securityRoleAddPermission = false;
+    if (TempData["ViewSecurityRolePermission"] != null)
+    {
+        securityViewPermission = (bool)TempData["ViewSecurityRolePermission"];
+    }
+    if (ViewBag.AddSecurityRolePermission != null)
+    {
+        securityRoleAddPermission = ViewBag.AddSecurityRolePermission;
+    }
+}
+
+
+
+<div class="custom-tab multi-tabs">
+    <div id="_ProductList">
+        <ul class="nav nav-tabs nav-tabs-left border-0" id="myTab" role="tablist">
+            @if (ViewBag.Products != null)
+            {
+            @foreach (var products in ViewBag.Products)
+            {
+                <li class="nav-item">
+                    <a class="nav-link" data-id="@products.Id" onclick="ShowProfileTab()" data-toggle="tab" href="#" role="tab" aria-controls="uproster" aria-selected="true">@products.ProductName</a>
+                </li>
+            }
+            }
+        </ul>
+    </div>
+        <div class="tab-content" id="myTabContent">
+            <div id="crm" role="tabpanel" aria-labelledby="crm-tab">
+                <!--class="tab-pane fade"-->
+                <div class="general-setting">
+                    <ul class="nav nav-tabs border-0" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="profiles-tab" data-toggle="tab" href="#" onclick="ShowProfileTab()" role="tab" aria-controls="profiles" aria-selected="true">Roles</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="designation-tab" data-toggle="tab" href="#" onclick="ShowDesignation()" role="tab" aria-controls="roles" aria-selected="false">Designation</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="data-tab" data-toggle="tab" href="#data" role="tab" aria-controls="data" aria-selected="false">Data Sharing</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="profiles" role="tabpanel" aria-labelledby="profiles-tab">
+                            <div class="general-setting card-style sm-space">
+                                @if (securityViewPermission)
+                                {
+                                    <div class="plugin-top-bar row">
+                                        <div class="col">
+                                            @if (securityRoleAddPermission)
+                                            {
+                                                <a href="javascript:void(0);" class="btn-primary btn-sm-style btn-md" onclick="GetCreateProfile()"><img src="~/images/plus.svg" title="plus"> Role</a>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                                <div id="SecurityProfileResult">
+                                    <partial name="_SecurityProfile" model="Model.ResultProfile" />
+                                </div>
+
+                            </div>
+                            <div class="profile-permissions card-style sm-space" id="profilePermissions"></div>
+                            @*<div class="tab-pane fade" id="data" role="tabpanel" aria-labelledby="data-tab">
+                                    <div class="general-setting card-style sm-space">
+
+                                    </div>
+                                </div>*@
+                        </div>
+                        <div class="tab-pane" id="designation" role="tabpanel" aria-labelledby="designation-tab"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- View Users Profile modal -->
+        <div class="modal fade edit-info" id="viewuserProfile" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
+            <div class="modal-dialog">
+                <div class="modal-content card-style xl-space">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-tippy-content="Cancel">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <h2 class="info-heading">Users List</h2>
+                    <div class="user-list">
+                        <div class="search-bar user-search">
+                            <input id="searchProfileID" name="searchProfileID" value="" hidden>
+                            <input type="text" id="QuerySearch" name="QuerySearch" placeholder="Search users..." class="form-control form-style-1 bg-transparent">
+                            <span class="search-icon">
+                                <a href="javascript:;" onclick="fnOnClickCancelBtn();">
+                                    <img src="~/images/search-icon.png" alt="Search" id="searchImg" data-tippy-content="Search Users" />
+                                    <img src="~/images/cancel.svg" alt="Cancel" id="cancelImg" class="cancelImg" data-tippy-content="Cancel" />
+                                </a>
+                            </span>
+                        </div>
+                        <div class="table-responsive demo-y">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Role</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="profileUserList">
+                                </tbody>
+                            </table>
+                            <div class="text-center hide partialLoader"><div class="spinner-border text-secondary" role="status"><span class="sr-only">Loading...</span></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Add New Profile modal -->
+        <div class="modal fade edit-info show" id="newProfile" tabindex="-1" aria-labelledby="exampleModalLabel" aria-modal="true" @*style="display: block; padding-left: 17px;"*@ data-backdrop="static">
+
+        </div>
+        <!-- Add New Role modal -->
+        <div class="modal fade edit-info" id="newDesignation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
+
+        </div>
+
+        <div class="modal fade edit-info" id="updateDesignation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
+
+        </div>
+
+        <div class="modal fade edit-info" id="newRole" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
+            <div class="modal-dialog">
+                <div class="modal-content card-style xl-space">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <div class="info-area mt-0">
+                        <h2 class="info-heading">Add New Role</h2>
+                        <div class="row no-gutters form-group align-items-center">
+                            <div class="col-sm-auto label-area">
+                                <div class="info-label label-sm-space">Role Name</div>
+                            </div>
+                            <div class="col info-content-area">
+                                <input type="text" class="form-control form-style-1">
+                            </div>
+                        </div>
+                        <div class="row no-gutters form-group align-items-center">
+                            <div class="col-sm-auto label-area">
+                                <div class="info-label label-sm-space">Description</div>
+                            </div>
+                            <div class="col info-content-area">
+                                <textarea class="form-control form-style-1 light-color"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-submission">
+                        <button type="button" class="btn-primary btn-sm-style">Save</button>
+                        <button type="button" class="btn-secondary btn-sm-style" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Delete Modal -->
+        <div class="modal fade edit-info" id="modalConfirmYesNo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content deleteinfo card-style xl-space text-center">
+                    <div>
+                        <img src="~/images/access-denied.png" alt="access denied">
+                        <h3 id="lblViewPermissionMsg">Add, Edit and Delete are not allowed without View Permission. </h3>
+                        <button type="button" class="btn-secondary btn-sm-style hide" id="btnCancel">Cancel</button>
+                        <button type="button" class="btn-primary btn-sm-style" id="btnOk" data-dismiss="modal" aria-label="Close">Ok</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- View Designation Users modal -->
+        <div class="modal fade edit-info" id="viewuserDesignation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
+            <div class="modal-dialog">
+                <div class="modal-content card-style xl-space">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-tippy-content="Cancel">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <h2 class="info-heading">Users List</h2>
+                    <div class="user-list">
+                        <div class="search-bar user-search">
+                            <input id="searchDesignationID" name="searchDesignationID" value="" hidden>
+                            <input type="text" id="QueryDeginationSearch" name="QueryDeginationSearch" placeholder="Search users..." class="form-control form-style-1 bg-transparent">
+                            <span class="search-icon">
+                                <a href="javascript:;" onclick="fnOnClickCancelBtn();">
+                                    <img src="~/images/search-icon.png" alt="Search" id="searchImg" class="searchImg" data-tippy-content="Search Users" />
+                                    <img src="~/images/cancel.svg" alt="Cancel" id="cancelImg" class="cancelImg" data-tippy-content="Cancel" />
+                                </a>
+                            </span>
+                        </div>
+                        <div class="table-responsive user-list-table demo-y">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="designationUserList">
+                                </tbody>
+                            </table>
+                            <div class="text-center hide partialLoader"><div class="spinner-border text-secondary" role="status"><span class="sr-only">Loading...</span></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        @section scripts
+        {
+            <script src=@Url.Content("~/lib/jquery-blockUI/jquery.blockUI.js")></script>
+            <script src=@Url.Content("~/js/area/security-controls.js")></script>
+        }
+
+
